@@ -1,2 +1,2 @@
 # dotfiles
-At the moment just my vimrc for trying out github.
+My first repository: At the moment just my vimrc.
