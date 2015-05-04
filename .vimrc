@@ -1,0 +1,531 @@
+" Preamble ----------------------------------------------------------------- {{{
+" .vimrc by Max Ilsen
+
+" All system-wide defaults are set in $VIMRUNTIME/debian.vim (usually just
+" /usr/share/vim/vimcurrent/debian.vim) and sourced by: runtime! debian.vim
+
+if &compatible |
+    set nocompatible |      " use Vim defaults instead of vi compatibility
+endif
+
+" Plugin-Manager Pathogen
+" each plugin gets a directory in ~/.vim/bundle, git clone plugins into it
+filetype off              " filetype off for pathogen to work, later on again
+" let g:pathogen_disabled = ['textobj-comment', 'vim-textobj-user']
+let g:pathogen_disabled = ['TextObjectify', 'TextObjectify_JumpCut']
+let g:pathogen_disabled += ['textobj-jumpcut']
+let g:pathogen_disabled += ['syntastic']
+call pathogen#infect()
+call pathogen#helptags()    " generate helptags for everything in 'runtimepath'
+filetype plugin indent on   " load filetype-specific indentation and plugins
+
+" }}}
+" Color Scheme ------------------------------------------------------------- {{{
+syntax on               " enable syntax highlighting
+set t_Co=16             " tell vim to make use of the 256 color-terminal
+set background=light    " use the light solarized colorscheme
+colorscheme solarized
+let g:solarized_termcolors=16
+let g:solarized_contrast="high"
+
+" }}}
+" General Settings --------------------------------------------------------- {{{
+
+" Appearance {{{
+set encoding=utf-8  " show characters correctly
+set title       " show filename in titlebar
+set laststatus=2    " show statusbar always
+set showcmd     " show (partial) command in status line
+set number      " show line numbers
+set ruler       " show the cursor position all the time
+set showmatch       " show matching brackets
+set nolist      " do not show normally invisible characters
+set noerrorbells    " no audio cues for warnings
+set visualbell t_vb=    " no visual cues for warnings
+
+" }}}
+" Search {{{
+set ignorecase      " do case insensitive matching
+set smartcase       " unless there is a capital in the search term
+set incsearch       " incremental search
+set hlsearch        " highlights search terms
+
+augroup hlsearch_toggle " stop highlighting search results when in insert-mode
+    autocmd!
+    autocmd InsertEnter * :set nohlsearch
+    autocmd InsertLeave * :set hlsearch
+augroup end
+
+" }}}
+" Miscellaneous Settings {{{
+set timeout             " waot fpr next key during key codes
+set ttimeoutlen=500     " wait 500ms during key codes for next key
+set cpoptions+=E        " failed operator does not enter insert mode
+set nomodeline          " disable modelines for security reasons
+set magic               " use regular expressions without \
+set hidden              " hide buffers when they are abandoned
+set mouse=a             " enable mouse usage (all modes)
+set backspace=2         " backspace over indents, eol and bol
+set clipboard+=unnamed  " always use system clipboard for copy-pasting
+set history=1000        " keep 1000 lines of command line history
+set scroll=10           " scroll over 30 lines with Ctrl+u and Ctrl+d
+let g:netrw_liststyle=3 " liststyle of netrw-file-browser (:Explore)
+set keywordprg="vert help" " let M (mapped to K) open vim-help
+set wildmenu            " command completion with tab
+set complete+=k         " use dictionary-auto-completion
+set undofile            " create undo history files in ~/.undofiles
+set undodir=~/.vim/undofiles
+set autowrite           " automatically save before commands like :next or :make
+
+set splitbelow          " hsplit windows always below
+set splitright          " vsplit windows always to the right
+
+" }}}
+" Wrapping, Formatting and Indenting {{{
+set wrap                " wrap lines if window is smaller than line length
+set textwidth=80        " set textwidth to 60 columns
+set formatoptions=tcq   " t - autowrap to textwidth
+                        " c - autowrap comments to textwidth
+                        " q - allow formatting of comments with 'gq'
+set autoindent          " automatic indenting when on a new line
+set nosmartindent       " no smart indenting
+set expandtab           " use spaces instead of tabs
+set softtabstop=4       " one tab is 4 spaces while writing
+set shiftwidth=4        " one tab is 4 spaces while indenting
+set shiftround          " set indenting to multiple of shiftwidth
+set tabstop=4           " irrelevant: one tab is 4 spaces in the file
+
+"}}}
+" Folding {{{
+set nofoldenable        " do not enable folding of code by default
+set foldmethod=indent   " use indentation to fold code
+set foldlevelstart=0    " start editing with all folds closed
+set foldnestmax=6       " set the maximal fold-nesting to 6
+set foldtext=FoldText() " let fold text look like described in function
+
+" }}}
+
+" }}}
+" Autocommands ------------------------------------------------------------- {{{
+
+augroup buffer_autocmds " {{{
+    autocmd!
+    " go to the directory of the file you are editing
+    " unless it is just the help file
+    autocmd BufEnter *
+       \ if &ft != 'help' |
+       \   silent! lcd %:p:h |
+       \ endif
+    " go to the last position when reopening a file
+    autocmd BufReadPost *
+        \ if line("'\"") > 1 && line("'\"") <= line("$") |
+        \   execute "normal! g'\"" |
+        \ endif
+augroup end " }}}
+
+" Filetype-Specific {{{
+"
+augroup filetype_general
+  autocmd!
+  " use filetype-specific dictionaries for completion
+  autocmd FileType *  execute
+        \ "setlocal dictionary+=".$HOME."/.vim/dictionaries/".expand('<amatch>')
+augroup END
+
+" do not switch buffers in help or similar windows, it is just confusing
+augroup no_buffer_switching
+  autocmd!
+  autocmd FileType help noremap <buffer> <silent> <C-j> <nop>
+  autocmd FileType help noremap <buffer> <silent> <C-K> <nop>
+  autocmd FileType gundo noremap <buffer> <silent> <C-j> <nop>
+  autocmd FileType gundo noremap <buffer> <silent> <C-K> <nop>
+  autocmd FileType quickfix noremap <buffer> <silent> <C-j> <nop>
+  autocmd FileType quickfix noremap <buffer> <silent> <C-K> <nop>
+  autocmd FileType preview noremap <buffer> <silent> <C-j> <nop>
+  autocmd FileType preview noremap <buffer> <silent> <C-K> <nop>
+augroup END
+
+augroup filetype_java
+  autocmd!
+  autocmd FileType java call EclimSetUp()
+augroup END
+
+augroup filetype_ruby
+  autocmd!
+  autocmd FileType ruby setlocal softtabstop=2 shiftwidth=2
+augroup END
+
+augroup filetype_tex
+  autocmd!
+  autocmd FileType tex setlocal foldenable
+augroup END
+
+augroup filetype_vim
+  autocmd!
+  autocmd FileType vim setlocal softtabstop=2 shiftwidth=2
+  autocmd FileType vim setlocal foldenable
+  autocmd FileType vim setlocal foldmethod=marker
+augroup END
+
+" }}}
+
+" }}}
+" Mappings ----------------------------------------------------------------- {{{
+
+" mapleader is ',', local leader is '\'
+let mapleader = ","
+let maplocalleader = "\\"
+
+" Leader Commands {{{
+
+" edit files with Leader+e(file identifier)
+nnoremap <Leader>e# :vs#<CR>
+nnoremap <Leader>E# :e#<CR>
+nnoremap <Leader>ev :vs $MYVIMRC<CR>
+nnoremap <Leader>Ev :e $MYVIMRC<CR>
+nnoremap <Leader>ea :vs ~/Dokumente/Studium/B4/Introduction\ to\ Artificial\ Intelligence\ and\ Logic\ Programming\ -\ Tutorium/IAI_Tutorial_Max_03.tex<CR>
+nnoremap <Leader>Ea :e ~/Dokumente/Studium/B4/Introduction\ to\ Artificial\ Intelligence\ and\ Logic\ Programming\ -\ Tutorium/IAI_Tutorial_Max_03.tex<CR>
+nnoremap <Leader>Ei :e ~/Dokumente/Studium/B4/Informatik\ B/<CR>
+
+" source vimrc with Leader+sv
+nnoremap <Leader>sv :source $MYVIMRC<CR>
+
+" switch off hlsearch
+nnoremap <silent> <Leader>n :nohlsearch<CR>
+vnoremap <silent> <Leader>n :nohlsearch<CR>
+
+" indent the whole file
+nnoremap <silent> <Leader>= :call Preserve("normal! gg=G")<CR>
+
+" remove trailing whitespace
+nnoremap <silent> <Leader>w :call Preserve("%s/\\s\\+$//e")<CR>
+
+" reset syntax highlighting
+nnoremap <silent> <Leader>s :sy sync fromstart<CR>
+
+" copy and paste from the system register with Leader+p/y
+nnoremap <Leader>p "+p
+vnoremap <Leader>p "+p
+nnoremap <Leader>y "+y
+vnoremap <Leader>y "+y
+
+" copy into command line with Leader+c
+nnoremap <Leader>c :<C-r><C-w>
+vnoremap <Leader>c ""y:<C-r>"
+
+" uppercase/lowercase the current word with Leader+u/Leader+l
+nnoremap <Leader>U viwU<Esc>e
+vnoremap <Leader>U <Esc>viwU<Esc>e
+nnoremap <Leader>l viwu<Esc>e
+vnoremap <Leader>l <Esc>viwu<Esc>e
+
+" }}}
+" LocalLeader Commands {{{
+
+nnoremap <LocalLeader>pc :ProjectCreate<Space> ~/Dokumente/Studium/B4/Informatik\ B/<Space>-n<Space>java<Left><Left><Left><Left><Left><Left><Left><Left>
+
+" for Latex-Box
+" viewing files with \lv only works if you are in that directory
+nnoremap <LocalLeader>lv :lcd %:p:h<CR>:pwd<CR><LocalLeader>lv
+
+" }}}
+" Plugin-Toggling {{{
+
+noremap <silent> <F2> :NERDTreeToggle<CR>
+noremap <silent> <F3> :GundoToggle<CR>
+
+" }}}
+" Movement {{{
+
+" leave insert mode with jk
+inoremap jk <Esc>
+
+" big movements with HJKL
+nnoremap H ^
+nnoremap J 10gjzz
+nnoremap K 10gkzz
+nnoremap L $
+vnoremap H ^
+vnoremap J 10gjzz
+vnoremap K 10gkzz
+vnoremap L $
+
+" buffer navigation with Ctrl-hkjl
+noremap <C-h> <C-w>W
+noremap <silent> <C-j> :bnext<CR>
+noremap <silent> <C-K> :bprevious<CR>
+noremap <C-l> <C-w>w
+
+" go through completion results (e.g. SuperTab) with Ctrl+j/k
+inoremap <C-j> <C-n>
+inoremap <C-k> <C-p>
+
+" go through previous commands with Ctrl+h/j/k/l
+cnoremap <C-h> <Left>
+cnoremap <C-j> <Down>
+cnoremap <C-k> <Up>
+cnoremap <C-l> <Right>
+
+" jumps, keep screen in the middle
+nnoremap n nzzzv
+nnoremap N Nzzzv
+nnoremap <CR> <C-]>zzzv
+nnoremap <BS> <C-o>zzzv
+
+" writing and quitting
+nnoremap <silent> Ö :w<CR>
+nnoremap <silent> X :call KillSwitch()<CR>
+
+" let Y copy the rest of the line (and behave like other operators)
+nnoremap Y y$
+
+" use M for manual
+nnoremap M :vert help<Space>
+vnoremap M K
+
+" split and seam up lines with S (formerly J)
+nnoremap <silent> sj Do<Esc>pgk:call Preserve("s/\v +$//")<CR>gj
+nnoremap <silent> sk DO<Esc>pgj:call Preserve("s/\v +$//")<CR>gk==
+nnoremap <silent> Sj :call Preserve("normal! J")<CR>
+nnoremap <silent> Sk :call Preserve("normal! kddpgkJ")<CR>gk
+vnoremap <silent> S J
+
+" do not accidentally kill vim
+nnoremap ZQ :echo "Use :q! instead."<CR>
+nnoremap <C-z> u
+inoremap <C-z> <Esc>ui
+vnoremap <C-z> <Esc>uv
+
+" folding commands
+nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
+nnoremap <Leader><Space> zi
+
+" }}}
+" Operator-Pendant Mappings {{{
+
+
+" }}}
+
+" }}}
+" Abbreviations ------------------------------------------------------------ {{{
+
+iabbrev being begin
+
+" }}}
+" Plugins ------------------------------------------------------------------ {{{
+
+" Airline {{{
+"let g:airline_theme=solarized
+let g:airline_powerline_fonts = 0
+let g:airline_left_sep=''
+let g:airline_right_sep=''
+let g:airline#extensions#eclim#enabled = 1
+let g:airline#extensions#syntastic#enabled = 1
+
+" }}}
+" CtrlP {{{
+
+" start CtrlP with Leader+f for "find"
+let g:ctrlp_map = '<Leader>f'
+let g:ctrlp_use_caching = 0            " do not use caching for CtrlP
+let g:ctrlp_show_hidden = 1            " search for hidden files as well
+let g:ctrlp_max_files = 1000           " search for maximally 1000 files
+let g:ctrlp_max_depth = 10             " search maximally 10 directories deep
+let g:ctrlp_open_multiple_files = 'i'  " open multiple files in buffers with C-z
+let g:ctrlp_regexp = 1                 " regex mode as default
+let g:ctrlp_match_window = 'order:tbb' " order result from top to bottom
+
+" do not open files in netrw, help or quickfix windows
+let g:ctrlp_reuse_window = 'netrw\|help\|quickfix'
+
+" }}}
+" DelimitMate {{{
+
+let delimitMate_matchpairs = "(:),[:],{:}"
+
+" move closing delimiter one line further when inserting opening delimiter+<CR>
+let delimitMate_expand_cr = 1
+
+" in vimscript " denotes comments so do not use closing quotes
+augroup DelimitMate
+  autocmd!
+  au FileType vim let b:delimitMate_quotes = "` '"
+augroup End
+
+" }}}
+" LatexBox {{{
+let g:LatexBox_output_type="pdf"
+"let g:LatexBox_viewer="evince"
+let g:LatexBox_quickfix="2"       " open qfix after compiling, do not jump to it
+let g:LatexBox_Folding="1"        " activate folding in latex-files
+let g:LatexBox_fold_preamble="1"  " fold the preamble
+let g:LatexBox_fold_envs="0"      " do not fold environments
+let g:LatexBox_fold_text="1"      " use the latex-box foldtext
+let g:LatexBox_custom_indent="0"  " no latexbox-custom indentation
+
+" }}}
+" NerdTree {{{
+
+augroup NERDTree
+  autocmd!
+  " close vim if NERDTree is the last open buffer
+  autocmd BufEnter *
+        \ if (winnr("$") == 1 && exists("b:NERDTreeType")
+        \                     && b:NERDTreeType == "primary") |
+        \ q |
+        \ endif
+augroup END
+
+" }}}
+" SuperTab {{{
+" use SuperTab with Tab and remapped C-j/k
+
+" no completion after start of a line, space or tab, or closing brackets
+let g:SuperTabNoCompleteAfter=['^','\s','\t',')',']','}','''','"','`']
+
+" completion as user-defined to work with eclim
+let g:SuperTabContextDefaultCompletionType="<C-x><C-u>"
+
+" }}}
+" Syntactic {{{
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+" }}}
+" UltiSnips {{{
+
+let g:UltiSnipsSnippetsDir="~/.vim/snippets"
+let g:UltiSnipsExpandTrigger="<Tab>"    " UltiSnip usage with Tab (like SuperTab)
+let g:UltiSnipsListSnippets="<S-Tab>"   " snip listing with Shift+Tab
+" let g:UltiSnipsJumpForwardTrigger="<C-j>"  " go to next and previous snippet
+" let g:UltiSnipsJumpBackwardTrigger="<C-k>" " field with Ctrl-j/-k
+" BUG:
+" <C-k> falls back on regular insert-mode mapping when snippet in last field ($0)
+
+" let g:ulti_jump_forwards_res = 0 "default value, just set once
+" let g:ulti_jump_backwards_res = 0 "default value, just set once
+" function! Ulti_JumpF_GetRes()
+"   call UltiSnips#JumpForwards()
+"   return g:ulti_jump_forwards_res
+" endfunction
+" function! Ulti_JumpB_GetRes()
+"   call UltiSnips#JumpBackwards()
+"   return g:ulti_jump_backwards_res
+" endfunction
+
+" inoremap <silent> <C-j> <C-R>=(Ulti_JumpF_GetRes() > 0)?"":CN()<CR>
+" inoremap <silent> <C-k> <C-R>=(Ulti_JumpB_GetRes() > 0)?"":CP()<CR>
+" function! CN()
+" endfunction
+" function! CP()
+" endfunction
+
+" }}}
+
+" }}}
+" Functions ---------------------------------------------------------------- {{{
+
+function! EclimSetUp() " {{{
+  " setup eclim daemon automatically when working with java files
+  " under the assumption that eclimd is found in \opt\eclipse\
+  " if exists("*eclim#EclimAvailable") && !(eclim#EclimAvailable())
+  "   execute "!\opt\eclipse\eclimd &"
+  "   execute "PingEclim"
+  " endif
+endfunction " }}}
+
+function! FillWithMinus() " {{{
+  " strip trailing whitespace at the end of the line
+  .s/\s\+$//e
+
+  " length of '-'-string =  textwidth - linelength - 2 spaces - 3 braces
+  let linelength = len(getline('.'))
+  let fillcount = 80 - linelength - 5
+
+  " insert space+minuses+space at the end of the line
+  silent execute "normal! A " . repeat('-', fillcount) . " "
+endfunction "}}}
+
+function! FoldText() " {{{
+  let line = getline(v:foldstart)
+  let nucolwidth = &fdc + &number * &numberwidth
+  let windowwidth = winwidth(0) - nucolwidth
+  let foldedlinecount = v:foldend - v:foldstart
+  let restspaces = 4 - len(foldedlinecount)
+
+  " expand tabs into spaces
+  let onetab = strpart('          ', 0, &tabstop)
+  let line = substitute(line, '\t', onetab,'g')
+
+  " line + filler spaces + 4 fields for foldedlincount + 1 extra space
+  let line = strpart(line, 0,  windowwidth - 5)
+  let fillcount = windowwidth - len(line) - 5
+  return line . repeat(" ", fillcount + restspaces) . foldedlinecount . ' '
+endfunction " }}}
+
+" ???if foldlevel(line(".")) ==# 0
+" function! FoldToggle() "{{{
+"   if allfoldsclosed > -1 && foldbackup == 0
+"       normal! zR
+"   elseif allfoldsclosed
+"       call FoldRestore()
+"   elseif allfoldsopen
+"       normal! zM
+"   else " some folds are open
+"       call FoldBackup()
+"           normal! zM
+"   endif
+" foldclosed
+" foldclosedend
+" foldlevel
+" endfunction "}}}
+"
+" function! FoldToggleBackwards() "{{{
+"   if allfoldsopen && foldbackup == 0
+"       execute "normal! zM"
+"   elseif allfoldsclosed
+"       execute "normal! zR"
+"   elseif allfoldsopen
+"       call FoldRestore()
+"   else " some folds are open
+"             let g:foldbackup=
+"       execute "normal! zR"
+"   endif
+" endfunction "}}}
+
+function! KillSwitch() "{{{
+  " get number of all 'possible' buffers that may exist
+  " number of listed buffers
+  let l:b_all = range(1, bufnr('$'))
+  let l:b_listed = len(filter(l:b_all, 'buflisted(v:val)'))
+
+  " get number of all windows in current tab
+  " get number of windows with same buffer displayed as current buffer
+  let l:w_all = range(1, winnr("$"))
+  let l:w_same = len(filter(l:w_all, 'winbufnr(0) ==# winbufnr(v:val)'))
+
+  " if there is another window with the same buffer open
+  " or there is only one buffer, quit, else just delete the buffer
+  if l:w_same > 1 || l:b_listed ==# 1
+    if &ft ==# 'gundo' " close second gundo window
+      quit
+    endif
+    quit
+  else
+    bdelete
+  end
+endfunction "}}}
+
+function! Preserve(command) "{{{
+  let l:winview = winsaveview()   " save cursor and window position
+  " execute the given command
+  execute "silent!" . a:command
+  call winrestview(l:winview)     " restore cursor and window position
+endfunction "}}}
+
+" }}}
