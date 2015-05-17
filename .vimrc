@@ -4,16 +4,17 @@
 " All system-wide defaults are set in $VIMRUNTIME/debian.vim (usually just
 " /usr/share/vim/vimcurrent/debian.vim) and sourced by: runtime! debian.vim
 
+" use Vim defaults instead of vi compatibility
 if &compatible |
-    set nocompatible |      " use Vim defaults instead of vi compatibility
+    set nocompatible |
 endif
 
-" Plugin-Manager Pathogen
+" Plugin-Manager Pathogen:
 " each plugin gets a directory in ~/.vim/bundle, git clone plugins into it
-filetype off              " filetype off for pathogen to work, later on again
-" let g:pathogen_disabled = ['textobj-comment', 'vim-textobj-user']
-let g:pathogen_disabled = ['TextObjectify', 'TextObjectify_JumpCut']
-let g:pathogen_disabled += ['textobj-jumpcut']
+filetype off                " filetype off for pathogen to work, later on again
+let g:pathogen_disabled = ['textobj-jumpcut']
+let g:pathogen_disabled += ['textobj-user']
+let g:pathogen_disabled += ['textobj-comment']
 let g:pathogen_disabled += ['syntastic']
 call pathogen#infect()
 call pathogen#helptags()    " generate helptags for everything in 'runtimepath'
@@ -32,23 +33,23 @@ let g:solarized_contrast="high"
 " General Settings --------------------------------------------------------- {{{
 
 " Appearance {{{
-set encoding=utf-8  " show characters correctly
-set title       " show filename in titlebar
-set laststatus=2    " show statusbar always
-set showcmd     " show (partial) command in status line
-set number      " show line numbers
-set ruler       " show the cursor position all the time
-set showmatch       " show matching brackets
-set nolist      " do not show normally invisible characters
-set noerrorbells    " no audio cues for warnings
+set encoding=utf-8      " show characters correctly
+set title               " show filename in titlebar
+set laststatus=2        " show statusbar always
+set showcmd             " show (partial) command in status line
+set number              " show line numbers
+set ruler               " show the cursor position all the time
+set showmatch           " show matching brackets
+set nolist              " do not show normally invisible characters
+set noerrorbells        " no audio cues for warnings
 set visualbell t_vb=    " no visual cues for warnings
 
 " }}}
 " Search {{{
-set ignorecase      " do case insensitive matching
-set smartcase       " unless there is a capital in the search term
-set incsearch       " incremental search
-set hlsearch        " highlights search terms
+set ignorecase          " do case insensitive matching
+set smartcase           " unless there is a capital in the search term
+set incsearch           " incremental search
+set hlsearch            " highlights search terms
 
 augroup hlsearch_toggle " stop highlighting search results when in insert-mode
     autocmd!
@@ -58,7 +59,7 @@ augroup end
 
 " }}}
 " Miscellaneous Settings {{{
-set timeout             " waot fpr next key during key codes
+set timeout             " wait fpr next key during key codes
 set ttimeoutlen=500     " wait 500ms during key codes for next key
 set cpoptions+=E        " failed operator does not enter insert mode
 set nomodeline          " disable modelines for security reasons
@@ -67,18 +68,25 @@ set hidden              " hide buffers when they are abandoned
 set mouse=a             " enable mouse usage (all modes)
 set backspace=2         " backspace over indents, eol and bol
 set clipboard+=unnamed  " always use system clipboard for copy-pasting
-set history=1000        " keep 1000 lines of command line history
 set scroll=10           " scroll over 30 lines with Ctrl+u and Ctrl+d
+set scrolloff=4         " keep cursor 4 lines away from edge while scrolling
 let g:netrw_liststyle=3 " liststyle of netrw-file-browser (:Explore)
-set keywordprg="vert help" " let M (mapped to K) open vim-help
+set keywordprg="man"    " open man with help-key (M)
 set wildmenu            " command completion with tab
 set complete+=k         " use dictionary-auto-completion
-set undofile            " create undo history files in ~/.undofiles
-set undodir=~/.vim/undofiles
-set autowrite           " automatically save before commands like :next or :make
 
 set splitbelow          " hsplit windows always below
 set splitright          " vsplit windows always to the right
+" }}}
+" Backups, History, Autowrite {{{
+set history=1000        " keep 1000 lines of command line history
+set undofile            " create undo history files in ~/.undofiles
+set undodir=~/.vim/undofiles
+" set backup
+set backupdir=~/.vim/backupfiles
+set swapfile
+set directory=~/.vim/swapfiles
+set autowrite           " automatically save before commands like :next or :make
 
 " }}}
 " Wrapping, Formatting and Indenting {{{
@@ -145,10 +153,10 @@ augroup no_buffer_switching
   autocmd FileType preview noremap <buffer> <silent> <C-K> <nop>
 augroup END
 
-augroup filetype_java
-  autocmd!
-  autocmd FileType java call EclimSetUp()
-augroup END
+" augroup filetype_java
+"   autocmd!
+"   autocmd FileType java call EclimSetUp()
+" augroup END
 
 augroup filetype_ruby
   autocmd!
@@ -165,6 +173,7 @@ augroup filetype_vim
   autocmd FileType vim setlocal softtabstop=2 shiftwidth=2
   autocmd FileType vim setlocal foldenable
   autocmd FileType vim setlocal foldmethod=marker
+  autocmd FileType vim setlocal keywordprg='help'
 augroup END
 
 " }}}
@@ -183,9 +192,8 @@ nnoremap <Leader>e# :vs#<CR>
 nnoremap <Leader>E# :e#<CR>
 nnoremap <Leader>ev :vs $MYVIMRC<CR>
 nnoremap <Leader>Ev :e $MYVIMRC<CR>
-nnoremap <Leader>ea :vs ~/Dokumente/Studium/B4/Introduction\ to\ Artificial\ Intelligence\ and\ Logic\ Programming\ -\ Tutorium/IAI_Tutorial_Max_03.tex<CR>
-nnoremap <Leader>Ea :e ~/Dokumente/Studium/B4/Introduction\ to\ Artificial\ Intelligence\ and\ Logic\ Programming\ -\ Tutorium/IAI_Tutorial_Max_03.tex<CR>
-nnoremap <Leader>Ei :e ~/Dokumente/Studium/B4/Informatik\ B/<CR>
+nnoremap <Leader>eb :vs ~/.bashrc<CR>
+nnoremap <Leader>Eb :e ~/.bashrc<CR>
 
 " source vimrc with Leader+sv
 nnoremap <Leader>sv :source $MYVIMRC<CR>
@@ -193,6 +201,9 @@ nnoremap <Leader>sv :source $MYVIMRC<CR>
 " switch off hlsearch
 nnoremap <silent> <Leader>n :nohlsearch<CR>
 vnoremap <silent> <Leader>n :nohlsearch<CR>
+
+" toggle relative line numbers
+nnoremap <silent> <Leader>N :set relativenumber!<CR>
 
 " indent the whole file
 nnoremap <silent> <Leader>= :call Preserve("normal! gg=G")<CR>
@@ -219,10 +230,11 @@ vnoremap <Leader>U <Esc>viwU<Esc>e
 nnoremap <Leader>l viwu<Esc>e
 vnoremap <Leader>l <Esc>viwu<Esc>e
 
+" get help with Leader+m (for manual)
+nnoremap <Leader>m :vert<Space>help<Space>
+
 " }}}
 " LocalLeader Commands {{{
-
-nnoremap <LocalLeader>pc :ProjectCreate<Space> ~/Dokumente/Studium/B4/Informatik\ B/<Space>-n<Space>java<Left><Left><Left><Left><Left><Left><Left><Left>
 
 " for Latex-Box
 " viewing files with \lv only works if you are in that directory
@@ -235,19 +247,19 @@ noremap <silent> <F2> :NERDTreeToggle<CR>
 noremap <silent> <F3> :GundoToggle<CR>
 
 " }}}
-" Movement {{{
+" Movement and Navigation {{{
 
 " leave insert mode with jk
 inoremap jk <Esc>
 
 " big movements with HJKL
 nnoremap H ^
-nnoremap J 10gjzz
-nnoremap K 10gkzz
+nnoremap <silent> J :call SmoothScroll(1,0)<CR>
+nnoremap <silent> K :call SmoothScroll(0,0)<CR>
 nnoremap L $
 vnoremap H ^
-vnoremap J 10gjzz
-vnoremap K 10gkzz
+vnoremap <silent> J :<C-u>call SmoothScroll(1,1)<CR>
+vnoremap <silent> K :<C-u>call SmoothScroll(0,1)<CR>
 vnoremap L $
 
 " buffer navigation with Ctrl-hkjl
@@ -255,10 +267,6 @@ noremap <C-h> <C-w>W
 noremap <silent> <C-j> :bnext<CR>
 noremap <silent> <C-K> :bprevious<CR>
 noremap <C-l> <C-w>w
-
-" go through completion results (e.g. SuperTab) with Ctrl+j/k
-inoremap <C-j> <C-n>
-inoremap <C-k> <C-p>
 
 " go through previous commands with Ctrl+h/j/k/l
 cnoremap <C-h> <Left>
@@ -272,6 +280,10 @@ nnoremap N Nzzzv
 nnoremap <CR> <C-]>zzzv
 nnoremap <BS> <C-o>zzzv
 
+" go through completion results (e.g. SuperTab) with Ctrl+j/k
+inoremap <C-j> <C-n>
+inoremap <C-k> <C-p>
+
 " writing and quitting
 nnoremap <silent> Ö :w<CR>
 nnoremap <silent> X :call KillSwitch()<CR>
@@ -280,7 +292,7 @@ nnoremap <silent> X :call KillSwitch()<CR>
 nnoremap Y y$
 
 " use M for manual
-nnoremap M :vert help<Space>
+nnoremap M K
 vnoremap M K
 
 " split and seam up lines with S (formerly J)
@@ -303,13 +315,10 @@ nnoremap <Leader><Space> zi
 " }}}
 " Operator-Pendant Mappings {{{
 
-
 " }}}
 
 " }}}
 " Abbreviations ------------------------------------------------------------ {{{
-
-iabbrev being begin
 
 " }}}
 " Plugins ------------------------------------------------------------------ {{{
@@ -325,8 +334,7 @@ let g:airline#extensions#syntastic#enabled = 1
 " }}}
 " CtrlP {{{
 
-" start CtrlP with Leader+f for "find"
-let g:ctrlp_map = '<Leader>f'
+let g:ctrlp_map = '<Leader>,'          " start CtrlP with Leader+
 let g:ctrlp_use_caching = 0            " do not use caching for CtrlP
 let g:ctrlp_show_hidden = 1            " search for hidden files as well
 let g:ctrlp_max_files = 1000           " search for maximally 1000 files
@@ -400,10 +408,10 @@ let g:syntastic_check_on_wq = 0
 " UltiSnips {{{
 
 let g:UltiSnipsSnippetsDir="~/.vim/snippets"
-let g:UltiSnipsExpandTrigger="<Tab>"    " UltiSnip usage with Tab (like SuperTab)
-let g:UltiSnipsListSnippets="<S-Tab>"   " snip listing with Shift+Tab
-" let g:UltiSnipsJumpForwardTrigger="<C-j>"  " go to next and previous snippet
-" let g:UltiSnipsJumpBackwardTrigger="<C-k>" " field with Ctrl-j/-k
+let g:UltiSnipsExpandTrigger="<Tab>"       " snip expansion with Tab (like SuperTab)
+let g:UltiSnipsListSnippets="<S-Tab>"      " snip listing with Shift+Tab
+let g:UltiSnipsJumpForwardTrigger="<C-j>"  " go to next and previous snippet
+let g:UltiSnipsJumpBackwardTrigger="<C-k>" " field with Ctrl-j/-k
 " BUG:
 " <C-k> falls back on regular insert-mode mapping when snippet in last field ($0)
 
@@ -434,7 +442,7 @@ function! EclimSetUp() " {{{
   " setup eclim daemon automatically when working with java files
   " under the assumption that eclimd is found in \opt\eclipse\
   " if exists("*eclim#EclimAvailable") && !(eclim#EclimAvailable())
-  "   execute "!\opt\eclipse\eclimd &"
+  "   execute "!/opt/eclipse/eclimd &"
   "   execute "PingEclim"
   " endif
 endfunction " }}}
@@ -448,7 +456,7 @@ function! FillWithMinus() " {{{
   let fillcount = 80 - linelength - 5
 
   " insert space+minuses+space at the end of the line
-  silent execute "normal! A " . repeat('-', fillcount) . " "
+  execute "normal! A " . repeat('-', fillcount) . " "
 endfunction "}}}
 
 function! FoldText() " {{{
@@ -460,7 +468,7 @@ function! FoldText() " {{{
 
   " expand tabs into spaces
   let onetab = strpart('          ', 0, &tabstop)
-  let line = substitute(line, '\t', onetab,'g')
+  " let line = substitute(line, '\t', onetab,'g')
 
   " line + filler spaces + 4 fields for foldedlincount + 1 extra space
   let line = strpart(line, 0,  windowwidth - 5)
@@ -472,7 +480,7 @@ endfunction " }}}
 " function! FoldToggle() "{{{
 "   if allfoldsclosed > -1 && foldbackup == 0
 "       normal! zR
-"   elseif allfoldsclosed
+"   elseif &foldlevel ==# 0
 "       call FoldRestore()
 "   elseif allfoldsopen
 "       normal! zM
@@ -488,7 +496,7 @@ endfunction " }}}
 " function! FoldToggleBackwards() "{{{
 "   if allfoldsopen && foldbackup == 0
 "       execute "normal! zM"
-"   elseif allfoldsclosed
+"   elseif &foldlevel ==# 0
 "       execute "normal! zR"
 "   elseif allfoldsopen
 "       call FoldRestore()
@@ -499,6 +507,7 @@ endfunction " }}}
 " endfunction "}}}
 
 function! KillSwitch() "{{{
+  " TODO do not close window when using bdelete
   " get number of all 'possible' buffers that may exist
   " number of listed buffers
   let l:b_all = range(1, bufnr('$'))
@@ -526,6 +535,26 @@ function! Preserve(command) "{{{
   " execute the given command
   execute "silent!" . a:command
   call winrestview(l:winview)     " restore cursor and window position
+endfunction "}}}
+
+function! SmoothScroll(down,visual) "{{{
+  " set keys depending on movement direction and being in visual or normal mode
+  let l:key = a:down ==# 1 ? 'j' : 'k'
+  let l:vkey = a:visual ==# 1 ? 'gv' : ''
+
+  " get number of lines in window divided by two and the line of your cursor
+  let l:whalfheight = winheight("0")/2
+  let l:wline = winline()
+
+  " if cursor is in the middle of the window, go two lines up/down and center
+  " window on cursor, else go two lines up/down but do not center window
+  if l:whalfheight ==# l:wline ||
+        \ l:whalfheight ==# l:wline+1 ||
+        \ l:whalfheight ==# l:wline-1
+    execute "normal! ".l:vkey."g".l:key."zzg".l:key."zz"
+  else
+    execute "normal! ".l:vkey."2g".l:key
+  endif
 endfunction "}}}
 
 " }}}
