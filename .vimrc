@@ -12,10 +12,7 @@ endif
 " Plugin-Manager Pathogen:
 " each plugin gets a directory in ~/.vim/bundle, git clone plugins into it
 filetype off                " filetype off for pathogen to work, later on again
-let g:pathogen_disabled = ['textobj-jumpcut']
-let g:pathogen_disabled += ['textobj-user']
-let g:pathogen_disabled += ['textobj-comment']
-let g:pathogen_disabled += ['syntastic']
+let g:pathogen_disabled = ['syntastic']
 call pathogen#infect()
 call pathogen#helptags()    " generate helptags for everything in 'runtimepath'
 filetype plugin indent on   " load filetype-specific indentation and plugins
@@ -127,8 +124,10 @@ augroup buffer_autocmds " {{{
     " go to the last position when reopening a file
     autocmd BufReadPost *
         \ if line("'\"") > 1 && line("'\"") <= line("$") |
-        \   execute "normal! g'\"" |
+        \   execute "normal! g'\"zv" |
         \ endif
+    " shutdown Eclim if it is still running
+	autocmd VimLeavePre * ShutdownEclim
 augroup end " }}}
 
 " Filetype-Specific {{{
@@ -153,14 +152,19 @@ augroup no_buffer_switching
   autocmd FileType preview noremap <buffer> <silent> <C-K> <nop>
 augroup END
 
-" augroup filetype_java
-"   autocmd!
-"   autocmd FileType java call EclimSetUp()
-" augroup END
+augroup git_commits
+  autocmd!
+  autocmd FileType gitcommit setlocal textwidth=72
+augroup END
+
+augroup filetype_java
+  autocmd!
+  autocmd FileType java setlocal expandtab softtabstop=4 shiftwidth=4
+augroup END
 
 augroup filetype_ruby
   autocmd!
-  autocmd FileType ruby setlocal softtabstop=2 shiftwidth=2
+  autocmd FileType ruby setlocal expandtab softtabstop=2 shiftwidth=2
 augroup END
 
 augroup filetype_tex
@@ -170,7 +174,7 @@ augroup END
 
 augroup filetype_vim
   autocmd!
-  autocmd FileType vim setlocal softtabstop=2 shiftwidth=2
+  autocmd FileType vim setlocal expandtab softtabstop=2 shiftwidth=2
   autocmd FileType vim setlocal foldenable
   autocmd FileType vim setlocal foldmethod=marker
   autocmd FileType vim setlocal keywordprg='help'
@@ -194,9 +198,16 @@ nnoremap <Leader>ev :vs $MYVIMRC<CR>
 nnoremap <Leader>Ev :e $MYVIMRC<CR>
 nnoremap <Leader>eb :vs ~/.bashrc<CR>
 nnoremap <Leader>Eb :e ~/.bashrc<CR>
+nnoremap <Leader>eB :vs ~/.bash_aliases<CR>
+nnoremap <Leader>EB :e ~/.bash_aliases<CR>
 
 " source vimrc with Leader+sv
-nnoremap <Leader>sv :source $MYVIMRC<CR>
+nnoremap <Leader>Sv :source $MYVIMRC<CR>
+
+
+" Toggling
+" switch between light and dark background
+nnoremap <silent> <Leader>b :call BackgroundToggle()<CR>
 
 " switch off hlsearch
 nnoremap <silent> <Leader>n :nohlsearch<CR>
@@ -205,14 +216,21 @@ vnoremap <silent> <Leader>n :nohlsearch<CR>
 " toggle relative line numbers
 nnoremap <silent> <Leader>N :set relativenumber!<CR>
 
+" reset syntax highlighting
+nnoremap <silent> <Leader>r :sy sync fromstart<CR>
+
+
+" Text Commands
 " indent the whole file
 nnoremap <silent> <Leader>= :call Preserve("normal! gg=G")<CR>
 
 " remove trailing whitespace
 nnoremap <silent> <Leader>w :call Preserve("%s/\\s\\+$//e")<CR>
 
-" reset syntax highlighting
-nnoremap <silent> <Leader>s :sy sync fromstart<CR>
+" substitute more quickly
+nnoremap <Leader>s :%s:::g<Left><Left><Left>
+vnoremap <Leader>s :s:::g<Left><Left><Left>
+
 
 " copy and paste from the system register with Leader+p/y
 nnoremap <Leader>p "+p
@@ -224,21 +242,18 @@ vnoremap <Leader>y "+y
 nnoremap <Leader>c :<C-r><C-w>
 vnoremap <Leader>c ""y:<C-r>"
 
-" uppercase/lowercase the current word with Leader+u/Leader+l
-nnoremap <Leader>U viwU<Esc>e
-vnoremap <Leader>U <Esc>viwU<Esc>e
-nnoremap <Leader>l viwu<Esc>e
-vnoremap <Leader>l <Esc>viwu<Esc>e
-
 " get help with Leader+m (for manual)
 nnoremap <Leader>m :vert<Space>help<Space>
 
 " }}}
 " LocalLeader Commands {{{
 
-" for Latex-Box
-" viewing files with \lv only works if you are in that directory
+" Latex-Box: viewing files with \lv only works if you are in that directory
 nnoremap <LocalLeader>lv :lcd %:p:h<CR>:pwd<CR><LocalLeader>lv
+
+" Eclim setup
+nnoremap <silent> <LocalLeader>e :call EclimSetup()<CR><CR>
+nnoremap <silent> <LocalLeader>E :ShutdownEclim<CR>
 
 " }}}
 " Plugin-Toggling {{{
@@ -315,10 +330,15 @@ nnoremap <Leader><Space> zi
 " }}}
 " Operator-Pendant Mappings {{{
 
+onoremap H ^
+onoremap L $
+
 " }}}
 
 " }}}
 " Abbreviations ------------------------------------------------------------ {{{
+
+iabbrev improt import
 
 " }}}
 " Plugins ------------------------------------------------------------------ {{{
@@ -415,36 +435,24 @@ let g:UltiSnipsJumpBackwardTrigger="<C-k>" " field with Ctrl-j/-k
 " BUG:
 " <C-k> falls back on regular insert-mode mapping when snippet in last field ($0)
 
-" let g:ulti_jump_forwards_res = 0 "default value, just set once
-" let g:ulti_jump_backwards_res = 0 "default value, just set once
-" function! Ulti_JumpF_GetRes()
-"   call UltiSnips#JumpForwards()
-"   return g:ulti_jump_forwards_res
-" endfunction
-" function! Ulti_JumpB_GetRes()
-"   call UltiSnips#JumpBackwards()
-"   return g:ulti_jump_backwards_res
-" endfunction
-
-" inoremap <silent> <C-j> <C-R>=(Ulti_JumpF_GetRes() > 0)?"":CN()<CR>
-" inoremap <silent> <C-k> <C-R>=(Ulti_JumpB_GetRes() > 0)?"":CP()<CR>
-" function! CN()
-" endfunction
-" function! CP()
-" endfunction
-
 " }}}
 
 " }}}
 " Functions ---------------------------------------------------------------- {{{
 
-function! EclimSetUp() " {{{
-  " setup eclim daemon automatically when working with java files
-  " under the assumption that eclimd is found in \opt\eclipse\
-  " if exists("*eclim#EclimAvailable") && !(eclim#EclimAvailable())
-  "   execute "!/opt/eclipse/eclimd &"
-  "   execute "PingEclim"
-  " endif
+function! BackgroundToggle() " {{{
+  if &bg ==# "light"
+    set bg=dark
+  else
+    set bg=light
+  endif
+endfunction " }}}
+
+function! EclimSetup() " {{{
+  " setup eclim daemon assuming that eclimd is found in \opt\eclipse\
+  if exists("*eclim#EclimAvailable") && !(eclim#EclimAvailable())
+    execute "!/opt/eclipse/eclimd &>/dev/null &"
+  endif
 endfunction " }}}
 
 function! FillWithMinus() " {{{
@@ -532,8 +540,7 @@ endfunction "}}}
 
 function! Preserve(command) "{{{
   let l:winview = winsaveview()   " save cursor and window position
-  " execute the given command
-  execute "silent!" . a:command
+  execute "silent!" . a:command | " execute the given command
   call winrestview(l:winview)     " restore cursor and window position
 endfunction "}}}
 
