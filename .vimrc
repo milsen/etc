@@ -5,23 +5,43 @@
 " /usr/share/vim/vimcurrent/debian.vim) and sourced by: runtime! debian.vim
 
 " use Vim defaults instead of vi compatibility
-if &compatible |
-    set nocompatible |
+if &compatible
+    set nocompatible
 endif
 
-" Plugin-Manager Pathogen:
-" each plugin gets a directory in ~/.vim/bundle, git clone plugins into it
-filetype off                " filetype off for pathogen to work, later on again
-let g:pathogen_disabled = ['syntastic']
-call pathogen#infect()
-call pathogen#helptags()    " generate helptags for everything in 'runtimepath'
-filetype plugin indent on   " load filetype-specific indentation and plugins
+" Plugin-Manager vim-plug {{{
+" each plugin gets a directory in ~/.vim/bundle, use :PlugUpdate
+call plug#begin('~/.vim/bundle')
+Plug 'wincent/Command-T', { 'do': 'cd /ruby/command-t && ruby extconf.rb && make' }
+Plug 'Raimondi/delimitMate'
+Plug 'sjl/gundo.vim'
+Plug 'LaTeX-Box-Team/LaTeX-Box', { 'for': 'tex' }
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'ervandew/supertab'
+Plug 'scrooloose/syntastic'
+Plug 'wellle/targets.vim'
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+Plug 'bling/vim-airline'
+Plug 'tpope/vim-commentary'
+Plug 'justinmk/vim-sneak'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+
+" color schemes
+Plug 'altercation/vim-colors-solarized'
+Plug 'sickill/vim-monokai'
+Plug 'thomd/vim-wasabi-colorscheme'
+
+" textobj
+Plug 'kana/vim-textobj-user'
+Plug 'glts/vim-textobj-comment'
+call plug#end()
+" }}}
 
 " }}}
 " Color Scheme ------------------------------------------------------------- {{{
-syntax on               " enable syntax highlighting
 set t_Co=16             " tell vim to make use of the 256 color-terminal
-set background=light    " use the light solarized colorscheme
+set background=dark     " use a dark background
 colorscheme solarized
 let g:solarized_termcolors=16
 let g:solarized_contrast="high"
@@ -201,23 +221,29 @@ nnoremap <Leader>Eb :e ~/.bashrc<CR>
 nnoremap <Leader>eB :vs ~/.bash_aliases<CR>
 nnoremap <Leader>EB :e ~/.bash_aliases<CR>
 
-" source vimrc with Leader+sv
-nnoremap <Leader>Sv :source $MYVIMRC<CR>
+" source vimrc with Leader+lv
+nnoremap <Leader>lv :source $MYVIMRC<CR>
 
 
 " Toggling
-" switch between light and dark background
+" switch background brightness and colorscheme
 nnoremap <silent> <Leader>b :call BackgroundToggle()<CR>
+nnoremap <silent> <Leader>B :call ColorToggle()<CR>
 
 " switch off hlsearch
-nnoremap <silent> <Leader>n :nohlsearch<CR>
-vnoremap <silent> <Leader>n :nohlsearch<CR>
-
-" toggle relative line numbers
-nnoremap <silent> <Leader>N :set relativenumber!<CR>
+nnoremap <silent> <Leader>, :nohlsearch<CR>
+vnoremap <silent> <Leader>, :nohlsearch<CR>
 
 " reset syntax highlighting
-nnoremap <silent> <Leader>r :sy sync fromstart<CR>
+nnoremap <silent> <Leader>; :sy sync fromstart<CR>
+
+" toggle line numbers
+nnoremap <silent> <Leader>n :set number!<CR>
+nnoremap <silent> <Leader>N :set relativenumber!<CR>
+
+" open Command-T with Leader+.
+nnoremap <silent> <Leader>. :CommandT<CR>
+nnoremap <silent> <Leader>: :CommandTBuffer<CR>
 
 
 " Text Commands
@@ -230,13 +256,16 @@ nnoremap <silent> <Leader>w :call Preserve("%s/\\s\\+$//e")<CR>
 " substitute more quickly
 nnoremap <Leader>s :%s:::g<Left><Left><Left>
 vnoremap <Leader>s :s:::g<Left><Left><Left>
-
+nnoremap <Leader>S :%s:::cg<Left><Left><Left><Left>
+vnoremap <Leader>S :s:::cg<Left><Left><Left><Left>
 
 " copy and paste from the system register with Leader+p/y
 nnoremap <Leader>p "+p
 vnoremap <Leader>p "+p
+nnoremap <Leader>P "+P
 nnoremap <Leader>y "+y
 vnoremap <Leader>y "+y
+nnoremap <Leader>Y "+y$
 
 " copy into command line with Leader+c
 nnoremap <Leader>c :<C-r><C-w>
@@ -244,6 +273,7 @@ vnoremap <Leader>c ""y:<C-r>"
 
 " get help with Leader+m (for manual)
 nnoremap <Leader>m :vert<Space>help<Space>
+nnoremap <Leader>M :!man<Space>
 
 " }}}
 " LocalLeader Commands {{{
@@ -310,12 +340,36 @@ nnoremap Y y$
 nnoremap M K
 vnoremap M K
 
-" split and seam up lines with S (formerly J)
-nnoremap <silent> sj Do<Esc>pgk:call Preserve("s/\v +$//")<CR>gj
-nnoremap <silent> sk DO<Esc>pgj:call Preserve("s/\v +$//")<CR>gk==
-nnoremap <silent> Sj :call Preserve("normal! J")<CR>
-nnoremap <silent> Sk :call Preserve("normal! kddpgkJ")<CR>gk
-vnoremap <silent> S J
+" split and seam up lines with gS (formerly J)
+nnoremap <silent> gsj Do<Esc>pgk:call Preserve("s/\v +$//")<CR>gj
+nnoremap <CR> <C-]>zzzv
+nnoremap <BS> <C-o>zzzv
+
+" go through completion results (e.g. SuperTab) with Ctrl+j/k
+inoremap <C-j> <C-n>
+inoremap <C-k> <C-p>
+
+" writing and quitting
+nnoremap <silent> Ö :w<CR>
+nnoremap <silent> X :call KillSwitch()<CR>
+
+" let Y copy the rest of the line (and behave like other operators)
+nnoremap Y y$
+
+" use M for manual
+nnoremap M K
+vnoremap M K
+
+" split and seam up lines with gS (formerly J)
+nnoremap <silent> gsj Do<Esc>pgk:call Preserve("s/\v +$//")<CR>gj
+nnoremap <silent> gsk DO<Esc>pgj:call Preserve("s/\v +$//")<CR>gk==
+nnoremap <silent> gSj :call Preserve("normal! J")<CR>
+nnoremap <silent> gSk :call Preserve("normal! kddpgkJ")<CR>gk
+vnoremap <silent> gS J
+
+" format text using Q
+nnoremap Q gqip
+vnoremap Q gq
 
 " do not accidentally kill vim
 nnoremap ZQ :echo "Use :q! instead."<CR>
@@ -352,19 +406,13 @@ let g:airline#extensions#eclim#enabled = 1
 let g:airline#extensions#syntastic#enabled = 1
 
 " }}}
-" CtrlP {{{
-
-let g:ctrlp_map = '<Leader>,'          " start CtrlP with Leader+
-let g:ctrlp_use_caching = 0            " do not use caching for CtrlP
-let g:ctrlp_show_hidden = 1            " search for hidden files as well
-let g:ctrlp_max_files = 1000           " search for maximally 1000 files
-let g:ctrlp_max_depth = 10             " search maximally 10 directories deep
-let g:ctrlp_open_multiple_files = 'i'  " open multiple files in buffers with C-z
-let g:ctrlp_regexp = 1                 " regex mode as default
-let g:ctrlp_match_window = 'order:tbb' " order result from top to bottom
-
-" do not open files in netrw, help or quickfix windows
-let g:ctrlp_reuse_window = 'netrw\|help\|quickfix'
+" Command-T {{{
+let g:CommandTMaxHeight = 30            " show 30 files at once
+let g:CommandTMaxFiles = 500000         " search through 500000 files at most
+let g:CommandTInputDebounce = 200       " wait 200ms for input before search
+let g:CommandTFileScanner = 'watchman'  " use watchman scanner
+let g:CommandTMaxCachedDirectories = 10 " use cache for up to ten directories
+let g:CommandTSmartCase = 1             " use case-sensitive matching
 
 " }}}
 " DelimitMate {{{
@@ -403,6 +451,28 @@ augroup NERDTree
         \ q |
         \ endif
 augroup END
+
+" }}}
+" Sneak {{{
+" set up motion commands for sneaking
+nmap <silent> s <Plug>Sneak_s
+nmap <silent> S <Plug>Sneak_S
+xmap <silent> s <Plug>Sneak_s
+xmap <silent> S <Plug>Sneak_S
+omap <silent> s <Plug>Sneak_s
+omap <silent> S <Plug>Sneak_S
+nmap <silent> f <Plug>Sneak_f
+nmap <silent> F <Plug>Sneak_F
+xmap <silent> f <Plug>Sneak_f
+xmap <silent> F <Plug>Sneak_F
+omap <silent> f <Plug>Sneak_f
+omap <silent> F <Plug>Sneak_F
+nmap <silent> t <Plug>Sneak_t
+nmap <silent> T <Plug>Sneak_T
+xmap <silent> t <Plug>Sneak_t
+xmap <silent> T <Plug>Sneak_T
+omap <silent> t <Plug>Sneak_t
+omap <silent> T <Plug>Sneak_T
 
 " }}}
 " SuperTab {{{
@@ -448,10 +518,32 @@ function! BackgroundToggle() " {{{
   endif
 endfunction " }}}
 
+function! ColorToggle() " {{{
+  if !exists('g:colors_name')
+    set bg=dark
+    colorscheme solarized
+  elseif g:colors_name ==# "solarized"
+    set bg=dark
+    colorscheme wasabi256
+  elseif g:colors_name ==# "wasabi256"
+    set bg=dark
+    colorscheme monokai
+  else
+    set bg=dark
+    colorscheme solarized
+  endif
+endfunction " }}}
+
+function! CommandLineYank(textobj,command) " {{{
+  execute "normal \"\"y".a:textobj.":".a:command." \<C-r>\<CR>"
+endfunction " }}}
+
 function! EclimSetup() " {{{
   " setup eclim daemon assuming that eclimd is found in \opt\eclipse\
   if exists("*eclim#EclimAvailable") && !(eclim#EclimAvailable())
     execute "!/opt/eclipse/eclimd &>/dev/null &"
+  else
+    echoerr "Eclim not available."
   endif
 endfunction " }}}
 
