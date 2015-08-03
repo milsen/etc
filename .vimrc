@@ -23,7 +23,6 @@ Plug 'wellle/targets.vim'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'bling/vim-airline'
 Plug 'tpope/vim-commentary'
-Plug 'justinmk/vim-sneak'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 
@@ -35,6 +34,9 @@ Plug 'thomd/vim-wasabi-colorscheme'
 " textobj
 Plug 'kana/vim-textobj-user'
 Plug 'glts/vim-textobj-comment'
+
+" self-maintained
+Plug '~/.vim/bundle/vim-sneak'
 call plug#end()
 " }}}
 
@@ -221,13 +223,13 @@ nnoremap <Leader>Eb :e ~/.bashrc<CR>
 nnoremap <Leader>eB :vs ~/.bash_aliases<CR>
 nnoremap <Leader>EB :e ~/.bash_aliases<CR>
 
-" source vimrc with Leader+lv
+" load vimrc with Leader+lv
 nnoremap <Leader>lv :source $MYVIMRC<CR>
 
 
 " Toggling
 " switch background brightness and colorscheme
-nnoremap <silent> <Leader>b :call BackgroundToggle()<CR>
+nnoremap <silent> <Leader>b @=(&bg==#'dark'?':se bg=light':':se bg=dark')<CR><CR>
 nnoremap <silent> <Leader>B :call ColorToggle()<CR>
 
 " switch off hlsearch
@@ -322,26 +324,8 @@ cnoremap <C-l> <Right>
 " jumps, keep screen in the middle
 nnoremap n nzzzv
 nnoremap N Nzzzv
-nnoremap <CR> <C-]>zzzv
-nnoremap <BS> <C-o>zzzv
-
-" go through completion results (e.g. SuperTab) with Ctrl+j/k
-inoremap <C-j> <C-n>
-inoremap <C-k> <C-p>
-
-" writing and quitting
-nnoremap <silent> Ö :w<CR>
-nnoremap <silent> X :call KillSwitch()<CR>
-
-" let Y copy the rest of the line (and behave like other operators)
-nnoremap Y y$
-
-" use M for manual
-nnoremap M K
-vnoremap M K
-
-" split and seam up lines with gS (formerly J)
-nnoremap <silent> gsj Do<Esc>pgk:call Preserve("s/\v +$//")<CR>gj
+nnoremap gg ggzzzv
+nnoremap G Gzzzv
 nnoremap <CR> <C-]>zzzv
 nnoremap <BS> <C-o>zzzv
 
@@ -379,7 +363,7 @@ vnoremap <C-z> <Esc>uv
 
 " folding commands
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
-nnoremap <Leader><Space> zi
+nnoremap <silent> <Leader><Space> @=(&foldlevel?'zM':'zR')<CR>
 
 " }}}
 " Operator-Pendant Mappings {{{
@@ -496,7 +480,6 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 " }}}
 " UltiSnips {{{
-
 let g:UltiSnipsSnippetsDir="~/.vim/snippets"
 let g:UltiSnipsExpandTrigger="<Tab>"       " snip expansion with Tab (like SuperTab)
 let g:UltiSnipsListSnippets="<S-Tab>"      " snip listing with Shift+Tab
@@ -509,14 +492,6 @@ let g:UltiSnipsJumpBackwardTrigger="<C-k>" " field with Ctrl-j/-k
 
 " }}}
 " Functions ---------------------------------------------------------------- {{{
-
-function! BackgroundToggle() " {{{
-  if &bg ==# "light"
-    set bg=dark
-  else
-    set bg=light
-  endif
-endfunction " }}}
 
 function! ColorToggle() " {{{
   if !exists('g:colors_name')
@@ -575,36 +550,6 @@ function! FoldText() " {{{
   let fillcount = windowwidth - len(line) - 5
   return line . repeat(" ", fillcount + restspaces) . foldedlinecount . ' '
 endfunction " }}}
-
-" ???if foldlevel(line(".")) ==# 0
-" function! FoldToggle() "{{{
-"   if allfoldsclosed > -1 && foldbackup == 0
-"       normal! zR
-"   elseif &foldlevel ==# 0
-"       call FoldRestore()
-"   elseif allfoldsopen
-"       normal! zM
-"   else " some folds are open
-"       call FoldBackup()
-"           normal! zM
-"   endif
-" foldclosed
-" foldclosedend
-" foldlevel
-" endfunction "}}}
-"
-" function! FoldToggleBackwards() "{{{
-"   if allfoldsopen && foldbackup == 0
-"       execute "normal! zM"
-"   elseif &foldlevel ==# 0
-"       execute "normal! zR"
-"   elseif allfoldsopen
-"       call FoldRestore()
-"   else " some folds are open
-"             let g:foldbackup=
-"       execute "normal! zR"
-"   endif
-" endfunction "}}}
 
 function! KillSwitch() "{{{
   " TODO do not close window when using bdelete
