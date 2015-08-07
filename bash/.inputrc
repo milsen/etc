@@ -1,0 +1,156 @@
+# .inputrc by Max Ilsen
+# See readline(3readline) and `info rluserman' for more information.
+
+# Settings {{{
+# Auto-Completion {{{
+set disable-completion off
+
+# more intelligent autocompletion by also looking at the text after the cursor
+set skip-completed-text on
+
+# make Tab autocomplete regardless of filename case (but respect case for -/_)
+set completion-ignore-case on
+set completion-map-case off
+
+# list all matches in case multiple possible completions are possible
+set show-all-if-ambiguous on
+set show-all-if-unmodified on
+
+# match hidden files as well
+set match-hidden-files on
+
+# for more than 200 matches, ask to show them all at once in the terminal
+set completion-query-items 200
+set page-completions off
+
+# completion matches are listed vertically in as many columns as possible
+set print-completions-horizontally off
+set completion-display-width -1
+
+# do not use ellipses for common prefixes during command or menu completion
+set completion-prefix-display-length -1
+set menu-complete-display-prefix off
+
+# show file classifiers when completing (like `ls -F`) using colors of LS_COLORS
+set visible-stats on
+set colored-stats on
+
+# add a trailing slash when autocompleting (symlinks to) directories
+set mark-directories on
+set mark-symlinked-directories on
+
+# use tilde expansion for home directory, directories on directory stack etc.
+# set expand-tilde on
+
+# }}}
+# Appearance {{{
+# allow UTF-8 input and output for umlauts etc.
+set input-meta on
+set output-meta on
+set convert-meta off
+
+# never ring audible or visible terminal bell
+set bell-style none
+
+# use line wrapping, not scrolling for long lines
+set horizontal-scroll-mode off
+# }}}
+# History {{{
+# set command history size to 1000
+set history-size 1000
+
+# do not preserve cursor position when retrieving older commands
+set history-preserve-point off
+
+# do not revert all changes to commands in history when newline is input
+set revert-all-at-newline off
+
+# modified lines in history are not marked with a *
+set mark-modified-lines off
+# }}}
+# Mode {{{
+# use vi-like commands but do not show in prompt that vi-mode is used
+set editing-mode vi
+set keymap vi
+set show-mode-in-prompt off
+
+# comment-symbol in readline is # (in vi-mode: press #)
+set comment-begin ``#''
+
+# }}}
+# Keys {{{
+# enable application keypad and meta-key
+set enable-keypad on
+set enable-meta-key on
+
+# bind control characters from terminal to readline equivalents and echo them
+set bind-tty-special-chars on
+set echo-control-characters on
+
+# esc and Ctrl-j terminate incremental search
+set isearch-terminators ``C-[ C-J''
+
+# wait 200ms for next key in key command
+set keyseq-timeout 200
+# }}}
+# }}}
+# Mappings {{{
+# flip through autocompletion matches with Shift-Tab
+"\e[Z": menu-complete
+
+# filtered history search (search entries starting with what is already typed)
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+
+# normal search history iwht PgUp/PgDown
+"\e[5~": previous-history
+"\e[6~": next-history
+
+# TODO lookup defaults, in vim mode pgup and down, pressing v opens vi?
+
+# see /usr/share/doc/bash/inputrc.arrows for other codes of arrow keys
+
+# some defaults / modifications for the emacs mode
+# $if mode=emacs
+
+# # allow the use of the Home/End keys
+# "\e[1~": beginning-of-line
+# "\e[4~": end-of-line
+
+# # allow the use of the Delete/Insert keys
+# "\e[3~": delete-char
+# "\e[2~": quoted-insert
+
+# # mappings for "page up" and "page down" to step to the beginning/end
+# # of the history
+# # "\e[5~": beginning-of-history
+# # "\e[6~": end-of-history
+
+# # alternate mappings for "page up" and "page down" to search the history
+# # "\e[5~": history-search-backward
+# # "\e[6~": history-search-forward
+
+# # mappings for Ctrl-left-arrow and Ctrl-right-arrow for word moving
+# "\e[1;5C": forward-word
+# "\e[1;5D": backward-word
+# "\e[5C": forward-word
+# "\e[5D": backward-word
+# "\e\e[C": forward-word
+# "\e\e[D": backward-word
+
+# $if term=rxvt
+# "\e[8~": end-of-line
+# "\eOc": forward-word
+# "\eOd": backward-word
+# $endif
+
+# # for non RH/Debian xterm, can't hurt for RH/Debian xterm
+# # "\eOH": beginning-of-line
+# # "\eOF": end-of-line
+
+# # for freebsd console
+# # "\e[H": beginning-of-line
+# # "\e[F": end-of-line
+
+# $endif
+# }}}
