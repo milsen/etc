@@ -6,7 +6,7 @@ alias cdb2='cd ~/Dokumente/Studium/B2/'
 alias cdb3='cd ~/Dokumente/Studium/B3/'
 alias cdb4='cd ~/Dokumente/Studium/B4/'
 alias cdp='cd ~/Dokumente/Programmieren/'
-alias cdib='cd ~/Dokumente/Studium/B4/Informatik\ B/'
+alias cdd='cd ~/Dokumente/Programmieren/dotfiles/'
 alias ..='cd ..'
 alias ...='cd ../../'
 alias ....='cd ../../../'
@@ -16,31 +16,32 @@ alias ll='ls -alF'    # list all files in list format with classifer
 alias la='ls -A'      # list all files and dirs  except .- and ..-dir
 alias l='ls -CF'      # list entries in columns with classifier
 
+# tree aliases
+alias treea="tree -a -I '.git' --dirsfirst" # tree of all files except .git-dirs
+
 # apt aliases
-alias apts=pretty_apt_search
+alias apts="pretty_apt_search"
 alias aptS="apt-cache show"
 alias apti="sudo apt-get install"
 alias aptc="sudo apt-get autoclean"
-alias aptU="sudo apt-get update && sudo apt-get upgrade"
+alias aptU="sudo apt-get update && sudo apt-get dist-upgrade && sudo apt-get autoclean"
 
 # backup and restore apt-packages (see .bash_functions)
 alias bkp="backup_packages"
 alias rst="restore_packages"
 
 # do not remove files by accident
-alias cp='cp -i'      # prompt before each use of cp and mv
+alias cp='cp -i'      # prompt before each use of cp, mv and rm
 alias mv='mv -i'
-# alias rm='rm -i'
-alias tp='trash-put'  # use trash-put instead of rm
-alias rm='echo "Use trash-put."; false'
+alias rm='rm -i'
+alias tp='trash-put'  # use trash-put instead of rm if possible
 
 # start eclim with workspaces
-alias eclim=$'/opt/eclipse/eclimd'
+alias eclim='/opt/eclipse/eclimd'
 alias eclipse='/opt/eclipse/eclipse'
-alias eclimp='/opt/eclipse/eclimd -Dosgi.instance.area.default=@user.home/Dokumente/Programmieren/'
 
 # remove all temporary files
-# alias rm~="find . -type f -name '*~' -exec rm -i {} \;"
+alias rm~="find . -type f -name '*~' -exec rm -i {} \;"
 
 # "alert" alias to alert when long running commands are executed; example usage:
 #   sleep 10; alert
