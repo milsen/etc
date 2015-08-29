@@ -21,7 +21,7 @@ ln -sfv "$DOTFILES_DIR/bash/.dircolors" ~
 ln -sfv "$DOTFILES_DIR/bash/.inputrc" ~
 ln -sfv "$DOTFILES_DIR/git/.gitconfig" ~
 ln -sfv "$DOTFILES_DIR/git/.gitignore" ~
-# ln -sfv "$DOTFILES_DIR/misc_runcom/.eclimrc" ~
+ln -sfv "$DOTFILES_DIR/misc_runcom/.eclimrc" ~
 ln -sfv "$DOTFILES_DIR/misc_runcom/.latexmkrc" ~
 ln -sfv "$DOTFILES_DIR/vim/.vimrc" ~
 ln -sfv "$DOTFILES_DIR/vim/dictionaries/" ~/.vim/
