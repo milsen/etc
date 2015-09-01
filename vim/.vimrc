@@ -23,6 +23,8 @@ Plug 'wellle/targets.vim'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'bling/vim-airline'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 
@@ -42,7 +44,7 @@ call plug#end()
 
 " }}}
 " Color Scheme ------------------------------------------------------------- {{{
-set t_Co=16             " tell vim to make use of the 256 color-terminal
+set t_Co=256            " tell vim to make use of the 256 color-terminal
 set background=dark     " use a dark background
 colorscheme solarized
 let g:solarized_termcolors=16
@@ -187,6 +189,16 @@ augroup git_commits
   autocmd FileType gitcommit setlocal textwidth=72
 augroup END
 
+augroup markdown
+  autocmd!
+  autocmd FileType markdown gitcommitsetlocal textwidth=72
+  " markdown headers
+  autocmd FileType markdown nnoremap <buffer> <LocalLeader>1 yypVr=:redraw<cr>
+  autocmd FileType markdown nnoremap <buffer> <LocalLeader>2 yypVr-:redraw<cr>
+  autocmd FileType markdown nnoremap <buffer> <LocalLeader>3 mzI###<space><esc>`z4l
+  autocmd FileType markdown nnoremap <buffer> <LocalLeader>4 mzI####<space><esc>`z5l
+augroup END
+
 augroup filetype_java
   autocmd!
   autocmd FileType java setlocal expandtab softtabstop=4 shiftwidth=4
@@ -248,6 +260,14 @@ nnoremap <Leader>lv :source $MYVIMRC<CR>
 nnoremap <silent> <Leader>b @=(&bg==#'dark'?':se bg=light':':se bg=dark')<CR><CR>
 nnoremap <silent> <Leader>B :call ColorToggle()<CR>
 
+" toggle line numbers
+nnoremap <silent> <Leader>n :set number!<CR>
+nnoremap <silent> <Leader>N :set relativenumber!<CR>
+
+" toggle cursorline and -column
+nnoremap <silent> <Leader>c :set cursorline!<CR>
+nnoremap <silent> <Leader>C :set cursorcolumn!<CR>
+
 " switch off hlsearch
 nnoremap <silent> <Leader>, :nohlsearch<CR>
 vnoremap <silent> <Leader>, :nohlsearch<CR>
@@ -255,13 +275,13 @@ vnoremap <silent> <Leader>, :nohlsearch<CR>
 " reset syntax highlighting
 nnoremap <silent> <Leader>; :sy sync fromstart<CR>
 
-" toggle line numbers
-nnoremap <silent> <Leader>n :set number!<CR>
-nnoremap <silent> <Leader>N :set relativenumber!<CR>
 
 " open Command-T with Leader+.
 nnoremap <silent> <Leader>. :CommandT<CR>
 nnoremap <silent> <Leader>: :CommandTBuffer<CR>
+
+" show contents of registers with Leader+r
+nnoremap <silent> <Leader>r :register<CR>
 
 
 " Text Commands
@@ -285,9 +305,9 @@ nnoremap <Leader>y "+y
 vnoremap <Leader>y "+y
 nnoremap <Leader>Y "+y$
 
-" copy into command line with Leader+c
-nnoremap <Leader>c :<C-r><C-w>
-vnoremap <Leader>c ""y:<C-r>"
+" copy into command line with Leader+R
+nnoremap <Leader>R :<C-r><C-w>
+vnoremap <Leader>R ""y:<C-r>"
 
 " get help with Leader+m (for manual)
 nnoremap <Leader>m :vert<Space>help<Space>
@@ -340,8 +360,8 @@ cnoremap <C-l> <Right>
 " jumps, keep screen in the middle
 nnoremap n nzzzv
 nnoremap N Nzzzv
-nnoremap gg ggzzzv
-nnoremap G Gzzzv
+nnoremap <silent> gg ggzz@=(line('.')==1?'':'zv')<CR>
+nnoremap <silent> G Gzz@=(line('.')==line('$')?'':'zv')<CR>
 nnoremap <CR> <C-]>zzzv
 nnoremap <BS> <C-o>zzzv
 
@@ -368,8 +388,8 @@ nnoremap <silent> gSk :call Preserve("normal! kddpgkJ")<CR>gk
 vnoremap <silent> gS J
 
 " format text using Q
-nnoremap Q gqip
-vnoremap Q gq
+nnoremap Q gwip
+vnoremap Q gw
 
 " do not accidentally kill vim
 nnoremap ZQ :echo "Use :q! instead."<CR>
@@ -510,17 +530,16 @@ let g:UltiSnipsJumpBackwardTrigger="<C-k>" " field with Ctrl-j/-k
 " Functions ---------------------------------------------------------------- {{{
 
 function! ColorToggle() " {{{
+  " NOTE: wasabi and monokai only exist as dark colorschemes, so do not mess with
+  " &bg while using them
+  set bg=dark
   if !exists('g:colors_name')
-    set bg=dark
     colorscheme solarized
   elseif g:colors_name ==# "solarized"
-    set bg=dark
     colorscheme wasabi256
   elseif g:colors_name ==# "wasabi256"
-    set bg=dark
     colorscheme monokai
   else
-    set bg=dark
     colorscheme solarized
   endif
 endfunction " }}}
