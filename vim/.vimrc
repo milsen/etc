@@ -191,7 +191,6 @@ augroup END
 
 augroup markdown
   autocmd!
-  autocmd FileType markdown gitcommitsetlocal textwidth=72
   " markdown headers
   autocmd FileType markdown nnoremap <buffer> <LocalLeader>1 yypVr=:redraw<cr>
   autocmd FileType markdown nnoremap <buffer> <LocalLeader>2 yypVr-:redraw<cr>
