@@ -26,6 +26,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
+Plug 'mhinz/vim-sayonara'
 Plug 'tpope/vim-surround'
 
 " color schemes
@@ -586,27 +587,10 @@ function! FoldText() " {{{
 endfunction " }}}
 
 function! KillSwitch() "{{{
-  " TODO do not close window when using bdelete
-  " get number of all 'possible' buffers that may exist
-  " number of listed buffers
-  let l:b_all = range(1, bufnr('$'))
-  let l:b_listed = len(filter(l:b_all, 'buflisted(v:val)'))
-
-  " get number of all windows in current tab
-  " get number of windows with same buffer displayed as current buffer
-  let l:w_all = range(1, winnr("$"))
-  let l:w_same = len(filter(l:w_all, 'winbufnr(0) ==# winbufnr(v:val)'))
-
-  " if there is another window with the same buffer open
-  " or there is only one buffer, quit, else just delete the buffer
-  if l:w_same > 1 || l:b_listed ==# 1
-    if &ft ==# 'gundo' " close second gundo window
-      quit
-    endif
-    quit
-  else
-    bdelete
-  end
+  if &ft ==# 'gundo' " close second gundo window
+    Sayonara
+  endif
+  Sayonara
 endfunction "}}}
 
 function! Preserve(command) "{{{
