@@ -1,3 +1,4 @@
+#!/bin/bash --
 # .bashrc by Max Ilsen
 
 # see /usr/share/doc/bash/examples/startup-files
@@ -8,7 +9,7 @@
 [ -z "$PS1" ] && return
 
 # Shell Variables
-HISTCONTROL=ignorespace # don't put duplicate lines in history
+HISTCONTROL=ignoredups  # don't put duplicate lines in history
 HISTSIZE=1000           # set command history in memory to 1000
 HISTFILESIZE=2000       # set command history in history-file to 1000
 
@@ -17,12 +18,14 @@ shopt -s histappend     # append to the history file, don't overwrite it
 shopt -s checkwinsize   # check window size after commands, update LINES and COLUMNS
 shopt -s globstar       # "**" matches all files and zero or more dirs and subdirs
 
+# Key Remapping
+setxkbmap -option caps:escape # remap caps-lock to escape
+
 # use lesspipe if executable to make less more friendly for non-text input files
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 
 # Prompt-Settings
-# TODO
 # identify the chroot you work in (if not set earlier)
 if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
   debian_chroot=$(cat /etc/debian_chroot)
@@ -48,19 +51,10 @@ case "$TERM" in
 esac
 
 # Loading Other Files
-# enable color support of ls and also add handy aliases
 # if /usr/bin/dircolors is executable
 if [ -x /usr/bin/dircolors ]; then
   # if ~/.dircolors is readable try to set LS_COLORS to it (if that fails, use defaults)
   test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-
-  # set color usage of ls, dir and grep
-  alias ls='ls --color=auto'
-  alias dir='dir --color=auto'
-  alias vdir='vdir --color=auto'
-  alias grep='grep --color=auto'
-  alias fgrep='fgrep --color=auto'
-  alias egrep='egrep --color=auto'
 fi
 
 # load functions

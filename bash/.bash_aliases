@@ -1,3 +1,4 @@
+#!/bin/bash --
 # .bash_aliases by Max Ilsen
 
 # cd aliases
@@ -5,11 +6,13 @@ alias cdb1='cd ~/Dokumente/Studium/B1/'
 alias cdb2='cd ~/Dokumente/Studium/B2/'
 alias cdb3='cd ~/Dokumente/Studium/B3/'
 alias cdb4='cd ~/Dokumente/Studium/B4/'
+alias cdb5='cd ~/Dokumente/Studium/B5/'
 alias cdp='cd ~/Dokumente/Programmieren/'
 alias cdd='cd ~/Dokumente/Programmieren/dotfiles/'
 alias ..='cd ..'
 alias ...='cd ../../'
 alias ....='cd ../../../'
+alias .....='cd ../../../../'
 
 # ls aliases
 alias ll='ls -alF'    # list all files in list format with classifer
@@ -26,6 +29,16 @@ alias apti="sudo apt-get install"
 alias aptc="sudo apt-get autoclean"
 alias aptU="sudo apt-get update && sudo apt-get dist-upgrade && sudo apt-get autoclean"
 
+# set color usage of ls, dir and grep
+if [ -x /usr/bin/dircolors ]; then
+  alias ls='ls --color=auto'
+  alias dir='dir --color=auto'
+  alias vdir='vdir --color=auto'
+  alias grep='grep --color=auto'
+  alias fgrep='fgrep --color=auto'
+  alias egrep='egrep --color=auto'
+fi
+
 # backup and restore apt-packages (see .bash_functions)
 alias bkp="backup_packages"
 alias rst="restore_packages"
@@ -41,12 +54,13 @@ alias eclim='/opt/eclipse/eclimd'
 alias eclipse='/opt/eclipse/eclipse'
 
 # remove all temporary files
-alias rm~="find . -type f -name '*~' -exec rm -i {} \;"
+alias rm~="find . -type f -name '*~' -not -iwholename '*Trash*' -exec rm -i {} \;"
 
 # "alert" alias to alert when long running commands are executed; example usage:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
-# default ipython notebook options
+# default options for programming langaguages/environments
 alias ipyno='ipython notebook --pylab=inline --ip=localhost'
+alias octavep='octave --persist'
 

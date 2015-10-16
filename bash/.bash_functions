@@ -8,20 +8,20 @@ backup_packages() {
 
   # get package list and package status (auto or manual install)
   dpkg --get-selections | awk '!/deinstall|purge|hold/ {print $1}' \
-    > "${TEMPDIR}/packages.list.save"
-  apt-mark showauto > "${TEMPDIR}/package-states-auto"
-  apt-mark showmanual > "${TEMPDIR}/package-states-manual"
+    > "${TEMPDIR}packages.list.save"
+  apt-mark showauto > "${TEMPDIR}package-states-auto"
+  apt-mark showmanual > "${TEMPDIR}package-states-manual"
 
   # get package sources and keys
   find /etc/apt/sources.list* -type f -name '*.list' -exec bash -c \
     'echo -e "\n## $1 ";grep "^[[:space:]]*[^#[:space:]]" ${1}' _ {} \; \
-    > "${TEMPDIR}/sources.list.save"
-  sudo cp /etc/apt/trusted.gpg "${TEMPDIR}/trusted-keys.gpg"
-  sudo cp -R /etc/apt/trusted.gpg.d "${TEMPDIR}/trusted.gpg.d.save"
+    > "${TEMPDIR}sources.list.save"
+  sudo cp /etc/apt/trusted.gpg "${TEMPDIR}trusted-keys.gpg"
+  sudo cp -R /etc/apt/trusted.gpg.d "${TEMPDIR}trusted.gpg.d.save"
 
   # for software gotten via ubuntu software center
   if [[ -r "/etc/apt/auth.conf" ]]; then
-    sudo cp /etc/apt/auth.conf "${TEMPDIR}/auth.conf"
+    sudo cp /etc/apt/auth.conf "${TEMPDIR}auth.conf"
   fi
 
   # zip files up and remove temporary directory
@@ -29,6 +29,11 @@ backup_packages() {
   rm -r -f "${TEMPDIR}"
 }
 
+cdf() {
+  cd *$1*/
+}
+
+# takes a zip-archive as an argument that was created using backup_packages()
 restore_packages() {
   if [ -f "$1" ]; then
     # create tmp-directory and extract files to it
@@ -37,7 +42,7 @@ restore_packages() {
     unzip "$1" "${TEMPDIR}"
 
     # import keys and update
-    sudo apt-key add "${TEMPDIR}/trusted-keys.gpg"
+    sudo apt-key add "${TEMPDIR}trusted-keys.gpg"
     sudo apt-get update
 
     # install packages and give them the right status
@@ -63,10 +68,10 @@ mfu() {
 
 pretty_apt_search() {
   # filter apt-results for the actual word and print them out in columns
-  apt-cache search "$@" | \
+  apt-cache search "$1" | \
     sed -e "s/ - /\t/" | \
     column -s $'\t' -t | \
-    grep -i --color=always "$@" | \
+    egrep -i --color=always "$1|$" | \
     less -R
 }
 
