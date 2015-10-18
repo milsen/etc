@@ -1,5 +1,5 @@
 # .inputrc by Max Ilsen
-# See readline(3readline) and `info rluserman' for more information.
+# See `info rluserman' and 'man readline'.
 
 # Settings {{{
 # Auto-Completion {{{
@@ -70,8 +70,8 @@ set mark-modified-lines off
 # }}}
 # Mode {{{
 # use vi-like commands but do not show in prompt that vi-mode is used
-set editing-mode vi
-set keymap vi
+set editing-mode emacs
+set keymap emacs
 set show-mode-in-prompt off
 
 # comment-symbol in readline is # (in vi-mode: press #)
@@ -79,8 +79,8 @@ set comment-begin ``#''
 
 # }}}
 # Keys {{{
-# enable application keypad and meta-key
-set enable-keypad on
+# disable keypad as this breaks mappings to arrow-keys but enable meta-key
+set enable-keypad off
 set enable-meta-key on
 
 # bind control characters from terminal to readline equivalents and echo them
@@ -95,62 +95,37 @@ set keyseq-timeout 200
 # }}}
 # }}}
 # Mappings {{{
+
+# moving with left-/right-arrow
+"\e[C": forward-char
+"\e[D": backward-char
+
 # flip through autocompletion matches with Shift-Tab
 "\e[Z": menu-complete
 
-# filtered history search (search entries starting with what is already typed)
+# search entries starting with what is already typed using up-/down-arrow
 "\e[A": history-search-backward
 "\e[B": history-search-forward
 
-# normal search history iwht PgUp/PgDown
+# normal search history with PgUp/PgDown
 "\e[5~": previous-history
 "\e[6~": next-history
 
-# TODO lookup defaults, in vim mode pgup and down, pressing v opens vi?
-
-# see /usr/share/doc/bash/inputrc.arrows for other codes of arrow keys
-
 # some defaults / modifications for the emacs mode
-# $if mode=emacs
+$if mode=emacs
+  # mappings for Ctrl-left-arrow and Ctrl-right-arrow for word moving
+  "\e[1;5C": forward-word
+  "\e[1;5D": backward-word
 
-# # allow the use of the Home/End keys
-# "\e[1~": beginning-of-line
-# "\e[4~": end-of-line
+  # allow the use of the Delete/Insert keys
+  "\e[3~": delete-char
+  "\e[2~": quoted-insert
 
-# # allow the use of the Delete/Insert keys
-# "\e[3~": delete-char
-# "\e[2~": quoted-insert
+  # kill the whole line with Ctrl-d
+  "\C-D": kill-whole-line
 
-# # mappings for "page up" and "page down" to step to the beginning/end
-# # of the history
-# # "\e[5~": beginning-of-history
-# # "\e[6~": end-of-history
+  # switch to vi-mode with Ctrl-v
+  "\C-v": vi-editing-mode
+$endif
 
-# # alternate mappings for "page up" and "page down" to search the history
-# # "\e[5~": history-search-backward
-# # "\e[6~": history-search-forward
-
-# # mappings for Ctrl-left-arrow and Ctrl-right-arrow for word moving
-# "\e[1;5C": forward-word
-# "\e[1;5D": backward-word
-# "\e[5C": forward-word
-# "\e[5D": backward-word
-# "\e\e[C": forward-word
-# "\e\e[D": backward-word
-
-# $if term=rxvt
-# "\e[8~": end-of-line
-# "\eOc": forward-word
-# "\eOd": backward-word
-# $endif
-
-# # for non RH/Debian xterm, can't hurt for RH/Debian xterm
-# # "\eOH": beginning-of-line
-# # "\eOF": end-of-line
-
-# # for freebsd console
-# # "\e[H": beginning-of-line
-# # "\e[F": end-of-line
-
-# $endif
 # }}}
