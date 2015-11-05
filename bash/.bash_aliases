@@ -56,10 +56,6 @@ alias eclipse='/opt/eclipse/eclipse'
 # remove all temporary files
 alias rm~="find . -type f -name '*~' -not -iwholename '*Trash*' -exec rm -i {} \;"
 
-# "alert" alias to alert when long running commands are executed; example usage:
-#   sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
 # default options for programming langaguages/environments
 alias ipyno='ipython notebook --pylab=inline --ip=localhost'
 alias octavep='octave --persist'

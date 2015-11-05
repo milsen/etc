@@ -75,3 +75,12 @@ pretty_apt_search() {
     less -R
 }
 
+
+# alert after command execution with terminal or error icon and command name
+# example usage: sleep 10; alert
+alert() {
+  notify-send --urgency=low \
+    -i "$([ $? = 0 ] && echo terminal || echo error)" \
+    "$(history|tail -n1|sed -e 's/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//')"
+}
+
