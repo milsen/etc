@@ -15,6 +15,7 @@ call plug#begin('~/.vim/bundle')
 Plug 'wincent/Command-T', { 'do': 'cd /ruby/command-t && ruby extconf.rb && make' }
 Plug 'Raimondi/delimitMate'
 Plug 'sjl/gundo.vim'
+Plug 'neovimhaskell/haskell-vim'
 Plug 'LaTeX-Box-Team/LaTeX-Box', { 'for': 'tex' }
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'ervandew/supertab'
@@ -34,12 +35,16 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'sickill/vim-monokai'
 Plug 'thomd/vim-wasabi-colorscheme'
 
-" textobj
+" operators and textobjects
+Plug 'kana/vim-operator-user'
 Plug 'kana/vim-textobj-user'
 Plug 'glts/vim-textobj-comment'
+Plug 'kana/vim-textobj-function'
+Plug 'kana/vim-textobj-indent'
 
 " self-maintained
-Plug '~/.vim/bundle/vim-sneak'
+Plug 'milsen/vim-sneak'
+Plug '~/.vim/bundle/vim-operator-substitute'
 call plug#end()
 " }}}
 
@@ -72,6 +77,7 @@ set ignorecase          " do case insensitive matching
 set smartcase           " unless there is a capital in the search term
 set incsearch           " incremental search
 set hlsearch            " highlights search terms
+set gdefault            " use :s command by default with g(lobal) flag
 
 augroup hlsearch_toggle " stop highlighting search results when in insert-mode
     autocmd!
@@ -278,10 +284,16 @@ nnoremap <silent> <Leader>; :sy sync fromstart<CR>
 
 " open Command-T with Leader+.
 nnoremap <silent> <Leader>. :CommandT<CR>
-nnoremap <silent> <Leader>: :CommandTBuffer<CR>
+nnoremap <silent> <Leader>: :CommandT ../<CR>
+nnoremap <silent> <Leader>- :CommandTBuffer<CR>
 
 " show contents of registers with Leader+r
 nnoremap <silent> <Leader>r :register<CR>
+
+
+" Plugin-Toggling
+noremap <silent> <Leader>t :NERDTreeToggle<CR>
+noremap <silent> <Leader>u :GundoToggle<CR>
 
 
 " Text Commands
@@ -290,12 +302,6 @@ nnoremap <silent> <Leader>= :call Preserve("normal! gg=G")<CR>
 
 " remove trailing whitespace
 nnoremap <silent> <Leader>w :call Preserve("%s/\\s\\+$//e")<CR>
-
-" substitute more quickly
-nnoremap <Leader>s :%s:::g<Left><Left><Left>
-vnoremap <Leader>s :s:::g<Left><Left><Left>
-nnoremap <Leader>S :%s:::cg<Left><Left><Left><Left>
-vnoremap <Leader>S :s:::cg<Left><Left><Left><Left>
 
 " copy and paste from the system register with Leader+p/y
 nnoremap <Leader>p "+p
@@ -322,12 +328,6 @@ nnoremap <LocalLeader>lv :lcd %:p:h<CR>:pwd<CR><LocalLeader>lv
 " Eclim setup
 nnoremap <silent> <LocalLeader>e :call EclimSetup()<CR><CR>
 nnoremap <silent> <LocalLeader>E :ShutdownEclim<CR>
-
-" }}}
-" Plugin-Toggling {{{
-
-noremap <silent> <F2> :NERDTreeToggle<CR>
-noremap <silent> <F3> :GundoToggle<CR>
 
 " }}}
 " Movement and Navigation {{{
@@ -420,17 +420,17 @@ iabbrev improt import
 " Airline {{{
 "let g:airline_theme=solarized
 let g:airline_powerline_fonts = 0
-let g:airline_left_sep=''
-let g:airline_right_sep=''
+let g:airline_left_sep = ''
+let g:airline_right_sep = ''
 let g:airline#extensions#eclim#enabled = 1
 let g:airline#extensions#syntastic#enabled = 1
 
 " }}}
 " Command-T {{{
 let g:CommandTMaxHeight = 30            " show 30 files at once
-let g:CommandTMaxFiles = 500000         " search through 500000 files at most
+let g:CommandTMaxFiles = 30000          " search through 30000 files at most
 let g:CommandTInputDebounce = 200       " wait 200ms for input before search
-let g:CommandTFileScanner = 'watchman'  " use watchman scanner
+let g:CommandTFileScanner = 'watchman'  " use watchman scanner if available
 let g:CommandTMaxCachedDirectories = 10 " use cache for up to ten directories
 let g:CommandTSmartCase = 1             " use case-sensitive matching
 
@@ -462,6 +462,15 @@ let g:LatexBox_custom_indent="0"  " no latexbox-custom indentation
 " }}}
 " NerdTree {{{
 
+" open NerdTree instead of netrw
+let NERDTreeHijackNetrw = 1
+let g:loaded_netrw = 1
+let g:loaded_netrwPlugin = 1
+
+" quit NerdTree with X
+let NERDTreeMapQuit = 'X'
+let NERDTreeMapCloseChildren = ''
+
 augroup NERDTree
   autocmd!
   " close vim if NERDTree is the last open buffer
@@ -473,14 +482,23 @@ augroup NERDTree
 augroup END
 
 " }}}
+" Operator-Substitute {{{
+map <silent> s <Plug>(operator-substitute)
+map <silent> S <Plug>(operator-substitute)$
+map <silent> & <Plug>(operator-substitute-repeat)
+map <silent> g& <Plug>(operator-substitute-repeat-no-flags)
+let g:operator#substitute#default_delimiter = "#"
+let g:operator#substitute#default_flags = ""
+
+" }}}
 " Sneak {{{
 " set up motion commands for sneaking
-nmap <silent> s <Plug>Sneak_s
-nmap <silent> S <Plug>Sneak_S
-xmap <silent> s <Plug>Sneak_s
-xmap <silent> S <Plug>Sneak_S
-omap <silent> s <Plug>Sneak_s
-omap <silent> S <Plug>Sneak_S
+nmap <silent> ü <Plug>Sneak_s
+nmap <silent> Ü <Plug>Sneak_S
+xmap <silent> ü <Plug>Sneak_s
+xmap <silent> Ü <Plug>Sneak_S
+omap <silent> ü <Plug>Sneak_s
+omap <silent> Ü <Plug>Sneak_S
 nmap <silent> f <Plug>Sneak_f
 nmap <silent> F <Plug>Sneak_F
 xmap <silent> f <Plug>Sneak_f
@@ -512,7 +530,7 @@ set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 " }}}
 " UltiSnips {{{
