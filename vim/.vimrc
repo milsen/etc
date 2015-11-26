@@ -12,8 +12,8 @@ endif
 " Plugin-Manager vim-plug {{{
 " each plugin gets a directory in ~/.vim/bundle, use :PlugUpdate
 call plug#begin('~/.vim/bundle')
-Plug 'wincent/Command-T', { 'do': 'cd /ruby/command-t && ruby extconf.rb && make' }
 Plug 'Raimondi/delimitMate'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all --no-update-rc' }
 Plug 'sjl/gundo.vim'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'LaTeX-Box-Team/LaTeX-Box', { 'for': 'tex' }
@@ -282,10 +282,10 @@ vnoremap <silent> <Leader>, :nohlsearch<CR>
 nnoremap <silent> <Leader>; :sy sync fromstart<CR>
 
 
-" open Command-T with Leader+.
-nnoremap <silent> <Leader>. :CommandT<CR>
-nnoremap <silent> <Leader>: :CommandT ../<CR>
-nnoremap <silent> <Leader>- :CommandTBuffer<CR>
+" open fzf with Leader+.
+nnoremap <silent> <Leader>. :FZF<CR>
+nnoremap <silent> <Leader>: :FZF ../<CR>
+nnoremap <silent> <Leader>~ :FZF ~<CR>
 
 " show contents of registers with Leader+r
 nnoremap <silent> <Leader>r :register<CR>
@@ -424,15 +424,6 @@ let g:airline_left_sep = ''
 let g:airline_right_sep = ''
 let g:airline#extensions#eclim#enabled = 1
 let g:airline#extensions#syntastic#enabled = 1
-
-" }}}
-" Command-T {{{
-let g:CommandTMaxHeight = 30            " show 30 files at once
-let g:CommandTMaxFiles = 30000          " search through 30000 files at most
-let g:CommandTInputDebounce = 200       " wait 200ms for input before search
-let g:CommandTFileScanner = 'watchman'  " use watchman scanner if available
-let g:CommandTMaxCachedDirectories = 10 " use cache for up to ten directories
-let g:CommandTSmartCase = 1             " use case-sensitive matching
 
 " }}}
 " DelimitMate {{{

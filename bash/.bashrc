@@ -63,4 +63,12 @@ fi
 if [ -r /etc/bash_completion ] && ! shopt -oq posix; then
   . /etc/bash_completion
 fi
+
+# enable fuzzy bash completion using fzf
+if [ -f ~/.fzf.bash ]; then
+  . ~/.fzf.bash
+
+  # use * as the fzf trigger sequence instead of the default **
+  export FZF_COMPLETION_TRIGGER='*'
+fi
 # }}}
