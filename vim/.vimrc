@@ -553,10 +553,6 @@ function! ColorToggle() " {{{
   endif
 endfunction " }}}
 
-function! CommandLineYank(textobj,command) " {{{
-  execute "normal \"\"y".a:textobj.":".a:command." \<C-r>\<CR>"
-endfunction " }}}
-
 function! EclimSetup() " {{{
   " setup eclim daemon assuming that eclimd is found in \opt\eclipse\
   if exists("*eclim#EclimAvailable") && !(eclim#EclimAvailable())
@@ -566,28 +562,17 @@ function! EclimSetup() " {{{
   endif
 endfunction " }}}
 
-function! FillWithMinus() " {{{
-  " strip trailing whitespace at the end of the line
-  .s/\s\+$//e
-
-  " length of '-'-string =  textwidth - linelength - 2 spaces - 3 braces
-  let linelength = len(getline('.'))
-  let fillcount = 80 - linelength - 5
-
-  " insert space+minuses+space at the end of the line
-  execute "normal! A " . repeat('-', fillcount) . " "
-endfunction "}}}
-
 function! FoldText() " {{{
   let line = getline(v:foldstart)
   let nucolwidth = &fdc + &number * &numberwidth
+
   let windowwidth = winwidth(0) - nucolwidth
   let foldedlinecount = v:foldend - v:foldstart
   let restspaces = 4 - len(foldedlinecount)
 
   " expand tabs into spaces
   let onetab = strpart('          ', 0, &tabstop)
-  " let line = substitute(line, '\t', onetab,'g')
+  let line = substitute(line, '\t', onetab,'g')
 
   " line + filler spaces + 4 fields for foldedlincount + 1 extra space
   let line = strpart(line, 0,  windowwidth - 5)
