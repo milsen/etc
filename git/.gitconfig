@@ -1,7 +1,19 @@
 [user]
-	name = milsen
-	email = milsen@users.noreply.github.com
+    name = milsen
+    email = milsen@users.noreply.github.com
+[core]
+    editor = vim
 [credential]
-	helper = cache --timeout=3600
+    helper = cache --timeout=3600
 [alias]
-	tree = log --graph --decorate --pretty=oneline --abbrev-commit
+    amel = commit --amend --no-edit
+    ap = add -p
+    br = branch
+    co = checkout
+    ds = diff --staged
+    stat = status
+    tree = log --graph --decorate --pretty=oneline --abbrev-commit
+[merge]
+    conflictstyle = diff3
+[push]
+    default = simple
