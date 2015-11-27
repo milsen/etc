@@ -150,16 +150,19 @@ augroup buffer_autocmds " {{{
     " go to the directory of the file you are editing
     " unless it is just the help file
     autocmd BufEnter *
-       \ if &ft != 'help' |
-       \   silent! lcd %:p:h |
-       \ endif
+          \ if &ft != 'help' |
+          \   silent! lcd %:p:h |
+          \ endif
     " go to the last position when reopening a file
     autocmd BufReadPost *
-        \ if line("'\"") > 1 && line("'\"") <= line("$") |
-        \   execute "normal! g'\"zv" |
-        \ endif
+          \ if line("'\"") > 1 && line("'\"") <= line("$") |
+          \   execute "normal! g'\"zv" |
+          \ endif
     " shutdown Eclim if it is still running
-	autocmd VimLeavePre * ShutdownEclim
+	autocmd VimLeavePre
+          \ if exists("*ShutdownEclim") |
+          \   ShutdownEclim
+          \ endif
 augroup end " }}}
 
 " Filetype-Specific {{{
@@ -187,8 +190,11 @@ augroup END
 augroup bash
   autocmd!
   autocmd FileType conf setlocal expandtab softtabstop=2 shiftwidth=2
+  autocmd FileType conf setlocal foldenable foldmethod=marker
   autocmd FileType sh setlocal expandtab softtabstop=2 shiftwidth=2
-  autocmd FileType readline setlocal expandtab softtabstop=2 shiftwidth=2 foldenable foldmethod=marker
+  autocmd FileType sh setlocal foldenable foldmethod=marker
+  autocmd FileType readline setlocal expandtab softtabstop=2 shiftwidth=2
+  autocmd FileType readline setlocal foldenable foldmethod=marker
 augroup END
 
 augroup git_commits
@@ -198,11 +204,17 @@ augroup END
 
 augroup markdown
   autocmd!
+  autocmd BufNewFile,BufRead *.md set filetype=markdown
   " markdown headers
   autocmd FileType markdown nnoremap <buffer> <LocalLeader>1 yypVr=:redraw<cr>
   autocmd FileType markdown nnoremap <buffer> <LocalLeader>2 yypVr-:redraw<cr>
-  autocmd FileType markdown nnoremap <buffer> <LocalLeader>3 mzI###<space><esc>`z4l
-  autocmd FileType markdown nnoremap <buffer> <LocalLeader>4 mzI####<space><esc>`z5l
+  autocmd FileType markdown nnoremap <buffer> <LocalLeader>3 mzI###<Space><Esc>`z4l
+  autocmd FileType markdown nnoremap <buffer> <LocalLeader>4 mzI####<Space><Esc>`z5l
+augroup END
+
+augroup filetype_matlab
+  autocmd!
+  autocmd FileType matlab setlocal commentstring=%\ %s
 augroup END
 
 augroup filetype_java
@@ -218,6 +230,7 @@ augroup END
 augroup filetype_tex
   autocmd!
   autocmd FileType tex setlocal foldenable
+  autocmd FileType tex setlocal spell
 augroup END
 
 augroup filetype_vim
