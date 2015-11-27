@@ -33,11 +33,13 @@ if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
 fi
 
 # terminal title shows user, host and working directory
-export PROMPT_COMMAND='echo -ne "\033]0;$(whoami)@$(hostname): $PWD\007"'
+PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}:'
+PROMPT_COMMAND+=' ${PWD}     $(__git_ps1)\007"'
+export PROMPT_COMMAND
 
 # actual prompt is chroot and $ or # to show whether you are root
 PS1='${debian_chroot:+($debian_chroot)}'
-PS1='\[\e[01;34m\]\$\[\e[00m\] '
+PS1+='\[\e[01;34m\]\$\[\e[00m\] '
 # }}}
 
 
