@@ -19,11 +19,18 @@ shopt -s extglob        # enable the globs ?(),*(),+(),@(),!()
 # Key Remapping
 setxkbmap -option caps:escape # remap caps-lock to escape
 
-# Misc Settings
+# Misc Settings {{{
+# set XDG_CONFIG_HOME if it is not set already
+export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
+
+# store .inputrc in $XDG_CONFIG_HOME
+export INPUTRC="$XDG_CONFIG_HOME"/readline/inputrc
+
 # use lesspipe if executable to make less more friendly for non-text input files
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+export LESSHISTFILE=-           # disable creation of history file in ~/.lesshst
 
-
+# }}}
 # Prompt-Settings {{{
 # see man bash  ("PROMPTING") and ANSI escape sequences
 
@@ -40,15 +47,17 @@ export PROMPT_COMMAND
 # actual prompt is chroot and $ or # to show whether you are root
 PS1='${debian_chroot:+($debian_chroot)}'
 PS1+='\[\e[01;34m\]\$\[\e[00m\] '
+
 # }}}
-
-
 # Loading Other Files {{{
 # if /usr/bin/dircolors is executable
 if [ -x /usr/bin/dircolors ]; then
-  # if ~/.dircolors is readable try to set LS_COLORS to it (if that fails, use defaults)
-  test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || \
+  # if dircolors-file is readable try to set LS_COLORS to it (else use defaults)
+  if [ -r "$XDG_CONFIG_HOME"/coreutils/dircolors ]; then
+    eval "$(dircolors -b "$XDG_CONFIG_HOME"/coreutils/dircolors)"
+  else
     eval "$(dircolors -b)"
+  fi
 fi
 
 # load functions

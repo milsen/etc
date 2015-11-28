@@ -33,11 +33,11 @@ ln -sfv "$DOTFILES_DIR/bash/.bash_functions" ~
 ln -sfv "$DOTFILES_DIR/bash/.bash_logout" ~
 ln -sfv "$DOTFILES_DIR/bash/.bash_profile" ~
 ln -sfv "$DOTFILES_DIR/bash/.bashrc" ~
-ln -sfv "$DOTFILES_DIR/bash/.dircolors" ~
-ln -sfv "$DOTFILES_DIR/bash/.inputrc" ~
+ln -sfv "$DOTFILES_DIR/coreutils/"             "$HOME"/.config/
 ln -sfv "$DOTFILES_DIR/git/"                   "$HOME"/.config/
 ln -sfv "$DOTFILES_DIR/misc_runcom/.eclimrc" ~
 ln -sfv "$DOTFILES_DIR/misc_runcom/.latexmkrc" ~
+ln -sfv "$DOTFILES_DIR/readline/"              "$HOME"/.config/
 
 # install vim-plugins using vim-plug
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
