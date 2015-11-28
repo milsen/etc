@@ -1,6 +1,7 @@
 #!/bin/bash --
 # .bash_functions by Max Ilsen
 
+# Package Management {{{
 backup_packages() {
   # create tmp-directory
   readonly TEMPDIR="/tmp/package-backup/"
@@ -29,9 +30,6 @@ backup_packages() {
   rm -r -f "${TEMPDIR}"
 }
 
-cdf() {
-  cd *$1*/
-}
 
 # takes a zip-archive as an argument that was created using backup_packages()
 restore_packages() {
@@ -58,22 +56,41 @@ restore_packages() {
 }
 
 
-# most frequently used commands
-mfu() {
-  history | \
-    awk '{CMD[$2]++;count++;}END {for (a in CMD)print CMD[a] " "  CMD[a]/count*100 "% " a;}' | \
-    grep -v "./" | column -c3 -s " " -t | sort -nr | nl |  head "-n${1:-10}"
+# remove all config files of removed packages
+purge_config_files() {
+  dpkg --list | egrep "^rc" | cut -d " " -f 3 | xargs sudo dpkg --purge
 }
 
 
+# show apt-cache search results in columns using less
 pretty_apt_search() {
-  # filter apt-results for the actual word and print them out in columns
   apt-cache search "$1" | \
     sed -e "s/ - /\t/" | \
     column -s $'\t' -t | \
+    sort | \
     egrep -i --color=always "$1|$" | \
     less -R
 }
+
+
+# get history of apt-commands
+apt-history(){
+  case "$1" in
+    install|upgrade|remove)
+      cat /var/log/{dpkg.log,dpkg.log.1} | sort | grep "$1 "
+          ;;
+    rollback)
+      cat /var/log/{dpkg.log,dpkg.log.1} | sort | grep upgrade | \
+              grep "$2" -A10000000 | \
+              grep "$3" -B10000000 | \
+              awk '{print $4"="$5}'
+          ;;
+    *)
+      cat /var/log/{dpkg.log,dpkg.log.1} | sort | less
+          ;;
+  esac
+}
+# }}}
 
 
 # alert after command execution with terminal or error icon and command name
@@ -84,3 +101,58 @@ alert() {
     "$(history|tail -n1|sed -e 's/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//')"
 }
 
+
+# print out list of albums in ~/Musik
+albums() {
+  find ~/Musik -maxdepth 2 -mindepth 2 -type d -printf "- %h / %f\n" | \
+    sed 's#'"$HOME"'/Musik/##' | \
+    sort
+}
+
+
+# fuzzy directory-change
+cdf() {
+  cd *$1*/
+}
+
+
+# universal archive extraction
+extract() {
+ if [ -z "$1" ]; then
+   # display usage if no parameters given
+   usage="Usage: extract <path/file_name>."
+   usage+="<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
+   echo "$usage"
+ else
+    if [ -f "$1" ] ; then
+      case "$1" in
+        *.tar.bz2)   tar xvjf ./"$1"    ;;
+        *.tar.gz)    tar xvzf ./"$1"    ;;
+        *.tar.xz)    tar xvJf ./"$1"    ;;
+        *.lzma)      unlzma ./"$1"      ;;
+        *.bz2)       bunzip2 ./"$1"     ;;
+        *.rar)       unrar x -ad ./"$1" ;;
+        *.gz)        gunzip ./"$1"      ;;
+        *.tar)       tar xvf ./"$1"     ;;
+        *.tbz2)      tar xvjf ./"$1"    ;;
+        *.tgz)       tar xvzf ./"$1"    ;;
+        *.zip)       unzip ./"$1"       ;;
+        *.Z)         uncompress ./"$1"  ;;
+        *.7z)        7z x ./"$1"        ;;
+        *.xz)        unxz ./"$1"        ;;
+        *.exe)       cabextract ./"$1"  ;;
+        *)           echo "extract: '$1' - unknown archive method" ;;
+      esac
+    else
+      echo "'$1' - file does not exist"
+    fi
+  fi
+}
+
+
+# most frequently used commands
+mfu() {
+  history | \
+    awk '{CMD[$2]++;count++;}END {for (a in CMD)print CMD[a] " "  CMD[a]/count*100 "% " a;}' | \
+    grep -v "./" | column -c3 -s " " -t | sort -nr | nl |  head "-n${1:-10}"
+}
