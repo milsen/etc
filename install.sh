@@ -28,16 +28,21 @@ do
 done
 
 # symlink non-vim-files
-ln -sfv "$DOTFILES_DIR/bash/.bash_aliases" ~
-ln -sfv "$DOTFILES_DIR/bash/.bash_functions" ~
-ln -sfv "$DOTFILES_DIR/bash/.bash_logout" ~
-ln -sfv "$DOTFILES_DIR/bash/.bash_profile" ~
-ln -sfv "$DOTFILES_DIR/bash/.bashrc" ~
+ln -sfv "$DOTFILES_DIR/bash/.bash_aliases"     "$HOME"
+ln -sfv "$DOTFILES_DIR/bash/.bash_functions"   "$HOME"
+ln -sfv "$DOTFILES_DIR/bash/.bash_logout"      "$HOME"
+ln -sfv "$DOTFILES_DIR/bash/.bashrc"           "$HOME"
+ln -sfv "$DOTFILES_DIR/bash/.profile"          "$HOME"
 ln -sfv "$DOTFILES_DIR/coreutils/"             "$HOME"/.config/
 ln -sfv "$DOTFILES_DIR/git/"                   "$HOME"/.config/
 ln -sfv "$DOTFILES_DIR/misc_runcom/.eclimrc" ~
 ln -sfv "$DOTFILES_DIR/misc_runcom/.latexmkrc" ~
 ln -sfv "$DOTFILES_DIR/readline/"              "$HOME"/.config/
+
+# make sure that other bash configuration files do not exist such that .profile
+# is actually sourced for login-shells
+rm -f "$HOME"/.bash_login
+rm -f "$HOME"/.bash_profile
 
 # install vim-plugins using vim-plug
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \

@@ -1,6 +1,6 @@
 #!/bin/bash --
 # .bashrc by Max Ilsen
-# see /etc/bash.bashrc and /etc/profile sourcing it
+# see /etc/bash.bashrc, /etc/profile and ~/.profile sourcing it
 
 # if not running interactively, don't do anything
 [ -z "$PS1" ] && return
