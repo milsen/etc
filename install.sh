@@ -28,11 +28,11 @@ do
 done
 
 # symlink non-vim-files
-ln -sfv "$DOTFILES_DIR/bash/.bash_aliases"     "$HOME"
-ln -sfv "$DOTFILES_DIR/bash/.bash_functions"   "$HOME"
-ln -sfv "$DOTFILES_DIR/bash/.bash_logout"      "$HOME"
-ln -sfv "$DOTFILES_DIR/bash/.bashrc"           "$HOME"
-ln -sfv "$DOTFILES_DIR/bash/.profile"          "$HOME"
+ln -sfv "$DOTFILES_DIR/shell/bash/.bash_aliases"   "$HOME"
+ln -sfv "$DOTFILES_DIR/shell/bash/.bash_functions" "$HOME"
+ln -sfv "$DOTFILES_DIR/shell/bash/.bash_logout"    "$HOME"
+ln -sfv "$DOTFILES_DIR/shell/bash/.bashrc"         "$HOME"
+ln -sfv "$DOTFILES_DIR/bash/.profile"              "$HOME"
 ln -sfv "$DOTFILES_DIR/coreutils/"             "$HOME"/.config/
 ln -sfv "$DOTFILES_DIR/git/"                   "$HOME"/.config/
 ln -sfv "$DOTFILES_DIR/misc_runcom/.eclimrc" ~
