@@ -3,11 +3,13 @@
 # get directory of this install-script
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# check that git and vim are installed
+# make sure that git, curl and vim are installed
 command -v git >/dev/null 2>&1 || \
-  { echo >&2 "I require git but it's not installed. Aborting."; exit 1; }
+  { sudo apt-get install git; }
+command -v curl >/dev/null 2>&1 || \
+  { sudo apt-get install curl; }
 command -v vim >/dev/null 2>&1 || \
-  { echo >&2 "I require vim but it's not installed. Aborting."; exit 1; }
+  { sudo apt-get install vim-gtk; }
 
 # ask user to update dotfiles itself first
 echo "Do you want to update the dotfiles first (pull origin master)?"
@@ -33,11 +35,11 @@ ln -sfv "$DOTFILES_DIR/shell/bash/.bash_functions" "$HOME"
 ln -sfv "$DOTFILES_DIR/shell/bash/.bash_logout"    "$HOME"
 ln -sfv "$DOTFILES_DIR/shell/bash/.bashrc"         "$HOME"
 ln -sfv "$DOTFILES_DIR/bash/.profile"              "$HOME"
-ln -sfv "$DOTFILES_DIR/coreutils/"             "$HOME"/.config/
-ln -sfv "$DOTFILES_DIR/git/"                   "$HOME"/.config/
-ln -sfv "$DOTFILES_DIR/misc_runcom/.eclimrc" ~
-ln -sfv "$DOTFILES_DIR/misc_runcom/.latexmkrc" ~
-ln -sfv "$DOTFILES_DIR/readline/"              "$HOME"/.config/
+ln -sfv "$DOTFILES_DIR/coreutils/"                 "$HOME"/.config/
+ln -sfv "$DOTFILES_DIR/git/"                       "$HOME"/.config/
+ln -sfv "$DOTFILES_DIR/misc_runcom/.eclimrc"       "$HOME"
+ln -sfv "$DOTFILES_DIR/misc_runcom/.latexmkrc"     "$HOME"
+ln -sfv "$DOTFILES_DIR/readline/"                  "$HOME"/.config/
 
 # make sure that other bash configuration files do not exist such that .profile
 # is actually sourced for login-shells
