@@ -12,6 +12,7 @@ endif
 " Plugin-Manager vim-plug {{{
 " each plugin gets a directory in ~/.vim/bundle, use :PlugUpdate
 call plug#begin('~/.vim/bundle')
+Plug 'xolox/vim-misc' | Plug 'xolox/vim-colorscheme-switcher'
 Plug 'Raimondi/delimitMate'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all --no-update-rc' }
 Plug 'sjl/gundo.vim'
@@ -31,8 +32,7 @@ Plug 'mhinz/vim-sayonara'
 Plug 'tpope/vim-surround'
 
 " color schemes
-Plug 'altercation/vim-colors-solarized'
-Plug 'sickill/vim-monokai'
+Plug 'kristijanhusak/vim-hybrid-material'
 Plug 'thomd/vim-wasabi-colorscheme'
 
 " operators and textobjects
@@ -45,6 +45,7 @@ Plug 'kana/vim-textobj-indent'
 " self-maintained
 Plug 'milsen/vim-sneak'
 Plug '~/.vim/bundle/vim-operator-substitute'
+Plug '~/.vim/bundle/vim-terminal-colors'
 call plug#end()
 " }}}
 
@@ -52,9 +53,7 @@ call plug#end()
 " Color Scheme ------------------------------------------------------------- {{{
 set t_Co=256            " tell vim to make use of the 256 color-terminal
 set background=dark     " use a dark background
-colorscheme solarized
-let g:solarized_termcolors=16
-let g:solarized_contrast="high"
+colorscheme terminal
 
 " }}}
 " General Settings --------------------------------------------------------- {{{
@@ -277,7 +276,7 @@ nnoremap <Leader>lv :source $MYVIMRC<CR>
 " Toggling
 " switch background brightness and colorscheme
 nnoremap <silent> <Leader>b @=(&bg==#'dark'?':se bg=light':':se bg=dark')<CR><CR>
-nnoremap <silent> <Leader>B :call ColorToggle()<CR>
+nnoremap <silent> <Leader>B :NextColorScheme<CR>
 
 " toggle line numbers
 nnoremap <silent> <Leader>n :set number!<CR>
@@ -431,12 +430,20 @@ iabbrev improt import
 " Plugins ------------------------------------------------------------------ {{{
 
 " Airline {{{
-"let g:airline_theme=solarized
+let g:airline_theme = 'hybrid'
 let g:airline_powerline_fonts = 0
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
 let g:airline#extensions#eclim#enabled = 1
 let g:airline#extensions#syntastic#enabled = 1
+
+" }}}
+" Colorscheme-Switcher {{{
+" define your own mappings for switching colorschemes
+let g:colorscheme_switcher_define_mappings = 0
+" ignore built-in colorscheme when using :Prev/NextColorScheme
+let g:colorscheme_switcher_exclude_builtins = 1
+let g:colorscheme_switcher_exclude = ['hybrid_material']
 
 " }}}
 " DelimitMate {{{
@@ -550,21 +557,6 @@ let g:UltiSnipsJumpBackwardTrigger="<C-k>" " field with Ctrl-j/-k
 
 " }}}
 " Functions ---------------------------------------------------------------- {{{
-
-function! ColorToggle() " {{{
-  " NOTE: wasabi and monokai only exist as dark colorschemes, so do not mess with
-  " &bg while using them
-  set bg=dark
-  if !exists('g:colors_name')
-    colorscheme solarized
-  elseif g:colors_name ==# "solarized"
-    colorscheme wasabi256
-  elseif g:colors_name ==# "wasabi256"
-    colorscheme monokai
-  else
-    colorscheme solarized
-  endif
-endfunction " }}}
 
 function! EclimSetup() " {{{
   " setup eclim daemon assuming that eclimd is found in \opt\eclipse\
