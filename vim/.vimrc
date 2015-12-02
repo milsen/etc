@@ -383,7 +383,7 @@ inoremap <C-k> <C-p>
 
 " writing and quitting
 nnoremap <silent> Ö :w<CR>
-nnoremap <silent> X :call KillSwitch()<CR>
+nnoremap <silent> X :Sayonara<CR>
 
 " let Y copy the rest of the line (and behave like other operators)
 nnoremap Y y$
@@ -458,6 +458,14 @@ augroup DelimitMate
   autocmd!
   au FileType vim let b:delimitMate_quotes = "` '"
 augroup End
+
+" }}}
+" Gundo {{{
+augroup gundo
+    autocmd!
+    autocmd FileType gundo nnoremap <buffer> <silent> X
+        \ :GundoToggle<CR>
+augroup END
 
 " }}}
 " LatexBox {{{
@@ -584,13 +592,6 @@ function! FoldText() " {{{
   let fillcount = windowwidth - len(line) - 5
   return line . repeat(" ", fillcount + restspaces) . foldedlinecount . ' '
 endfunction " }}}
-
-function! KillSwitch() "{{{
-  if &ft ==# 'gundo' " close second gundo window
-    Sayonara
-  endif
-  Sayonara
-endfunction "}}}
 
 function! Preserve(command) "{{{
   let l:winview = winsaveview()   " save cursor and window position
