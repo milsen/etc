@@ -14,11 +14,11 @@ endif
 call plug#begin('~/.vim/bundle')
 Plug 'xolox/vim-misc' | Plug 'xolox/vim-colorscheme-switcher'
 Plug 'Raimondi/delimitMate'
+Plug 'justinmk/vim-dirvish'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all --no-update-rc' }
 Plug 'sjl/gundo.vim'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'LaTeX-Box-Team/LaTeX-Box', { 'for': 'tex' }
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'ervandew/supertab'
 Plug 'scrooloose/syntastic'
 Plug 'wellle/targets.vim'
@@ -304,7 +304,7 @@ nnoremap <silent> <Leader>r :register<CR>
 
 
 " Plugin-Toggling
-noremap <silent> <Leader>t :NERDTreeToggle<CR>
+noremap <silent> <Leader>d :aboveleft 25vs +Dirvish<CR>
 noremap <silent> <Leader>u :GundoToggle<CR>
 
 
@@ -460,6 +460,17 @@ augroup DelimitMate
 augroup End
 
 " }}}
+" Dirvish {{{
+" close Dirvish sidebar if it was opened as a second window and a file is visited
+augroup dirvish
+    autocmd!
+    autocmd FileType dirvish nnoremap <buffer> <silent> <CR>
+        \ :<C-U>call dirvish#visit("edit", 0)<CR>
+        \ @=(winnr("$") > 1 && &ft !=# "dirvish" ?
+        \ ':wincmd l \| close' : '')<CR><CR>
+augroup END
+
+" }}}
 " Gundo {{{
 augroup gundo
     autocmd!
@@ -477,28 +488,6 @@ let g:LatexBox_fold_preamble="1"  " fold the preamble
 let g:LatexBox_fold_envs="0"      " do not fold environments
 let g:LatexBox_fold_text="1"      " use the latex-box foldtext
 let g:LatexBox_custom_indent="0"  " no latexbox-custom indentation
-
-" }}}
-" NerdTree {{{
-
-" open NerdTree instead of netrw
-let NERDTreeHijackNetrw = 1
-let g:loaded_netrw = 1
-let g:loaded_netrwPlugin = 1
-
-" quit NerdTree with X
-let NERDTreeMapQuit = 'X'
-let NERDTreeMapCloseChildren = ''
-
-augroup NERDTree
-  autocmd!
-  " close vim if NERDTree is the last open buffer
-  autocmd BufEnter *
-        \ if (winnr("$") == 1 && exists("b:NERDTreeType")
-        \                     && b:NERDTreeType == "primary") |
-        \ q |
-        \ endif
-augroup END
 
 " }}}
 " Operator-Substitute {{{
