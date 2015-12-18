@@ -1,0 +1,40 @@
+! Colorscheme by Max Ilsen,
+! based on vim-hybrid-reverse
+
+! special
+*.foreground:   #c9ccca
+! *.background:   #131415
+*.background:   #282a2e
+*.cursorColor:  #c9ccca
+
+! black
+*.color0:       #282a2e
+*.color8:       #50565e
+
+! red
+*.color1:       #b84747
+*.color9:       #d25d5d
+
+! green
+*.color2:       #518234
+*.color10:      #bdc75e
+
+! yellow
+*.color3:       #e0925c
+*.color11:      #ebc273
+
+! blue
+*.color4:       #4f7798
+*.color12:      #83a7c5
+
+! magenta
+*.color5:       #a582b0
+*.color13:      #c8afce
+
+! cyan
+*.color6:       #52b6a9
+*.color14:      #82b8b1
+
+! white
+*.color7:       #686f77
+*.color15:      #adb0ae
