@@ -246,7 +246,7 @@ augroup END
 " Mappings ----------------------------------------------------------------- {{{
 
 " mapleader is ',', local leader is '\'
-let mapleader = ","
+let mapleader = " "
 let maplocalleader = "\\"
 
 " Leader Commands {{{
@@ -287,8 +287,8 @@ nnoremap <silent> <Leader>c :set cursorline!<CR>
 nnoremap <silent> <Leader>C :set cursorcolumn!<CR>
 
 " switch off hlsearch
-nnoremap <silent> <Leader>, :nohlsearch<CR>
-vnoremap <silent> <Leader>, :nohlsearch<CR>
+nnoremap <silent> <Leader><Space> :nohlsearch<CR>
+vnoremap <silent> <Leader><Space> :nohlsearch<CR>
 
 " reset syntax highlighting
 nnoremap <silent> <Leader>; :sy sync fromstart<CR>
@@ -410,8 +410,8 @@ inoremap <C-z> <Esc>ui
 vnoremap <C-z> <Esc>uv
 
 " folding commands
-nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
-nnoremap <silent> <Leader><Space> @=(&foldlevel?'zM':'zR')<CR>
+nnoremap <silent> ö @=(foldlevel('.')?'za':'l')<CR>
+nnoremap <silent> <Leader>ö @=(&foldlevel?'zM':'zR')<CR>
 
 " }}}
 " Operator-Pendant Mappings {{{
