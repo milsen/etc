@@ -351,13 +351,17 @@ inoremap jk <Esc>
 
 " big movements with HJKL
 nnoremap H ^
-nnoremap <silent> J :call SmoothScroll(1,0)<CR>
-nnoremap <silent> K :call SmoothScroll(0,0)<CR>
+nnoremap J }
+nnoremap K {
 nnoremap L $
 vnoremap H ^
-vnoremap <silent> J :<C-u>call SmoothScroll(1,1)<CR>
-vnoremap <silent> K :<C-u>call SmoothScroll(0,1)<CR>
+vnoremap J }
+vnoremap K {
 vnoremap L $
+onoremap H ^
+onoremap J }
+onoremap K {
+onoremap L $
 
 " buffer navigation with Ctrl-hkjl
 noremap <C-h> <C-w>W
@@ -414,12 +418,6 @@ vnoremap <C-z> <Esc>uv
 " folding commands
 nnoremap <silent> ö @=(foldlevel('.')?'za':'l')<CR>
 nnoremap <silent> <Leader>ö @=(&foldlevel?'zM':'zR')<CR>
-
-" }}}
-" Operator-Pendant Mappings {{{
-
-onoremap H ^
-onoremap L $
 
 " }}}
 
@@ -583,25 +581,4 @@ function! Preserve(command) "{{{
   execute "silent!" . a:command | " execute the given command
   call winrestview(l:winview)     " restore cursor and window position
 endfunction "}}}
-
-function! SmoothScroll(down,visual) "{{{
-  " set keys depending on movement direction and being in visual or normal mode
-  let l:key = a:down ==# 1 ? 'j' : 'k'
-  let l:vkey = a:visual ==# 1 ? 'gv' : ''
-
-  " get number of lines in window divided by two and the line of your cursor
-  let l:whalfheight = winheight("0")/2
-  let l:wline = winline()
-
-  " if cursor is in the middle of the window, go two lines up/down and center
-  " window on cursor, else go two lines up/down but do not center window
-  if l:whalfheight ==# l:wline ||
-        \ l:whalfheight ==# l:wline+1 ||
-        \ l:whalfheight ==# l:wline-1
-    execute "normal! ".l:vkey."g".l:key."zzg".l:key."zz"
-  else
-    execute "normal! ".l:vkey."2g".l:key
-  endif
-endfunction "}}}
-
 " }}}
