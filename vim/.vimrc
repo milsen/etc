@@ -18,11 +18,11 @@ Plug 'justinmk/vim-dirvish'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all --no-update-rc' }
 Plug 'sjl/gundo.vim'
 Plug 'neovimhaskell/haskell-vim'
-Plug 'LaTeX-Box-Team/LaTeX-Box', { 'for': 'tex' }
 Plug 'ervandew/supertab'
 Plug 'scrooloose/syntastic'
 Plug 'wellle/targets.vim'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+Plug 'lervag/vimtex', { 'for': 'tex' }
 Plug 'bling/vim-airline'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-eunuch'
@@ -228,8 +228,13 @@ augroup END
 
 augroup filetype_tex
   autocmd!
-  autocmd FileType tex setlocal foldenable
+  " set tex files to tex, not plaintex
+  autocmd BufNewFile,BufRead *.tex setlocal filetype=tex
   autocmd FileType tex setlocal spell
+  autocmd FileType tex setlocal foldenable
+  " for vimtex plugin:
+  autocmd FileType tex setlocal foldmethod=expr
+  autocmd FileType tex setlocal foldexpr=vimtex#fold#level(v:lnum)
 augroup END
 
 augroup filetype_vim
@@ -333,9 +338,6 @@ nnoremap <Leader>M :!man<Space>
 
 " }}}
 " LocalLeader Commands {{{
-
-" Latex-Box: viewing files with \lv only works if you are in that directory
-nnoremap <LocalLeader>lv :lcd %:p:h<CR>:pwd<CR><LocalLeader>lv
 
 " Eclim setup
 nnoremap <silent> <LocalLeader>e :call EclimSetup()<CR><CR>
@@ -479,17 +481,6 @@ augroup gundo
 augroup END
 
 " }}}
-" LatexBox {{{
-let g:LatexBox_output_type="pdf"
-"let g:LatexBox_viewer="evince"
-let g:LatexBox_quickfix="2"       " open qfix after compiling, do not jump to it
-let g:LatexBox_Folding="1"        " activate folding in latex-files
-let g:LatexBox_fold_preamble="1"  " fold the preamble
-let g:LatexBox_fold_envs="0"      " do not fold environments
-let g:LatexBox_fold_text="1"      " use the latex-box foldtext
-let g:LatexBox_custom_indent="0"  " no latexbox-custom indentation
-
-" }}}
 " Operator-Substitute {{{
 map <silent> s <Plug>(operator-substitute)
 map <silent> S <Plug>(operator-substitute)$
@@ -549,6 +540,11 @@ let g:UltiSnipsJumpForwardTrigger="<C-j>"  " go to next and previous snippet
 let g:UltiSnipsJumpBackwardTrigger="<C-k>" " field with Ctrl-j/-k
 " BUG:
 " <C-k> falls back on regular insert-mode mapping when snippet in last field ($0)
+
+" }}}
+" vimtex {{{
+let g:vimtex_quickfix_mode=2  " open qfix after compiling, do not jump to it
+let g:vimtex_fold_envs=0      " do not fold environments
 
 " }}}
 
