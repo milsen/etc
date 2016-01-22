@@ -18,6 +18,7 @@ Plug 'justinmk/vim-dirvish'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all --no-update-rc' }
 Plug 'sjl/gundo.vim'
 Plug 'neovimhaskell/haskell-vim'
+Plug 'haya14busa/incsearch.vim'
 Plug 'ervandew/supertab'
 Plug 'scrooloose/syntastic'
 Plug 'wellle/targets.vim'
@@ -77,12 +78,6 @@ set smartcase           " unless there is a capital in the search term
 set incsearch           " incremental search
 set hlsearch            " highlights search terms
 set gdefault            " use :s command by default with g(lobal) flag
-
-augroup hlsearch_toggle " stop highlighting search results when in insert-mode
-    autocmd!
-    autocmd InsertEnter * :set nohlsearch
-    autocmd InsertLeave * :set hlsearch
-augroup end
 
 " }}}
 " Miscellaneous Settings {{{
@@ -376,8 +371,6 @@ cnoremap <C-k> <Up>
 cnoremap <C-l> <Right>
 
 " jumps, keep screen in the middle
-nnoremap n nzzzv
-nnoremap N Nzzzv
 nnoremap <silent> gg ggzz@=(line('.')==1?'':'zv')<CR>
 nnoremap <silent> G Gzz@=(line('.')==line('$')?'':'zv')<CR>
 nnoremap <CR> <C-]>zzzv
@@ -477,6 +470,24 @@ augroup gundo
     autocmd FileType gundo nnoremap <buffer> <silent> X
         \ :GundoToggle<CR>
 augroup END
+
+" }}}
+" incsearch {{{
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
+
+" n searches always forwards independent of using / or ?
+let g:incsearch#consistent_n_direction = 1
+
+" automatic :nohlsearch after searching
+let g:incsearch#auto_nohlsearch = 1
+map n  <Plug>(incsearch-nohl-n)zzzv
+map N  <Plug>(incsearch-nohl-N)zzzv
+map *  <Plug>(incsearch-nohl-*)zzzv
+map #  <Plug>(incsearch-nohl-#)zzzv
+map g* <Plug>(incsearch-nohl-g*)zzzv
+map g# <Plug>(incsearch-nohl-g#)zzzv
 
 " }}}
 " Operator-Substitute {{{
