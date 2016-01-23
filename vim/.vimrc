@@ -1,4 +1,4 @@
-" Preamble ----------------------------------------------------------------- {{{
+" Preamble ------------------------------------------------------------- {{{
 " .vimrc by Max Ilsen
 
 " All system-wide defaults are set in $VIMRUNTIME/debian.vim (usually just
@@ -51,13 +51,13 @@ call plug#end()
 " }}}
 
 " }}}
-" Color Scheme ------------------------------------------------------------- {{{
+" Color Scheme --------------------------------------------------------- {{{
 set t_Co=256            " tell vim to make use of the 256 color-terminal
 set background=dark     " use a dark background
 colorscheme terminal
 
 " }}}
-" General Settings --------------------------------------------------------- {{{
+" General Settings ----------------------------------------------------- {{{
 
 " Appearance {{{
 set encoding=utf-8      " show characters correctly
@@ -137,7 +137,7 @@ set foldtext=FoldText() " let fold text look like described in function
 " }}}
 
 " }}}
-" Autocommands ------------------------------------------------------------- {{{
+" Autocommands --------------------------------------------------------- {{{
 
 augroup buffer_autocmds " {{{
     autocmd!
@@ -243,7 +243,7 @@ augroup END
 " }}}
 
 " }}}
-" Mappings ----------------------------------------------------------------- {{{
+" Mappings ------------------------------------------------------------- {{{
 
 " mapleader is ',', local leader is '\'
 let mapleader = " "
@@ -415,12 +415,12 @@ nnoremap <silent> <Leader>ö @=(&foldlevel?'zM':'zR')<CR>
 " }}}
 
 " }}}
-" Abbreviations ------------------------------------------------------------ {{{
+" Abbreviations -------------------------------------------------------- {{{
 
 iabbrev improt import
 
 " }}}
-" Plugins ------------------------------------------------------------------ {{{
+" Plugins -------------------------------------------------------------- {{{
 
 " Airline {{{
 let g:airline_theme = 'hybrid'
@@ -558,7 +558,7 @@ let g:vimtex_fold_envs=0      " do not fold environments
 " }}}
 
 " }}}
-" Functions ---------------------------------------------------------------- {{{
+" Functions ------------------------------------------------------------ {{{
 
 function! EclimSetup() " {{{
   " setup eclim daemon assuming that eclimd is found in \opt\eclipse\
@@ -570,21 +570,24 @@ function! EclimSetup() " {{{
 endfunction " }}}
 
 function! FoldText() " {{{
-  let line = getline(v:foldstart)
-  let nucolwidth = &fdc + &number * &numberwidth
+  " get foldstart-line and amount of folded lines
+  let l:line = getline(v:foldstart)
+  let l:foldedlinecount = v:foldend - v:foldstart
 
-  let windowwidth = winwidth(0) - nucolwidth
-  let foldedlinecount = v:foldend - v:foldstart
-  let restspaces = 4 - len(foldedlinecount)
+  " get windowwidth
+  let l:nucolwidth = &fdc + &number * &numberwidth
+  let l:windowwidth = winwidth(0) - l:nucolwidth
 
-  " expand tabs into spaces
-  let onetab = strpart('          ', 0, &tabstop)
-  let line = substitute(line, '\t', onetab,'g')
+  " get minimum of textwidth/windowwidth
+  let l:totalcharcount = l:windowwidth < &textwidth ? l:windowwidth : &textwidth
 
-  " line + filler spaces + 4 fields for foldedlincount + 1 extra space
-  let line = strpart(line, 0,  windowwidth - 5)
-  let fillcount = windowwidth - len(line) - 5
-  return line . repeat(" ", fillcount + restspaces) . foldedlinecount . ' '
+  " expand tabs into spaces and remove last four chars
+  let l:line = substitute(l:line, '\t', repeat(" ", &tabstop), 'g')
+  let l:line = strpart(l:line, 0, l:totalcharcount - 4)
+
+  " line + filler spaces + 4 fields for foldedlinecount
+  let l:fillcount = l:totalcharcount - len(l:line) - len(l:foldedlinecount)
+  return l:line . repeat(" ", l:fillcount) . l:foldedlinecount
 endfunction " }}}
 
 function! Preserve(command) "{{{
