@@ -12,7 +12,9 @@
     co = checkout
     ds = diff --staged
     stat = status
-    tree = log --graph --decorate --pretty=oneline --abbrev-commit
+    tr = !"git tr1"
+    tr1 = log --graph --format=format:'%C(yellow)%h%C(reset) %s %C(dim white)- %an%C(reset) %C(bold red)%d%C(reset)' --all
+    tr2 = log --graph --format=format:'%C(yellow)%h%C(reset) %s %C(dim white)- %an%C(reset) %C(bold red)%d%C(reset)'
 [merge]
     conflictstyle = diff3
 [push]
