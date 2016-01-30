@@ -17,7 +17,7 @@ Plug 'Raimondi/delimitMate'
 Plug 'justinmk/vim-dirvish'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all --no-update-rc' }
 Plug 'sjl/gundo.vim'
-Plug 'neovimhaskell/haskell-vim'
+Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
 Plug 'haya14busa/incsearch.vim'
 Plug 'ervandew/supertab'
 Plug 'scrooloose/syntastic'
@@ -30,6 +30,7 @@ Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'mhinz/vim-sayonara'
+Plug 'justinmk/vim-sneak'
 Plug 'tpope/vim-surround'
 
 " color schemes
@@ -40,11 +41,11 @@ Plug 'thomd/vim-wasabi-colorscheme'
 Plug 'kana/vim-operator-user'
 Plug 'kana/vim-textobj-user'
 Plug 'glts/vim-textobj-comment'
+Plug 'kana/vim-textobj-entire'
 Plug 'kana/vim-textobj-function'
 Plug 'kana/vim-textobj-indent'
 
 " self-maintained
-Plug 'milsen/vim-sneak'
 Plug '~/.vim/bundle/vim-operator-substitute'
 Plug '~/.vim/bundle/vim-terminal-colors'
 call plug#end()
@@ -68,6 +69,7 @@ set number              " show line numbers
 set ruler               " show the cursor position all the time
 set showmatch           " show matching brackets
 set nolist              " do not show normally invisible characters
+set fillchars="fold:\ " " fill folds with spaces, not -
 set noerrorbells        " no audio cues for warnings
 set visualbell t_vb=    " no visual cues for warnings
 
@@ -266,12 +268,15 @@ nnoremap <Leader>el :vs ~/.bash_logout<CR>
 nnoremap <Leader>El :e ~/.bash_logout<CR>
 nnoremap <Leader>eB :vs ~/.bash_profile<CR>
 nnoremap <Leader>EB :e ~/.bash_profile<CR>
-nnoremap <Leader>ei :vs ~/.inputrc<CR>
-nnoremap <Leader>Ei :e ~/.inputrc<CR>
+nnoremap <Leader>ei :vs ~/.config/readline/inputrc<CR>
+nnoremap <Leader>Ei :e ~/.config/readline/inputrc<CR>
+nnoremap <Leader>ex :vs ~/.Xresources<CR>
+nnoremap <Leader>Ex :e ~/.Xresources<CR>
 
-" load vimrc with Leader+lv
-nnoremap <Leader>lv :source $MYVIMRC<CR>
-
+" source files with Leader+s(file identifier)
+nnoremap <Leader>s% :source %<CR>
+nnoremap <Leader>s# :source #<CR>
+nnoremap <Leader>sv :source $MYVIMRC<CR>
 
 " Toggling
 " switch background brightness and colorscheme
@@ -282,9 +287,10 @@ nnoremap <silent> <Leader>B :NextColorScheme<CR>
 nnoremap <silent> <Leader>n :set number!<CR>
 nnoremap <silent> <Leader>N :set relativenumber!<CR>
 
-" toggle cursorline and -column
-nnoremap <silent> <Leader>c :set cursorline!<CR>
-nnoremap <silent> <Leader>C :set cursorcolumn!<CR>
+" toggle cursorline, -column and colorcolumn
+nnoremap <silent> <Leader>l :set cursorline!<CR>
+nnoremap <silent> <Leader>c :set cursorcolumn!<CR>
+nnoremap <silent> <Leader>C @=(&cc==''?':set cc=+1':':se cc=')<CR><CR>
 
 " switch off hlsearch
 nnoremap <silent> <Leader><Space> :nohlsearch<CR>
@@ -302,10 +308,13 @@ nnoremap <silent> <Leader>~ :FZF ~<CR>
 " show contents of registers with Leader+r
 nnoremap <silent> <Leader>r :register<CR>
 
+" edit a macro on the fly
+nnoremap <Leader>q :<C-u><C-r>='let @'. v:register .' = '. string(getreg(v:register))<CR><C-f><Left>
 
 " Plugin-Toggling
-noremap <silent> <Leader>d :aboveleft 25vs +Dirvish<CR>
+noremap <silent> <Leader>, :aboveleft 25vs +Dirvish<CR>
 noremap <silent> <Leader>u :GundoToggle<CR>
+noremap <silent> <Leader>G :Gdiff<CR>
 
 
 " Text Commands
@@ -315,13 +324,16 @@ nnoremap <silent> <Leader>= :call Preserve("normal! gg=G")<CR>
 " remove trailing whitespace
 nnoremap <silent> <Leader>w :call Preserve("%s/\\s\\+$//e")<CR>
 
-" copy and paste from the system register with Leader+p/y
+" copy, cut and paste from the system register with Leader+y/d/p
 nnoremap <Leader>p "+p
 vnoremap <Leader>p "+p
 nnoremap <Leader>P "+P
 nnoremap <Leader>y "+y
 vnoremap <Leader>y "+y
 nnoremap <Leader>Y "+y$
+nnoremap <Leader>d "+d
+vnoremap <Leader>d "+d
+nnoremap <Leader>D "+d$
 
 " copy into command line with Leader+R
 nnoremap <Leader>R :<C-r><C-w>
@@ -399,14 +411,16 @@ nnoremap <silent> gSk :call Preserve("normal! kddpgkJ")<CR>gk
 vnoremap <silent> gS J
 
 " format text using Q
-nnoremap Q gwip
+nnoremap Q gw
+nnoremap QQ gww
 vnoremap Q gw
 
+" reenter visual mode after indenting visual selection
+vnoremap < <gv
+vnoremap > >gv
+
 " do not accidentally kill vim
-nnoremap ZQ :echo "Use :q! instead."<CR>
-nnoremap <C-z> u
-inoremap <C-z> <Esc>ui
-vnoremap <C-z> <Esc>uv
+nnoremap ZQ :echoerr "Use X instead."<CR>
 
 " folding commands
 nnoremap <silent> ö @=(foldlevel('.')?'za':'l')<CR>
@@ -440,7 +454,6 @@ let g:colorscheme_switcher_exclude = ['hybrid_material']
 
 " }}}
 " DelimitMate {{{
-
 let delimitMate_matchpairs = "(:),[:],{:}"
 
 " move closing delimiter one line further when inserting opening delimiter+<CR>
@@ -500,6 +513,8 @@ let g:operator#substitute#default_flags = ""
 
 " }}}
 " Sneak {{{
+let g:sneak#streak = 1
+
 " set up motion commands for sneaking
 nmap <silent> ü <Plug>Sneak_s
 nmap <silent> Ü <Plug>Sneak_S
@@ -519,6 +534,14 @@ xmap <silent> t <Plug>Sneak_t
 xmap <silent> T <Plug>Sneak_T
 omap <silent> t <Plug>Sneak_t
 omap <silent> T <Plug>Sneak_T
+
+" switch , and ; as this is more intuitive on qwertz-keyboards
+nmap , <Plug>SneakNext
+nmap ; <Plug>SneakPrevious
+xmap , <Plug>SneakNext
+xmap ; <Plug>SneakPrevious
+omap , <Plug>SneakNext
+omap ; <Plug>SneakPrevious
 
 " }}}
 " SuperTab {{{
