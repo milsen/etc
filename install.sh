@@ -46,17 +46,14 @@ ln -sfv "$DOTFILES_DIR/readline/"                  "$HOME"/.config/
 rm -f "$HOME"/.bash_login
 rm -f "$HOME"/.bash_profile
 
-# install vim-plugins using vim-plug
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-vim +"PlugUpdate|qall"
+# symlink vim-files
+ln -sfv "$DOTFILES_DIR/.vim/"                      "$HOME"
 
 # create vim-directories
 mkdir -p ~/.vim/bundle
 mkdir -p ~/.vim/{backupfiles,undofiles,swapfiles}
 
-# symlink vim-files
-ln -sfv "$DOTFILES_DIR/vim/.vimrc" ~
-ln -sfv "$DOTFILES_DIR/vim/dictionaries/" ~/.vim/
-ln -sfv "$DOTFILES_DIR/vim/snippets/" ~/.vim/
-
+# install vim-plugins using vim-plug
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+vim +"PlugUpdate|qall"
