@@ -105,11 +105,11 @@ set splitright          " vsplit windows always to the right
 " Backups, History, Autowrite {{{
 set history=1000        " keep 1000 lines of command line history
 set undofile            " create undo history files in ~/.undofiles
-set undodir=~/.vim/undofiles
+set undodir=~/.cache/vim/undo
 " set backup
-set backupdir=~/.vim/backupfiles
+set backupdir=~/.cache/vim/backup
 set swapfile
-set directory=~/.vim/swapfiles
+set directory=~/.cache/vim/swap
 set autowrite           " automatically save before commands like :next or :make
 
 " }}}

@@ -1,7 +1,4 @@
 # vim-directories
 .vim/autoload
 .vim/bundle
-.vim/backupfiles
-.vim/undofiles
 .vim/spell
-.vim/swapfiles

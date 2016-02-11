@@ -51,7 +51,7 @@ ln -sfv "$DOTFILES_DIR/.vim/"                      "$HOME"
 
 # create vim-directories
 mkdir -p ~/.vim/bundle
-mkdir -p ~/.vim/{backupfiles,undofiles,swapfiles}
+mkdir -p ~/.cache/vim/{backup,undo,swap}
 
 # install vim-plugins using vim-plug
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
