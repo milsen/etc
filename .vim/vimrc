@@ -357,18 +357,10 @@ nnoremap <silent> <LocalLeader>E :ShutdownEclim<CR>
 inoremap jk <Esc>
 
 " big movements with HJKL
-nnoremap H ^
-nnoremap J }
-nnoremap K {
-nnoremap L $
-vnoremap H ^
-vnoremap J }
-vnoremap K {
-vnoremap L $
-onoremap H ^
-onoremap J }
-onoremap K {
-onoremap L $
+noremap H ^
+noremap J }
+noremap K {
+noremap L $
 
 " buffer navigation with Ctrl-hkjl
 noremap <C-h> <C-w>W
