@@ -7,8 +7,8 @@
 
 # Shell Variables
 HISTCONTROL=ignoredups  # don't put duplicate lines in history
-HISTSIZE=1000           # set command history in memory to 1000
-HISTFILESIZE=2000       # set command history in history-file to 1000
+HISTSIZE=2000           # set command history in memory to 2000
+HISTFILESIZE=""         # set command history size in history-file to unlimited
 
 # Shell Options
 shopt -s histappend     # append to the history file, don't overwrite it
