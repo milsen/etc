@@ -39,14 +39,15 @@ Plug 'thomd/vim-wasabi-colorscheme'
 
 " operators and textobjects
 Plug 'kana/vim-operator-user'
+Plug 'milsen/vim-operator-substitute'
 Plug 'kana/vim-textobj-user'
 Plug 'glts/vim-textobj-comment'
 Plug 'kana/vim-textobj-entire'
 Plug 'kana/vim-textobj-function'
 Plug 'kana/vim-textobj-indent'
+Plug 'kana/vim-textobj-syntax'
 
 " self-maintained
-Plug '~/.vim/bundle/vim-operator-substitute'
 Plug '~/.vim/bundle/vim-terminal-colors'
 call plug#end()
 " }}}
@@ -155,7 +156,7 @@ augroup buffer_autocmds " {{{
           \   execute "normal! g'\"zv" |
           \ endif
     " shutdown Eclim if it is still running
-	autocmd VimLeavePre
+    autocmd VimLeavePre
           \ if exists("*ShutdownEclim") |
           \   ShutdownEclim
           \ endif
@@ -429,7 +430,6 @@ iabbrev improt import
 " Plugins -------------------------------------------------------------- {{{
 
 " Airline {{{
-let g:airline_theme = 'hybrid'
 let g:airline_powerline_fonts = 0
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
@@ -463,7 +463,7 @@ augroup End
 augroup dirvish
     autocmd!
     autocmd FileType dirvish nnoremap <buffer> <silent> <CR>
-        \ :<C-U>call dirvish#visit("edit", 0)<CR>
+        \ :<C-U>call dirvish#open("edit", 0)<CR>
         \ @=(winnr("$") > 1 && &ft !=# "dirvish" ?
         \ ':wincmd l \| close' : '')<CR><CR>
 augroup END
