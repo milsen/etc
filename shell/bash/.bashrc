@@ -16,9 +16,6 @@ shopt -s checkwinsize   # check winsize after commands, update LINES and COLUMNS
 shopt -s globstar       # "**" matches all files and zero or more (sub)dirs
 shopt -s extglob        # enable the globs ?(),*(),+(),@(),!()
 
-# Key Remapping
-setxkbmap -option caps:escape # remap caps-lock to escape
-
 # Misc Settings {{{
 # set XDG_CONFIG_HOME if it is not set already
 export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
