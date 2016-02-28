@@ -29,17 +29,21 @@ do
   esac
 done
 
+# create config-directories
+mkdir "$HOME"/.config
+mkdir "$HOME"/.config/bash
+
 # symlink non-vim-files
-ln -sfv "$DOTFILES_DIR/shell/bash/.bash_aliases"   "$HOME"
-ln -sfv "$DOTFILES_DIR/shell/bash/.bash_functions" "$HOME"
-ln -sfv "$DOTFILES_DIR/shell/bash/.bash_logout"    "$HOME"
-ln -sfv "$DOTFILES_DIR/shell/bash/.bashrc"         "$HOME"
-ln -sfv "$DOTFILES_DIR/shell/.profile"             "$HOME"
-ln -sfv "$DOTFILES_DIR/coreutils/"                 "$HOME"/.config/
-ln -sfv "$DOTFILES_DIR/git/"                       "$HOME"/.config/
-ln -sfv "$DOTFILES_DIR/misc_runcom/.eclimrc"       "$HOME"
-ln -sfv "$DOTFILES_DIR/misc_runcom/.latexmkrc"     "$HOME"
-ln -sfv "$DOTFILES_DIR/readline/"                  "$HOME"/.config/
+ln -sfv "$DOTFILES_DIR/shell/bash/.bash_aliases"     "$HOME"
+ln -sfv "$DOTFILES_DIR/shell/bash/bash_functions.sh" "$HOME"/.config/bash
+ln -sfv "$DOTFILES_DIR/shell/bash/.bash_logout"      "$HOME"
+ln -sfv "$DOTFILES_DIR/shell/bash/.bashrc"           "$HOME"
+ln -sfv "$DOTFILES_DIR/shell/.profile"               "$HOME"
+ln -sfv "$DOTFILES_DIR/coreutils/"                   "$HOME"/.config/
+ln -sfv "$DOTFILES_DIR/git/"                         "$HOME"/.config/
+ln -sfv "$DOTFILES_DIR/misc_runcom/.eclimrc"         "$HOME"
+ln -sfv "$DOTFILES_DIR/misc_runcom/.latexmkrc"       "$HOME"
+ln -sfv "$DOTFILES_DIR/readline/"                    "$HOME"/.config/
 
 # make sure that other bash configuration files do not exist such that .profile
 # is actually sourced for login-shells

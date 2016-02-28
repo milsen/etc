@@ -58,9 +58,7 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # load functions
-if [ -r ~/.bash_functions ]; then
-  . ~/.bash_functions
-fi
+. ~/.config/bash/*
 
 # load alias definitions
 if [ -r ~/.bash_aliases ]; then
