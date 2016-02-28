@@ -267,8 +267,8 @@ nnoremap <Leader>ef :vs ~/.bash_functions<CR>
 nnoremap <Leader>Ef :e ~/.bash_functions<CR>
 nnoremap <Leader>el :vs ~/.bash_logout<CR>
 nnoremap <Leader>El :e ~/.bash_logout<CR>
-nnoremap <Leader>eB :vs ~/.bash_profile<CR>
-nnoremap <Leader>EB :e ~/.bash_profile<CR>
+nnoremap <Leader>ep :vs ~/.profile<CR>
+nnoremap <Leader>Ep :e ~/.profile<CR>
 nnoremap <Leader>ei :vs ~/.config/readline/inputrc<CR>
 nnoremap <Leader>Ei :e ~/.config/readline/inputrc<CR>
 nnoremap <Leader>ex :vs ~/.Xresources<CR>
