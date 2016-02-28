@@ -1,4 +1,6 @@
-# .inputrc by Max Ilsen
+#
+# "$XDG_CONFIG_HOME"/readline/inputrc by milsen
+#
 # See `info rluserman' and 'man readline'.
 
 # Settings {{{
@@ -121,8 +123,8 @@ $if mode=emacs
   "\e[3~": delete-char
   "\e[2~": quoted-insert
 
-  # kill the whole line with Ctrl-d
-  "\C-D": kill-whole-line
+  # kill the whole line with Ctrl-j
+  "\C-j": kill-whole-line
 
   # switch to vi-mode with Ctrl-v
   "\C-v": vi-editing-mode
