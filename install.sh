@@ -44,6 +44,7 @@ ln -sfv "$DOTFILES_DIR/git/"                         "$HOME"/.config/
 ln -sfv "$DOTFILES_DIR/misc_runcom/.eclimrc"         "$HOME"
 ln -sfv "$DOTFILES_DIR/misc_runcom/.latexmkrc"       "$HOME"
 ln -sfv "$DOTFILES_DIR/readline/"                    "$HOME"/.config/
+ln -sfv "$DOTFILES_DIR/xdg/user-dirs.dirs"           "$HOME"/.config/
 
 # make sure that other bash configuration files do not exist such that .profile
 # is actually sourced for login-shells
