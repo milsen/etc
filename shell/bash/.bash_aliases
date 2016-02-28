@@ -2,18 +2,22 @@
 # .bash_aliases by Max Ilsen
 
 # cd aliases
+alias cdb='cd ~/bin'
 alias cdd='cd ~/doc'
 alias cde='cd ~/etc'
 alias cdm='cd ~/media'
 alias cdo='cd ~/other'
+alias cdp='cd ~/pkg'
 alias cds='cd ~/src'
 alias cdt='cd ~/tmp'
+alias cdw='cd ~/wall'
 
-alias cdb1='cd ~/doc/Studium/B1/'
-alias cdb2='cd ~/doc/Studium/B2/'
-alias cdb3='cd ~/doc/Studium/B3/'
-alias cdb4='cd ~/doc/Studium/B4/'
-alias cdb5='cd ~/doc/Studium/B5/'
+alias cdB1='cd ~/doc/Studium/B1/'
+alias cdB2='cd ~/doc/Studium/B2/'
+alias cdB3='cd ~/doc/Studium/B3/'
+alias cdB4='cd ~/doc/Studium/B4/'
+alias cdB5='cd ~/doc/Studium/B5/'
+alias cdB6='cd ~/doc/Studium/B6/'
 
 alias ..='cd ..'
 alias ...='cd ../../'
