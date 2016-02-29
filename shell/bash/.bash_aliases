@@ -33,11 +33,13 @@ alias l='ls -CF'      # list entries in columns with classifier
 alias treea="tree -a -I '.git' --dirsfirst" # tree of all files except .git-dirs
 
 # apt aliases
-alias apts="pretty_apt_search"
-alias aptS="apt-cache show"
-alias apti="sudo apt-get install"
-alias aptc="sudo apt-get autoclean"
-alias aptU="sudo apt-get update && sudo apt-get dist-upgrade && sudo apt-get autoclean"
+if [ ! -z $(command -v apt-get) ]; then
+  alias apts="pretty_apt_search"
+  alias aptS="apt-cache show"
+  alias apti="sudo apt-get install"
+  alias aptc="sudo apt-get autoclean"
+  alias aptU="sudo apt-get update && sudo apt-get dist-upgrade && sudo apt-get autoclean"
+fi
 
 # set color usage of ls, dir and grep
 if [ -x /usr/bin/dircolors ]; then
@@ -48,10 +50,6 @@ if [ -x /usr/bin/dircolors ]; then
   alias fgrep='fgrep --color=auto'
   alias egrep='egrep --color=auto'
 fi
-
-# backup and restore apt-packages (see .bash_functions)
-alias bkp="backup_packages"
-alias rst="restore_packages"
 
 # do not remove files by accident
 alias cp='cp -i'      # prompt before each use of cp, mv and rm
