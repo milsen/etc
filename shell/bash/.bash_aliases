@@ -68,3 +68,5 @@ alias rm~="find . -type f -name '*~' -not -iwholename '*Trash*' -exec rm -i {} \
 alias ipyno='ipython notebook --pylab=inline --ip=localhost'
 alias octavep='octave --persist'
 
+# other aliases
+alias music='ncmpcpp'

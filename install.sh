@@ -30,8 +30,9 @@ do
 done
 
 # create config-directories
-mkdir "$HOME"/.config
-mkdir "$HOME"/.config/bash
+mkdir -p "$HOME"/.config
+mkdir -p "$HOME"/.config/bash
+mkdir -p "$HOME"/.cache/mpd/playlists
 
 # symlink non-vim-files
 ln -sfv "$DOTFILES_DIR/shell/bash/.bash_aliases"     "$HOME"
@@ -43,6 +44,8 @@ ln -sfv "$DOTFILES_DIR/coreutils/"                   "$HOME"/.config/
 ln -sfv "$DOTFILES_DIR/git/"                         "$HOME"/.config/
 ln -sfv "$DOTFILES_DIR/misc_runcom/.eclimrc"         "$HOME"
 ln -sfv "$DOTFILES_DIR/misc_runcom/.latexmkrc"       "$HOME"
+ln -sfv "$DOTFILES_DIR/music/ncmpcpp/"               "$HOME"/.config/
+ln -sfv "$DOTFILES_DIR/music/mpd/"                   "$HOME"/.config/
 ln -sfv "$DOTFILES_DIR/readline/"                    "$HOME"/.config/
 ln -sfv "$DOTFILES_DIR/xdg/user-dirs.dirs"           "$HOME"/.config/
 

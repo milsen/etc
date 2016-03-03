@@ -1,3 +1,6 @@
+# ncmpcpp error-log
+error.log
+
 # vim-directories
 .vim/autoload
 .vim/bundle
