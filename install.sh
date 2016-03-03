@@ -47,6 +47,7 @@ ln -sfv "$DOTFILES_DIR/misc_runcom/.latexmkrc"       "$HOME"
 ln -sfv "$DOTFILES_DIR/music/ncmpcpp/"               "$HOME"/.config/
 ln -sfv "$DOTFILES_DIR/music/mpd/"                   "$HOME"/.config/
 ln -sfv "$DOTFILES_DIR/readline/"                    "$HOME"/.config/
+ln -sfv "$DOTFILES_DIR/term/termite/"                "$HOME"/.config/
 ln -sfv "$DOTFILES_DIR/xdg/user-dirs.dirs"           "$HOME"/.config/
 
 # make sure that other bash configuration files do not exist such that .profile

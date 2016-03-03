@@ -1,0 +1,83 @@
+#
+# "$XDG_CONFIG_HOME"/termite/config by milsen
+#
+
+[options]
+scroll_on_output = false
+scroll_on_keystroke = true
+audible_bell = false
+mouse_autohide = false
+allow_bold = true
+dynamic_title = true
+urgent_on_bell = true
+clickable_url = true
+font = Terminus 18
+scrollback_lines = 10000
+search_wrap = true
+# icon_name = terminal
+# geometry = 640x480
+
+# "system", "on" or "off"
+cursor_blink = system
+
+# "block", "underline" or "ibeam"
+cursor_shape = block
+
+# $BROWSER is used by default if set, with xdg-open as a fallback
+#browser = xdg-open
+
+# set size hints for the window
+size_hints = false
+
+# Hide links that are no longer valid in url select overlay mode
+filter_unmatched_urls = true
+
+# emit escape sequences for extra modified keys
+# modify_other_keys = false
+
+[colors]
+cursor = #c9ccca
+foreground = #c9ccca
+foreground_bold = #ffffff
+background = #282a2e
+
+# for visual selection (if unset, will reverse foreground and background)
+highlight = #50565e
+
+#       | black | red | green | yellow | blue | magenta | cyan | white
+# ------+-------+-----+-------+--------+------+---------+------+------
+# dark  |     0 |  1  |     2 |      3 |    4 |       5 |    6 |     7
+# light |     8 |  9  |    10 |     11 |   12 |      13 |   14 |    15
+
+color0 = #282a2e
+color1 = #b84747
+color2 = #518234
+color3 = #e0925c
+color4 = #4f7798
+color5 = #a582b0
+color6 = #52b6a9
+color7 = #686f77
+color8 = #50565e
+color9 = #d25d5d
+color10 = #bdc75e
+color11 = #ebc273
+color12 = #83a7c5
+color13 = #c8afce
+color14 = #82b8b1
+color15 = #adb0ae
+
+# 20% background transparency (requires a compositor)
+# background = rgba(63, 63, 63, 0.8)
+
+[hints]
+font = Terminus 20
+foreground = #dcdccc
+background = #3f3f3f
+active_foreground = #e68080
+active_background = #3f3f3f
+padding = 2
+border = #3f3f3f
+border_width = 0.5
+roundness = 2.0
+
+# vim: ft=dosini cms=#%s
