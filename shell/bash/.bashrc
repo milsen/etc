@@ -1,5 +1,7 @@
 #!/bin/bash --
-# .bashrc by Max Ilsen
+#
+# "$HOME"/.bashrc by milsen
+#
 # see /etc/bash.bashrc, /etc/profile and ~/.profile sourcing it
 
 # if not running interactively, don't do anything
@@ -36,9 +38,13 @@ if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
   debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-# terminal title shows user, host and working directory
+# terminal title shows user, host, working directory and git prompt
+if [ -r /usr/share/git/completion/git-prompt.sh ]; then
+  . /usr/share/git/completion/git-prompt.sh
+fi
+
 PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}:'
-PROMPT_COMMAND+=' ${PWD}     $(__git_ps1)\007"'
+PROMPT_COMMAND+=' ${PWD} $(__git_ps1)\007"'
 export PROMPT_COMMAND
 
 # actual prompt is chroot and $ or # to show whether you are root
@@ -68,6 +74,11 @@ fi
 # enable programmable completion features
 if [ -r /etc/bash_completion ] && ! shopt -oq posix; then
   . /etc/bash_completion
+fi
+
+# source git completion script if it is readable
+if [ -r /usr/share/git/completion/git-completion.bash ]; then
+  . /usr/share/git/completion/git-completion.bash
 fi
 
 # enable fuzzy bash completion using fzf
