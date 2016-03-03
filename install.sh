@@ -49,6 +49,7 @@ ln -sfv "$DOTFILES_DIR/music/mpd/"                   "$HOME"/.config/
 ln -sfv "$DOTFILES_DIR/readline/"                    "$HOME"/.config/
 ln -sfv "$DOTFILES_DIR/term/termite/"                "$HOME"/.config/
 ln -sfv "$DOTFILES_DIR/xdg/user-dirs.dirs"           "$HOME"/.config/
+ln -sfv "$DOTFILES_DIR/desktop/.xinitrc"             "$HOME"
 
 # make sure that other bash configuration files do not exist such that .profile
 # is actually sourced for login-shells
