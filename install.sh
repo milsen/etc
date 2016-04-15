@@ -30,8 +30,12 @@ function git_pull_origin() {
     pull origin master
 }
 
-function symlink_desktop_files() {
+function symlink_non_develop_files() {
   ln -sfv "$DOTFILES_DIR/desktop/.xinitrc"             "$HOME"
+  ln -sfv "$DOTFILES_DIR/music/ncmpcpp/"               "$HOME"/.config/
+  ln -sfv "$DOTFILES_DIR/music/mpd/"                   "$HOME"/.config/
+  ln -sfv "$DOTFILES_DIR/term/termite/"                "$HOME"/.config/
+  ln -sfv "$DOTFILES_DIR/xdg/user-dirs.dirs"           "$HOME"/.config/
 }
 
 # make sure that git, curl and vim are installed
@@ -41,8 +45,8 @@ done
 
 ask_user "Do you want to update the dotfiles first (pull origin master)?" \
   "git_pull_origin"
-ask_user "Do you want to symlink files for non-console applications as well?" \
-  "symlink_desktop_files"
+ask_user "Do you want to symlink files for non-development purposes as well?" \
+  "symlink_non_develop_files"
 
 # create config-directories
 mkdir -p "$HOME"/.config
@@ -59,11 +63,7 @@ ln -sfv "$DOTFILES_DIR/coreutils/"                   "$HOME"/.config/
 ln -sfv "$DOTFILES_DIR/git/"                         "$HOME"/.config/
 ln -sfv "$DOTFILES_DIR/misc_runcom/.eclimrc"         "$HOME"
 ln -sfv "$DOTFILES_DIR/misc_runcom/.latexmkrc"       "$HOME"
-ln -sfv "$DOTFILES_DIR/music/ncmpcpp/"               "$HOME"/.config/
-ln -sfv "$DOTFILES_DIR/music/mpd/"                   "$HOME"/.config/
 ln -sfv "$DOTFILES_DIR/readline/"                    "$HOME"/.config/
-ln -sfv "$DOTFILES_DIR/term/termite/"                "$HOME"/.config/
-ln -sfv "$DOTFILES_DIR/xdg/user-dirs.dirs"           "$HOME"/.config/
 
 # make sure that other bash configuration files do not exist such that .profile
 # is actually sourced for login-shells
