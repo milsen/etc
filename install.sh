@@ -12,22 +12,36 @@ command -v vim >/dev/null 2>&1 || \
   { sudo apt-get install vim-gtk; }
 
 # ask user to update dotfiles itself first
-echo "Do you want to update the dotfiles first (pull origin master)?"
-while true
-do
-  read -p "y/n? " answer
-  case "$answer" in
-    Yes|yes|Y|y|"")
-      [ -d "$DOTFILES_DIR/.git" ] && \
-        git --work-tree="$DOTFILES_DIR" --git-dir="$DOTFILES_DIR/.git" \
-        pull origin master
-      break;;
-    No|no|N|n)
-      break;;
-    *)
-      ;;
-  esac
-done
+function ask_user() {
+  echo "$1"
+  while true
+  do
+    read -p "y/n? " answer
+    case "$answer" in
+      Yes|yes|Y|y|"") "$2"
+        break;;
+      No|no|N|n)
+        break;;
+      *)
+        ;;
+    esac
+  done
+}
+
+function git_pull_origin() {
+  [ -d "$DOTFILES_DIR/.git" ] && \
+    git --work-tree="$DOTFILES_DIR" --git-dir="$DOTFILES_DIR/.git" \
+    pull origin master
+}
+
+function symlink_desktop_files() {
+  ln -sfv "$DOTFILES_DIR/desktop/.xinitrc"             "$HOME"
+}
+
+ask_user "Do you want to update the dotfiles first (pull origin master)?" \
+  "git_pull_origin"
+ask_user "Do you want to symlink files for non-console applications as well?" \
+  "symlink_desktop_files"
 
 # create config-directories
 mkdir -p "$HOME"/.config
@@ -49,7 +63,6 @@ ln -sfv "$DOTFILES_DIR/music/mpd/"                   "$HOME"/.config/
 ln -sfv "$DOTFILES_DIR/readline/"                    "$HOME"/.config/
 ln -sfv "$DOTFILES_DIR/term/termite/"                "$HOME"/.config/
 ln -sfv "$DOTFILES_DIR/xdg/user-dirs.dirs"           "$HOME"/.config/
-ln -sfv "$DOTFILES_DIR/desktop/.xinitrc"             "$HOME"
 
 # make sure that other bash configuration files do not exist such that .profile
 # is actually sourced for login-shells
