@@ -3,15 +3,11 @@
 # get directory of this install-script
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# make sure that git, curl and vim are installed
-command -v git >/dev/null 2>&1 || \
-  { sudo apt-get install git; }
-command -v curl >/dev/null 2>&1 || \
-  { sudo apt-get install curl; }
-command -v vim >/dev/null 2>&1 || \
-  { sudo apt-get install vim-gtk; }
+function check_dependency() {
+  command -v "$1" >/dev/null 2>&1 || \
+    { echo "Please install $1"; exit 1; }
+}
 
-# ask user to update dotfiles itself first
 function ask_user() {
   echo "$1"
   while true
@@ -37,6 +33,11 @@ function git_pull_origin() {
 function symlink_desktop_files() {
   ln -sfv "$DOTFILES_DIR/desktop/.xinitrc"             "$HOME"
 }
+
+# make sure that git, curl and vim are installed
+for com in git curl vim; do
+  check_dependency "$com"
+done
 
 ask_user "Do you want to update the dotfiles first (pull origin master)?" \
   "git_pull_origin"
