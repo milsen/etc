@@ -61,7 +61,6 @@ ln -sfv "$DOTFILES_DIR/shell/bash/.bashrc"           "$HOME"
 ln -sfv "$DOTFILES_DIR/shell/.profile"               "$HOME"
 ln -sfv "$DOTFILES_DIR/coreutils/"                   "$HOME"/.config/
 ln -sfv "$DOTFILES_DIR/git/"                         "$HOME"/.config/
-ln -sfv "$DOTFILES_DIR/misc_runcom/.eclimrc"         "$HOME"
 ln -sfv "$DOTFILES_DIR/misc_runcom/.latexmkrc"       "$HOME"
 ln -sfv "$DOTFILES_DIR/readline/"                    "$HOME"/.config/
 
