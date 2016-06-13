@@ -1,0 +1,60 @@
+#
+# "$HOME"/.config/interrobang/config by milsen
+#
+# Lines starting with a # are ignored as comments, but this file is not
+# processed by a shell interpreter.
+
+
+# Basic Configuration
+set font      = -*-terminus-bold-r-normal--32-160-*-*-c-*-*-*
+set geometry  = 800x36-1+400
+set colors	  = #adb0ae #282a2e #b84747 #282a2e #282a2e #d25d5d
+set border    = 4px #82b8b1
+set bangchar  = !
+set run_hook  = OUT="$(%s || echo 'command not valid or exit non-zero')"; [ -z "$OUT" ] || notify-send "!?" "$OUT"
+set autocomp  = -1
+set list      = true
+set last      = true
+set margin    = -80
+set shell     = /bin/sh
+set flags     = -ic
+
+# Common Bangs and Completiton Options
+bang s        = %s >/dev/null
+bang t        = termite -e "%s"
+bang man      = termite -e "man %s"
+bang um       = termite -e "udevil unmount %s"
+bang ff       = firefox %s
+bang ddg      = firefox "https://duckduckgo.com/?q=%s"
+bang calc     = echo '%s' | bc -l
+bang ?        = echo "interrobang ignored \"%s\""
+
+# get mountable file systems except /dev/sda
+tab um        = lsblk -l | tail -n+2 | awk '{print "!um /dev/"$1;}' | grep -v sda | grep "^%s%s"
+
+# bash default completion
+tab default   = compgen -P "%s" -acf "%s"
+tab calc      = str="%s%s"; echo "!calc $(echo ${str#\!calc} | bc -l)"
+tab ?         = ignore="%s%s"; awk '/^bang/ {print "!"$2" ";}' ~/.config/interrobang/config
+
+# logout tool:
+bang q = case %s in poweroff) systemctl poweroff ;; suspend) systemctl suspend ;; reboot) systemctl reboot ;; logout) killx ;; cancel) exit ;; esac
+tab q  = echo -e "!q cancel\n!q poweroff\n!q suspend\n!q reboot\n!q logout" | grep "^%s%s"
+
+# Completion Examples
+# percontation can find .desktop files:
+#   path: (default) show binaries in $PATH
+#   desktop: list desktop files that match
+#   desktop+: same as above, plus substring matching with comments
+# tab default   = percontation desktop path "%s" %s | sort -u
+# tab default   = percontation desktop+ path "%s" %s | sort -u
+# tab default   = percontation "%s" %s | sort -u
+
+# Desktop Bangs
+# The first version ignores any parameters to the desktop file and just executes
+# the associated binary. The second version passes parameters and parses the
+# desktop file properly, but requires an external tool to do so.  This tool is
+# not included in the interrobang package.
+# bang desktop  = ARG="%s"; FILE=$(find /usr/share/applications/ -name ${ARG%% *}.desktop | head -1); $(awk '/^Exec=/ {sub(/Exec=/,"",$1); print $1;}' $FILE)
+# bang desktop  = ARG="%s"; FILE=$(find /usr/share/applications/ -name ${ARG%% *}.desktop | head -1); PARAM=${ARG#* }; desktop-exec $FILE $PARAM
+
