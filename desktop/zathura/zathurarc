@@ -1,0 +1,12 @@
+#
+# "$HOME"/.config/zathura/zathurarc by milsen
+#
+
+set font "Terminus 18"
+
+# copy data to clipboard (Ctrl+V), not primary clipboard (Shift+Ins)
+set selection-clipboard "clipboard"
+
+# open document using complete width
+set adjust-open "width"
+
