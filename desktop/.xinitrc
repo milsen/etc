@@ -3,8 +3,7 @@
 # "$HOME"/.xinitrc by milsen
 #
 # Sourced when startx is called.
-# Dependent on dunst, wmutils, wmrc, sxhkd and my own scripts rnd_wall.sh and
-# bar.sh.
+# Dependent on dunst, wmutils, wmrc, sxhkd and my own bar.sh-script.
 
 # start programs "recommended" by system
 if [ -d /etc/X11/xinit/xinitrc.d ] ; then
@@ -14,8 +13,13 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
   unset f
 fi
 
-# random wallpaper-script
-rnd_wall.sh
+
+# source XDG-user-directories, use "$HOME"/images as default image-directory
+. ~/.config/user-dirs.dirs
+IMAGE_DIR="${XDG_PICTURES_DIR:-$HOME/images}"
+
+# random wallpaper
+feh --no-fehbg --bg-fill --randomize "$IMAGE_DIR"/wallpapers/
 
 # keyboard configuration, see /usr/share/X11/xkb/rules/base.lst
 setxkbmap -layout de
