@@ -16,7 +16,7 @@ Plug 'xolox/vim-misc' | Plug 'xolox/vim-colorscheme-switcher'
 Plug 'Raimondi/delimitMate'
 Plug 'justinmk/vim-dirvish'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all --no-update-rc' }
-Plug 'sjl/gundo.vim'
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
 Plug 'haya14busa/incsearch.vim'
 Plug 'ervandew/supertab'
@@ -176,8 +176,8 @@ augroup no_buffer_switching
   autocmd!
   autocmd FileType help noremap <buffer> <silent> <C-j> <nop>
   autocmd FileType help noremap <buffer> <silent> <C-K> <nop>
-  autocmd FileType gundo noremap <buffer> <silent> <C-j> <nop>
-  autocmd FileType gundo noremap <buffer> <silent> <C-K> <nop>
+  autocmd FileType undo noremap <buffer> <silent> <C-j> <nop>
+  autocmd FileType undo noremap <buffer> <silent> <C-K> <nop>
   autocmd FileType quickfix noremap <buffer> <silent> <C-j> <nop>
   autocmd FileType quickfix noremap <buffer> <silent> <C-K> <nop>
   autocmd FileType preview noremap <buffer> <silent> <C-j> <nop>
@@ -314,7 +314,7 @@ nnoremap <Leader>q :<C-u><C-r>='let @'. v:register .' = '. string(getreg(v:regis
 
 " Plugin-Toggling
 noremap <silent> <Leader>, :aboveleft 25vs +Dirvish<CR>
-noremap <silent> <Leader>u :GundoToggle<CR>
+noremap <silent> <Leader>u :UndotreeToggle<CR>
 noremap <silent> <Leader>G :Gdiff<CR>
 
 
@@ -466,14 +466,6 @@ augroup dirvish
         \ :<C-U>call dirvish#open("edit", 0)<CR>
         \ @=(winnr("$") > 1 && &ft !=# "dirvish" ?
         \ ':wincmd l \| close' : '')<CR><CR>
-augroup END
-
-" }}}
-" Gundo {{{
-augroup gundo
-    autocmd!
-    autocmd FileType gundo nnoremap <buffer> <silent> X
-        \ :GundoToggle<CR>
 augroup END
 
 " }}}
