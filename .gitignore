@@ -6,6 +6,9 @@ error.log
 .vim/bundle
 .vim/spell
 
+# neovim init-file (symlinked to vimrc)
+.vim/init.vim
+
 # wmrc
 */wmrc/globals
 */wmrc/disp

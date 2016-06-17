@@ -72,8 +72,10 @@ ln -sfv "$DOTFILES_DIR/readline/"                    "$HOME"/.config/
 rm -f "$HOME"/.bash_login
 rm -f "$HOME"/.bash_profile
 
-# symlink vim-files
+# symlink (neo)vim-files
 ln -sfv "$DOTFILES_DIR/.vim/"                      "$HOME"
+ln -sfv "$HOME"/.vim                               "$HOME"/.config/nvim
+ln -sfv "$HOME"/.vim/vimrc                         "$HOME"/.config/nvim/init.vim
 
 # create vim-directories
 mkdir -p ~/.vim/bundle

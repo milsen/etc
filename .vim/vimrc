@@ -1,6 +1,7 @@
 " Preamble ------------------------------------------------------------- {{{
 "
 " "$HOME"/.vim/vimrc by milsen
+" "$XDG_CONFIG_HOME"/.nvim/init.vim by milsen
 "
 
 " use Vim defaults instead of vi compatibility
@@ -601,4 +602,11 @@ function! Preserve(command) "{{{
   execute "silent!" . a:command | " execute the given command
   call winrestview(l:winview)     " restore cursor and window position
 endfunction "}}}
+" }}}
+" Neovim Settings ------------------------------------------------------ {{{
+
+if has('nvim')
+    tnoremap jk <C-\><C-n>
+endif
+
 " }}}
