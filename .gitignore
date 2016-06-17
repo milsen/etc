@@ -5,3 +5,7 @@ error.log
 .vim/autoload
 .vim/bundle
 .vim/spell
+
+# wmrc
+*/wmrc/globals
+*/wmrc/disp
