@@ -31,6 +31,7 @@ function git_pull_origin() {
 }
 
 function symlink_non_develop_files() {
+  ln -sfv "$DOTFILES_DIR/desktop/sxhkd/"               "$HOME"/.config/
   ln -sfv "$DOTFILES_DIR/desktop/wmrc/"                "$HOME"/.config/
   ln -sfv "$DOTFILES_DIR/desktop/zathura/"             "$HOME"/.config/
   ln -sfv "$DOTFILES_DIR/desktop/.xinitrc"             "$HOME"

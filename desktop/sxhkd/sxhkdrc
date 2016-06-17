@@ -1,0 +1,161 @@
+#!/usr/bin/sxhkd -m 1
+#
+# $HOME/.config/sxhkd/sxhkdrc by milsen
+#
+
+# Open Applications
+################################################################################
+super + t
+        termite
+
+super + b
+        firefox
+
+super + m
+        termite -t music-player --geometry 800x290+780+50 \
+          -e "music-player 300x300+1600+50"
+
+super + p
+        mpc toggle
+
+# Window Movement and Resizing
+################################################################################
+# move windows
+super + alt + {Left,Down,Up,Right}
+        wmv {-20 0, 0 20, 0 -20, 20 0} $(pfw)
+
+# move windows with the mouse
+# super + ~button{1,3}
+#         {wmv,wrs} -a $(wmp) $(pfw)
+
+# resize windows
+super + alt + {h,j,k,l}
+        wrs {-20 0, 0 20, 0 -20, 20 0} $(pfw)
+
+super + {plus,minus}
+        wrs {+40 +40, -40 -40} $(pfw)
+
+# expand windows
+super + e
+        expandw -v $(pfw)
+
+super + alt + e
+        expandw -h $(pfw)
+
+
+# Snapping and Cornering windows
+################################################################################
+# snaps a window
+super + {Left,Down,Up,Right}
+        snapw {left,down,up,right}
+
+# cornering and snapping
+super + {c,q,w,a,s}
+        snapw {md,tl,tr,bl,br}
+
+# puts window in a corner
+super + alt + {c,q,w,a,s}
+        cornerw {md,tl,tr,bl,br}
+
+
+# Focus Windows
+################################################################################
+# focuses the closest window
+super + {h,j,k,l}
+        closest {left,down,up,right}
+
+# switch between windows quickly
+super + n
+        focuswrap next
+
+alt + Tab
+        focuswrap next
+
+super + alt + n
+        focuswrap prev
+
+super + alt + Tab
+        focuswrap prev
+
+# Window Groups
+################################################################################
+# toggle groups
+super + {1-9}
+        groupmgr -t {1-9}
+
+# assign window to group
+super + alt + {1-9}
+        groupmgr -d all; \
+        groupmgr -a {1-9}
+
+# minimize/hide all groups except current one
+super + 0
+        seq 9 | grep -v $(groupmgr -g $(pfw)) | xargs groupmgr -h
+
+# minimize/hide current group
+super + alt + 0
+        groupmgr -g $(pfw) | xargs groupmgr -h
+
+
+# Other window operations
+################################################################################
+# close window
+super + d
+        killwa $(pfw)
+
+# fullscreen window
+super + space
+        fullw $(pfd) $(pfw)
+
+# toggle pulsing of current window
+super + numbersign
+        (killall pulsew && setborder active $(pfw)) || pulsew
+
+# use tiling/grid layout for currently visible windows
+super + g
+        tilew
+
+super + alt + g
+        gridw
+
+
+# XF86 Keys
+################################################################################
+XF86Audio{Mute,RaiseVolume,LowerVolume}
+        amixer set Master {toggle,5%+,5%-}
+
+XF86AudioMicMute
+        amixer set "Mic Boost" toggle
+
+XF86MonBrightness{Down,Up}
+        xbacklight -{dec,inc} 5
+
+# XF86Display
+# XF86WLAN
+# XF86Tools
+# XF86Search
+
+# launch a menu
+XF86LaunchA
+        termite --geometry 950x510+480+300 \
+          -e "bash --rcfile ~/src/fzf-launcher/fzf-launcher"
+
+# open the ranger file explorer
+XF86Explorer
+        termite -e ranger
+
+# Miscellaneous
+################################################################################
+# make a screenshot a move it to shots
+super + Print
+        scrot '%Y-%m-%d_%H-%M-%S.png' -e 'mv $f ~/media/images/shots' && \
+          notify-send "Screenshot taken"
+
+# kill X11
+super + alt + BackSpace
+        killx
+
+# reload sxhkd configuration file
+super + r
+        killall -s SIGUSR1 sxhkd
+
