@@ -1,4 +1,7 @@
-# .profile by Max Ilsen
+#!/bin/sh
+#
+# "$HOME"/.profile by milsen
+#
 # Commands for Bourne-compatible login-shells.
 # This file is not read by bash, if ~/.bash_profile or ~/.bash_login exist.
 

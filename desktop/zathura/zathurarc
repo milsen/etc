@@ -1,5 +1,5 @@
 #
-# "$HOME"/.config/zathura/zathurarc by milsen
+# "$XDG_CONFIG_HOME"/zathura/zathurarc by milsen
 #
 
 set font "Terminus 18"

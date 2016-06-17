@@ -1,4 +1,7 @@
-# .bash_logout by Max Ilsen
+#!/bin/bash
+#
+# "$HOME"/.bash_logout by milsen
+#
 
 # when leaving the console clear the screen to increase privacy
 if [ "$SHLVL" = 1 ]; then

@@ -1,5 +1,5 @@
 #
-# "$HOME"/.config/interrobang/config by milsen
+# "$XDG_CONFIG_HOME"/interrobang/config by milsen
 #
 # Lines starting with a # are ignored as comments, but this file is not
 # processed by a shell interpreter.

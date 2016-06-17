@@ -1,5 +1,7 @@
-! Colorscheme by Max Ilsen,
-! based on vim-hybrid-reverse
+!
+! "$HOME"/.Xresources by milsen
+!
+! Colorscheme based on vim-hybrid-reverse
 
 ! special
 *.foreground:   #c9ccca

@@ -1,5 +1,7 @@
 #!/bin/bash --
-# .bash_aliases by Max Ilsen
+#
+# "$HOME"/.bash_aliases by milsen
+#
 
 # cd aliases
 alias cdb='cd ~/bin'

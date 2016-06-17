@@ -1,8 +1,7 @@
 " Preamble ------------------------------------------------------------- {{{
-" .vimrc by Max Ilsen
-
-" All system-wide defaults are set in $VIMRUNTIME/debian.vim (usually just
-" /usr/share/vim/vimcurrent/debian.vim) and sourced by: runtime! debian.vim
+"
+" "$HOME"/.vim/vimrc by milsen
+"
 
 " use Vim defaults instead of vi compatibility
 if &compatible
