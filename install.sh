@@ -53,9 +53,13 @@ ask_user "Do you want to symlink files for non-development purposes as well?" \
   "symlink_non_develop_files"
 
 # create config-directories
+mkdir -p "$HOME"/bin
 mkdir -p "$HOME"/.config
 mkdir -p "$HOME"/.config/bash
 mkdir -p "$HOME"/.cache/mpd/playlists
+
+# symlink scripts
+ln -sfv "$DOTFILES_DIR/scripts/"*                    "$HOME"/bin
 
 # symlink non-vim-files
 ln -sfv "$DOTFILES_DIR/shell/bash/.bash_aliases"     "$HOME"
