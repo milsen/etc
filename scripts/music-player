@@ -1,0 +1,48 @@
+#!/bin/sh --
+#
+# /usr/bin/music-player by milsen
+#
+# A script to show ncmpcpp and corresponding cover art.
+# $1 - geometry string for feh displaying the cover art
+#
+# Usage:
+# termite -t music --geometry 800x290+780+50 -e "music-player 300x300+1600+50"
+#
+
+# define a function to show the cover art for the playing album
+cover_reload_loop() {
+  local pid music_dir cover_dir cover_file
+
+  # get music directory
+  . ~/.config/user-dirs.dirs
+  music_dir="${XDG_MUSIC_DIR:-$HOME/Music}"
+
+  while :; do
+      # initialize pid
+      pid=""
+
+      # get the file with the cover art (jpg or png)
+      cover_dir="$music_dir"/"$(dirname "$(mpc current -f %file%)")"
+      cover_file="$(find "$cover_dir" -regex '.*cover\.\(jpg\|png\)' | head -n 1)"
+
+      # display the image and remember its pid
+      if [ -r "$cover_file" ]; then
+        feh -x -q --zoom fill -g "${1:-300x300+1600+50}" "$cover_file" > /dev/null 2>&1 &
+        pid="$!"
+      fi
+
+      # wait for mpd play/pause/next/prev and database update
+      mpc idle player update > /dev/null 2>&1
+
+      # kill the image display if there is one
+      if [ -n "$pid" ]; then
+        kill "$pid"
+      fi
+  done
+}
+
+# continuosly display the cover art as long as ncmpcpp is open, then kill it
+cover_reload_loop &
+ncmpcpp
+kill "$!"
+
