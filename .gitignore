@@ -8,3 +8,9 @@ error.log
 
 # neovim init-file (symlinked to vimrc)
 .vim/init.vim
+
+# xmonad
+*/.xmonad/xmonad-x*
+*/.xmonad/xmonad.errors
+*/.xmonad/xmonad.hi
+*/.xmonad/xmonad.o
