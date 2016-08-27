@@ -20,6 +20,7 @@ alias cdB3='cd ~/doc/Studium/B3/'
 alias cdB4='cd ~/doc/Studium/B4/'
 alias cdB5='cd ~/doc/Studium/B5/'
 alias cdB6='cd ~/doc/Studium/B6/'
+alias cdB7='cd ~/doc/Studium/B7/'
 
 alias ..='cd ..'
 alias ...='cd ../../'
@@ -27,7 +28,7 @@ alias ....='cd ../../../'
 alias .....='cd ../../../../'
 
 # ls aliases
-alias ll='ls -alF'    # list all files in list format with classifer
+alias ll='ls -alFh'   # list all files in list format with classifer
 alias la='ls -A'      # list all files and dirs  except .- and ..-dir
 alias l='ls -CF'      # list entries in columns with classifier
 
@@ -35,7 +36,7 @@ alias l='ls -CF'      # list entries in columns with classifier
 alias treea="tree -a -I '.git' --dirsfirst" # tree of all files except .git-dirs
 
 # apt aliases
-if [ ! -z $(command -v apt-get) ]; then
+if [ -n "$(command -v apt-get)" ]; then
   alias apts="pretty_apt_search"
   alias aptS="apt-cache show"
   alias apti="sudo apt-get install"
@@ -58,10 +59,6 @@ alias cp='cp -i'      # prompt before each use of cp, mv and rm
 alias mv='mv -i'
 alias rm='rm -i'
 alias tp='trash-put'  # use trash-put instead of rm if possible
-
-# start eclim with workspaces
-alias eclim='/opt/eclipse/eclimd'
-alias eclipse='/opt/eclipse/eclipse'
 
 # remove all temporary files
 alias rm~="find . -type f -name '*~' -not -iwholename '*Trash*' -exec rm -i {} \;"
