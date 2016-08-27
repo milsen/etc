@@ -2,7 +2,6 @@
 # "$XDG_CONFIG_HOME"/coreutils/dircolors by milsen
 #
 # Dark 256 color theme for the color GNU ls utility using only 16 colors.
-# Used and tested with dircolors (GNU coreutils) 8.5
 #
 # @author  milsen
 # @license MIT License
