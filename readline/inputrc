@@ -42,7 +42,7 @@ set mark-directories on
 set mark-symlinked-directories on
 
 # use tilde expansion for home directory, directories on directory stack etc.
-# set expand-tilde on
+set expand-tilde off
 
 # }}}
 # Appearance {{{
@@ -102,8 +102,10 @@ set keyseq-timeout 200
 "\e[C": forward-char
 "\e[D": backward-char
 
-# flip through autocompletion matches with Shift-Tab
-"\e[Z": menu-complete
+# flip through autocompletion matches with Tab
+# and complete as far as possible with Shift-Tab
+"\t": menu-complete
+"\e[Z": complete
 
 # search entries starting with what is already typed using up-/down-arrow
 "\e[A": history-search-backward
@@ -123,8 +125,8 @@ $if mode=emacs
   "\e[3~": delete-char
   "\e[2~": quoted-insert
 
-  # kill the whole line with Ctrl-j
-  "\C-j": kill-whole-line
+  # kill the whole line with Ctrl-o
+  "\C-o": kill-whole-line
 
   # switch to vi-mode with Ctrl-v
   "\C-v": vi-editing-mode
