@@ -1,0 +1,120 @@
+#
+# "$HOME"/.config/feh/keys by milsen
+#
+# Entries of the form "action [key1 [key2 [key3]]]".
+# Each key is an X11 keysym name as shown by xev. It may optionally start with
+# modifiers for things like Control, in which case key looks like mod-keysym
+# (for example "C-Delete" for Ctrl+Delete or "C-1-Delete" for Ctrl+Alt+Delete).
+# Available modifiers are C for Control, S for Shift and 1, 4 for Mod1 and Mod4.
+# To match an uppercase letter like "S" instead of "s", the Shift modifier is
+# not required.
+#
+# Specifying an action without any keys unbinds it (i.e. the default bindings
+# are removed).  Do not use the same keybinding for multiple actions.
+#
+# For a list of the action names, see `man feh`: KEYS.
+
+# Toggling
+toggle_actions    a
+toggle_aliasing   A
+toggle_caption    c
+toggle_exif       e
+toggle_fullscreen f
+toggle_info       i
+toggle_menu       m
+toggle_filenames  n
+toggle_pointer    o
+toggle_pause      p
+toggle_keep_vp    v
+
+
+# Miscellaneous Commands
+# Save the current filelist/image as "feh_PID_ID_filelist"/"feh_PID_ID_FILENAME"
+save_filelist S
+save_image    s
+
+# Remove current file from filelist (and delete it)
+remove        Delete x
+delete        C-Delete
+
+# Reload the image (useful for webcams)
+reload_image  r
+
+# Antialias the image.  Opens the currently selected image in thumbnail mode.
+render        R
+
+# Change window size to fit current image size (plus/minus zoom, if set).  In
+# scale-down and fixed-geometry mode, this also updates the window size limits.
+size_to_image w
+
+# In/decrease reload delay by 1 second
+reload_plus   parenright
+reload_minus  parenleft
+
+# Close window, quit feh
+close         X
+quit          q Escape
+
+
+# In Place Editing
+# orient_1 and orient_3 rotate the image.
+# See `man feh` for information on rotation of JPEG images.
+orient_3 less
+orient_1 greater
+flip     underscore
+mirror   bar
+
+
+# Actions
+# 0 = --action, 1 = --action1 etc.
+action_0 0 Return
+action_1 1
+action_2 2
+action_3 3
+action_4 4
+action_5 5
+action_6 6
+action_7 7
+action_8 8
+action_9 9
+
+
+# Scrolling
+scroll_left       h Left
+scroll_down       j Down
+scroll_up         k Up
+scroll_right      l Right
+scroll_left_page  H
+scroll_down_page  J G
+scroll_up_page    K g
+scroll_right_page L
+
+
+# Zooming
+zoom_in       plus
+zoom_out      minus
+zoom_default  asterisk equal
+zoom_fit      slash
+
+
+# Jump to Images
+prev_img    C-k Prior BackSpace
+next_img    C-j Next space
+prev_dir    bracketleft
+next_dir    bracketright
+
+jump_fwd    C-Next
+jump_back   C-Prior
+jump_first  Home
+jump_last   End
+jump_random z
+
+
+# Menu Keys
+menu_up     k Up
+menu_down   j Down
+menu_parent h Left
+menu_child  l Right
+menu_select Return space
+menu_close  q Escape
+

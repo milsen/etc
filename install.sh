@@ -33,6 +33,7 @@ function git_pull_origin() {
 function symlink_non_develop_files() {
   ln -sfv "$DOTFILES_DIR/desktop/abcde/.abcde.conf"    "$HOME"
   ln -sfv "$DOTFILES_DIR/desktop/dunst/"               "$HOME"/.config/
+  ln -sfv "$DOTFILES_DIR/desktop/feh/"                 "$HOME"/.config/
   ln -sfv "$DOTFILES_DIR/desktop/.xmonad/"             "$HOME"
   ln -sfv "$DOTFILES_DIR/desktop/zathura/"             "$HOME"/.config/
   ln -sfv "$DOTFILES_DIR/desktop/.xinitrc"             "$HOME"

@@ -1,0 +1,26 @@
+#
+# "$HOME"/.config/feh/buttons by milsen
+#
+# See feh/keys for more explanation.
+#
+# Each binding is a button name.  It may optionally start with modifiers for
+# things like Control, in which case binding looks like mod-button (for
+# example C-1 for Ctrl + Left button).
+# Do not use the same button for multiple actions.
+#
+# 1 left button
+# 2 middle button
+# 3 right button
+# 4 mousewheel down
+# 5 mousewheel up
+
+pan         1
+zoom        2
+menu        3
+zoom_in     4
+zoom_out    5
+next
+prev
+blur        C-1
+rotate      C-3
+
