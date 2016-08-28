@@ -34,13 +34,13 @@ function symlink_non_develop_files() {
   ln -sfv "$DOTFILES_DIR/desktop/abcde/.abcde.conf"    "$HOME"
   ln -sfv "$DOTFILES_DIR/desktop/dunst/"               "$HOME"/.config/
   ln -sfv "$DOTFILES_DIR/desktop/feh/"                 "$HOME"/.config/
+  ln -sfv "$DOTFILES_DIR/desktop/xdg/user-dirs.dirs"   "$HOME"/.config/
   ln -sfv "$DOTFILES_DIR/desktop/.xmonad/"             "$HOME"
   ln -sfv "$DOTFILES_DIR/desktop/zathura/"             "$HOME"/.config/
   ln -sfv "$DOTFILES_DIR/desktop/.xinitrc"             "$HOME"
   ln -sfv "$DOTFILES_DIR/music/ncmpcpp/"               "$HOME"/.config/
   ln -sfv "$DOTFILES_DIR/music/mpd/"                   "$HOME"/.config/
   ln -sfv "$DOTFILES_DIR/term/termite/"                "$HOME"/.config/
-  ln -sfv "$DOTFILES_DIR/xdg/user-dirs.dirs"           "$HOME"/.config/
 }
 
 # make sure that git, curl and vim are installed
