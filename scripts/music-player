@@ -11,38 +11,67 @@
 
 # define a function to show the cover art for the playing album
 cover_reload_loop() {
-  local pid music_dir cover_dir cover_file
+  local pid music_dir cover_dir cover_file geometry size pos x y
 
   # get music directory
   . ~/.config/user-dirs.dirs
   music_dir="${XDG_MUSIC_DIR:-$HOME/Music}"
 
+  # initialize geometry as argument or default value
+  geometry="${1:-300x300+1600+50}"
+
   while :; do
-      # initialize pid
-      pid=""
+    # initialize pid
+    pid=""
 
-      # get the file with the cover art (jpg or png)
-      cover_dir="$music_dir"/"$(dirname "$(mpc current -f %file%)")"
-      cover_file="$(find "$cover_dir" -regex '.*cover\.\(jpg\|png\)' | head -n 1)"
+    # get the file with the cover art (jpg or png)
+    cover_dir="$music_dir"/"$(dirname "$(mpc current -f %file%)")"
+    cover_file="$(find "$cover_dir" -regex '.*cover\.\(jpg\|png\)' | head -n 1)"
 
-      # display the image and remember its pid
-      if [ -r "$cover_file" ]; then
-        feh -x -q --zoom fill -g "${1:-300x300+1600+50}" "$cover_file" > /dev/null 2>&1 &
-        pid="$!"
-      fi
+    # if the image file can be read and a geometry is given,
+    # display the image and remember its pid
+    if [ -r "$cover_file" ] && [ -n "$geometry" ]; then
+      feh -q -^ "cover art" --zoom fill -g "$geometry" "$cover_file" \
+        > /dev/null 2>&1 &
+      pid="$!"
+    fi
 
-      # wait for mpd play/pause/next/prev and database update
-      mpc idle player update > /dev/null 2>&1
+    # wait for mpd play/pause/next/prev and database update
+    mpc idle player update > /dev/null 2>&1
 
-      # kill the image display if there is one
-      if [ -n "$pid" ]; then
-        kill "$pid"
-      fi
+    # get size of image display window
+    # (implicitly find out whether it still exists)
+    size="$(xdotool search --name "cover art" getwindowgeometry | \
+      tail -n 1 | \
+      cut -d " " -f 4)"
+
+    # if an image window with a certain geometry was found,
+    # add 4 pixels to the size for window border width and also get its position
+    if [ -n "$size" ]; then
+      x="$(echo "$size" | cut -d "x" -f 1)"
+      x="$((x + 4))"
+      y="$(echo "$size" | cut -d "x" -f 2)"
+      y="$((y + 4))"
+      size="${x}x$y"
+
+      pos="$(xdotool search --name "cover art" getwindowgeometry | \
+        tail -n 2 | head -n 1 | \
+        cut -d " " -f 4 | \
+        sed -e 's/,/+/')"
+
+      # remember the image window's geometry and kill it
+      geometry="$size+$pos"
+      kill "$pid"
+
+    else
+      # if no image window was found, set the geometry to the empty string
+      geometry=""
+    fi
   done
 }
 
 # continuosly display the cover art as long as ncmpcpp is open, then kill it
-cover_reload_loop &
+cover_reload_loop > /dev/null 2>&1 &
 ncmpcpp
 kill "$!"
 
