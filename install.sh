@@ -31,6 +31,8 @@ function git_pull_origin() {
 }
 
 function symlink_non_develop_files() {
+  mkdir -p "$HOME"/.cache/mpd/playlists
+
   ln -sfv "$DOTFILES_DIR/desktop/abcde/.abcde.conf"    "$HOME"
   ln -sfv "$DOTFILES_DIR/desktop/dunst/"               "$HOME"/.config/
   ln -sfv "$DOTFILES_DIR/desktop/feh/"                 "$HOME"/.config/
@@ -43,6 +45,11 @@ function symlink_non_develop_files() {
   ln -sfv "$DOTFILES_DIR/term/termite/"                "$HOME"/.config/
 }
 
+function symlink_scripts() {
+  mkdir -p "$HOME"/bin
+  ln -sfv "$DOTFILES_DIR/scripts/"*                    "$HOME"/bin
+}
+
 # make sure that git, curl and vim are installed
 for com in git curl vim; do
   check_dependency "$com"
@@ -52,15 +59,11 @@ ask_user "Do you want to update the dotfiles first (pull origin master)?" \
   "git_pull_origin"
 ask_user "Do you want to symlink files for non-development purposes as well?" \
   "symlink_non_develop_files"
+ask_user "Do you want to symlink scripts as well?" "symlink_scripts"
 
 # create config-directories
-mkdir -p "$HOME"/bin
 mkdir -p "$HOME"/.config
 mkdir -p "$HOME"/.config/bash
-mkdir -p "$HOME"/.cache/mpd/playlists
-
-# symlink scripts
-ln -sfv "$DOTFILES_DIR/scripts/"*                    "$HOME"/bin
 
 # symlink non-vim-files
 ln -sfv "$DOTFILES_DIR/shell/bash/.bash_aliases"     "$HOME"
