@@ -12,7 +12,6 @@ endif
 " Plugin-Manager vim-plug {{{
 " each plugin gets a directory in ~/.vim/bundle, use :PlugUpdate
 call plug#begin('~/.vim/bundle')
-Plug 'xolox/vim-misc' | Plug 'xolox/vim-colorscheme-switcher'
 Plug 'Raimondi/delimitMate'
 Plug 'justinmk/vim-dirvish'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all --no-update-rc' }
@@ -291,7 +290,7 @@ nnoremap <Leader>sv :source $MYVIMRC<CR>
 " Toggling
 " switch background brightness and colorscheme
 nnoremap <silent> <Leader>b @=(&bg==#'dark'?':se bg=light':':se bg=dark')<CR><CR>
-nnoremap <silent> <Leader>B :NextColorScheme<CR>
+nnoremap <silent> <Leader>B :call ColorSchemeToggle()<CR>
 
 " toggle line numbers
 nnoremap <silent> <Leader>n :set number!<CR>
@@ -438,14 +437,6 @@ iabbrev improt import
 " }}}
 " Plugins -------------------------------------------------------------- {{{
 
-" Colorscheme-Switcher {{{
-" define your own mappings for switching colorschemes
-let g:colorscheme_switcher_define_mappings = 0
-" ignore built-in colorscheme when using :Prev/NextColorScheme
-let g:colorscheme_switcher_exclude_builtins = 1
-let g:colorscheme_switcher_exclude = ['hybrid_material']
-
-" }}}
 " DelimitMate {{{
 let delimitMate_matchpairs = "(:),[:],{:}"
 
@@ -567,6 +558,16 @@ let g:vimtex_fold_envs=0      " do not fold environments
 
 " }}}
 " Functions ------------------------------------------------------------ {{{
+
+function! ColorSchemeToggle() " {{{
+  if exists("g:colors_name") && g:colors_name ==# 'terminal'
+    colorscheme wasabi256
+  else
+    colorscheme terminal
+    set bg=dark
+    set nocursorline
+  endif
+endfunction " }}}
 
 function! EclimSetup() " {{{
   " setup eclim daemon assuming that eclimd is found in \opt\eclipse\
