@@ -24,7 +24,6 @@ Plug 'scrooloose/syntastic'
 Plug 'wellle/targets.vim'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'lervag/vimtex', { 'for': 'tex' }
-Plug 'bling/vim-airline'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
@@ -71,6 +70,15 @@ set nolist              " do not show normally invisible characters
 set fillchars="fold:\ " " fill folds with spaces, not -
 set noerrorbells        " no audio cues for warnings
 set visualbell t_vb=    " no visual cues for warnings
+
+" }}}
+" Statusline {{{
+set statusline=\ %f%m%r                    " filename, modified/read-only flags
+set statusline+=%(\ (%{fugitive#head()})%) " git branch
+set statusline+=%=                         " left-right separator
+set statusline+=[%{&ff}%(:%{&ft}%)]        " fileformat and filetype
+set statusline+=\ [%l,%v]                  " current line, column
+set statusline+=\ [%p%%\ of\ %L]           " file percentage and line count
 
 " }}}
 " Search {{{
@@ -427,14 +435,6 @@ iabbrev improt import
 " }}}
 " Plugins -------------------------------------------------------------- {{{
 
-" Airline {{{
-let g:airline_powerline_fonts = 0
-let g:airline_left_sep = ''
-let g:airline_right_sep = ''
-let g:airline#extensions#eclim#enabled = 1
-let g:airline#extensions#syntastic#enabled = 1
-
-" }}}
 " Colorscheme-Switcher {{{
 " define your own mappings for switching colorschemes
 let g:colorscheme_switcher_define_mappings = 0
