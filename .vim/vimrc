@@ -160,11 +160,6 @@ augroup buffer_autocmds " {{{
           \ if line("'\"") > 1 && line("'\"") <= line("$") |
           \   execute "normal! g'\"zv" |
           \ endif
-    " shutdown Eclim if it is still running
-    autocmd VimLeavePre
-          \ if exists("*ShutdownEclim") |
-          \   ShutdownEclim
-          \ endif
     " highlight trailing whitespace as an error
     autocmd BufRead,InsertLeave * match Error /[\u3000[:space:]]\+$/
     autocmd InsertEnter * match Error /[\u3000[:space:]]\+\%#\@<!$/
@@ -353,13 +348,6 @@ nnoremap <Leader>m :vert<Space>help<Space>
 nnoremap <Leader>M :!man<Space>
 
 " }}}
-" LocalLeader Commands {{{
-
-" Eclim setup
-nnoremap <silent> <LocalLeader>e :call EclimSetup()<CR><CR>
-nnoremap <silent> <LocalLeader>E :ShutdownEclim<CR>
-
-" }}}
 " Movement and Navigation {{{
 
 " leave insert mode with jk
@@ -526,9 +514,6 @@ omap ; <Plug>SneakPrevious
 " no completion after start of a line, space or tab, or closing brackets
 let g:SuperTabNoCompleteAfter=['^','\s','\t',')',']','}','''','"','`']
 
-" completion as user-defined to work with eclim
-let g:SuperTabContextDefaultCompletionType="<C-x><C-u>"
-
 " }}}
 " Syntactic {{{
 set statusline+=%#warningmsg#
@@ -566,15 +551,6 @@ function! ColorSchemeToggle() " {{{
     colorscheme terminal
     set bg=dark
     set nocursorline
-  endif
-endfunction " }}}
-
-function! EclimSetup() " {{{
-  " setup eclim daemon assuming that eclimd is found in \opt\eclipse\
-  if exists("*eclim#EclimAvailable") && !(eclim#EclimAvailable())
-    execute "!/opt/eclipse/eclimd &>/dev/null &"
-  else
-    echoerr "Eclim not available."
   endif
 endfunction " }}}
 
