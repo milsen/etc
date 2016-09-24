@@ -166,6 +166,9 @@ augroup buffer_autocmds " {{{
           \ if exists("*ShutdownEclim") |
           \   ShutdownEclim
           \ endif
+    " highlight trailing whitespace as an error
+    autocmd BufRead,InsertLeave * match Error /[\u3000[:space:]]\+$/
+    autocmd InsertEnter * match Error /[\u3000[:space:]]\+\%#\@<!$/
 augroup end " }}}
 
 " Filetype-Specific {{{
