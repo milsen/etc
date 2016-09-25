@@ -165,11 +165,11 @@ augroup buffer_autocmds " {{{
 augroup end " }}}
 
 " Filetype-Specific {{{
-"
+
 augroup filetype_general
   autocmd!
   " use filetype-specific dictionaries for completion
-  autocmd FileType *  execute
+  autocmd FileType * execute
         \ "setlocal dictionary+=".$HOME."/.vim/dictionaries/".expand('<amatch>')
 augroup END
 
@@ -265,8 +265,8 @@ nnoremap <Leader>eb :vs ~/.bashrc<CR>
 nnoremap <Leader>Eb :e ~/.bashrc<CR>
 nnoremap <Leader>ea :vs ~/.bash_aliases<CR>
 nnoremap <Leader>Ea :e ~/.bash_aliases<CR>
-nnoremap <Leader>ef :vs ~/.bash_functions<CR>
-nnoremap <Leader>Ef :e ~/.bash_functions<CR>
+nnoremap <Leader>ef :vs ~/.config/bash/bash_functions.sh<CR>
+nnoremap <Leader>Ef :e ~/.config/bash/bash_functions.sh<CR>
 nnoremap <Leader>el :vs ~/.bash_logout<CR>
 nnoremap <Leader>El :e ~/.bash_logout<CR>
 nnoremap <Leader>ep :vs ~/.profile<CR>
@@ -300,7 +300,7 @@ nnoremap <silent> <Leader><Space> :nohlsearch<CR>
 vnoremap <silent> <Leader><Space> :nohlsearch<CR>
 
 " reset syntax highlighting
-nnoremap <silent> <Leader>; :sy sync fromstart<CR>
+nnoremap <silent> <Leader>; :diffupdate<CR>:sy sync fromstart<CR><C-l>
 
 
 " open fzf with Leader+.
@@ -326,6 +326,7 @@ nnoremap <silent> <Leader>= :call Preserve("normal! gg=G")<CR>
 
 " remove trailing whitespace
 nnoremap <silent> <Leader>w :call Preserve("%s/\\s\\+$//e")<CR>
+vnoremap <silent> <Leader>w :s/\s\+$//e<CR>
 
 " copy, cut and paste from the system register with Leader+y/d/p
 nnoremap <Leader>p "+p
