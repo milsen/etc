@@ -439,13 +439,15 @@ augroup End
 
 " }}}
 " Dirvish {{{
-" close Dirvish sidebar if it was opened as a second window and a file is visited
 augroup dirvish
     autocmd!
-    autocmd FileType dirvish nnoremap <buffer> <silent> <CR>
+    " close Dirvish if it was opened as a second window and a file is visited
+    autocmd FileType dirvish nnoremap <buffer> <silent> l
         \ :<C-U>call dirvish#open("edit", 0)<CR>
         \ @=(winnr("$") > 1 && &ft !=# "dirvish" ?
         \ ':wincmd l \| close' : '')<CR><CR>
+    " go to parent directory with h
+    autocmd FileType dirvish nnoremap <buffer> h :<C-u>Dirvish %/..<CR>
 augroup END
 
 " }}}
