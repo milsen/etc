@@ -18,7 +18,6 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all --no-update-rc' }
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
 Plug 'haya14busa/incsearch.vim'
-Plug 'ervandew/supertab'
 Plug 'scrooloose/syntastic'
 Plug 'wellle/targets.vim'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
@@ -377,9 +376,9 @@ nnoremap <silent> G Gzz@=(line('.')==line('$')?'':'zv')<CR>
 nnoremap <CR> <C-]>zzzv
 nnoremap <BS> <C-o>zzzv
 
-" go through completion results (e.g. SuperTab) with Ctrl+j/k
-inoremap <C-j> <C-n>
-inoremap <C-k> <C-p>
+" go through completion results with Tab/S+Tab
+inoremap <Tab> <C-r>=Completion()<CR>
+inoremap <S-Tab> <C-p>
 
 " writing and quitting
 nnoremap <silent> Ö :w<CR>
@@ -508,13 +507,6 @@ omap , <Plug>SneakNext
 omap ; <Plug>SneakPrevious
 
 " }}}
-" SuperTab {{{
-" use SuperTab with Tab and remapped C-j/k
-
-" no completion after start of a line, space or tab, or closing brackets
-let g:SuperTabNoCompleteAfter=['^','\s','\t',')',']','}','''','"','`']
-
-" }}}
 " Syntactic {{{
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -527,7 +519,7 @@ let g:syntastic_check_on_wq = 0
 " }}}
 " UltiSnips {{{
 let g:UltiSnipsSnippetsDir="~/.vim/snippets"
-let g:UltiSnipsExpandTrigger="<Tab>"       " snip expansion with Tab (like SuperTab)
+let g:UltiSnipsExpandTrigger="<Tab>"       " snip expansion with Tab
 let g:UltiSnipsListSnippets="<S-Tab>"      " snip listing with Shift+Tab
 let g:UltiSnipsJumpForwardTrigger="<C-j>"  " go to next and previous snippet
 let g:UltiSnipsJumpBackwardTrigger="<C-k>" " field with Ctrl-j/-k
@@ -543,6 +535,23 @@ let g:vimtex_fold_envs=0      " do not fold environments
 
 " }}}
 " Functions ------------------------------------------------------------ {{{
+
+function! Completion()
+  let l:line = strpart(getline('.'), 0, col('.')-1)
+  let l:line_part = matchstr(l:line, "[^ \t\\\\\"\'})\\]]*$")
+  let l:path_del = (has('win32') || has('win64')) ? '\\' : '\/'
+
+  if empty(l:line_part)
+    " after whitespace, quotes, or parentheses just indent
+    return "\<Tab>"
+  elseif match(l:line_part, l:path_del) != -1
+    " after / complete filepaths
+    return "\<C-x>\<C-f>"
+  else
+    " use completion according to complete-option
+    return "\<C-n>"
+  endif
+endfunction
 
 function! ColorSchemeToggle() " {{{
   if exists("g:colors_name") && g:colors_name ==# 'terminal'
