@@ -164,7 +164,7 @@ song_columns_list_format = "(40)[red]{t|f} (25)[blue]{ar} (35)[cyan]{br} (7f)[wh
 
 # Various Settings
 #execute_on_song_change = ""             # useful for notifications
-#playlist_show_mpd_host = "no"
+playlist_show_mpd_host = "no"
 playlist_show_remaining_time = "yes"
 #playlist_shorten_total_times = "no"
 #playlist_separate_albums = "no"
@@ -183,7 +183,7 @@ progressbar_look = "─╼ "
 progressbar_boldness = "yes"
 
 #default_place_to_search_in = "database" # (database/playlist)
-user_interface = "alternative"           # (classic/alternative)
+user_interface = "classic"               # (classic/alternative)
 #data_fetching_delay = "yes"
 #media_library_primary_tag = "artist"    # (artist, album_artist, date, genre, composer, performer)
 #default_find_mode = "wrapped"           # (wrapped/normal)
@@ -192,9 +192,9 @@ user_interface = "alternative"           # (classic/alternative)
 # Additional Information Bars
 header_visibility = "no"     # screen number explanations (and playlist length)
 statusbar_visibility = "no"  # scrolling now-playing information at bottom
-#titles_visibility = "no"    # "Title/Filename, Artist, Album, ..."
+titles_visibility = "no"     # Title/Filename, Artist, Album, ...
 header_text_scrolling = "no"
-cyclic_scrolling = "no"
+cyclic_scrolling = "yes"     # playlist goes to beginning if end is reached
 #lines_scrolled = "2"
 
 #follow_now_playing_lyrics = "no"
@@ -232,9 +232,9 @@ startup_screen = "playlist"
 #jump_to_now_playing_song_at_start = "yes"
 ask_before_clearing_playlists = "no"
 clock_display_seconds = "yes"
-#display_volume_level = "yes"
-#display_bitrate = "no"
-#display_remaining_time = "no"
+display_volume_level = "no"
+display_bitrate = "no"
+display_remaining_time = "no"
 regular_expressions = "extended" #(basic/extended)
 
 ignore_leading_the = "no"
