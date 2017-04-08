@@ -3,7 +3,7 @@
 #
 
 [global]
-    font = Terminus 16
+    font = xos4 Terminus 16
 
     # Allow a small subset of html markup:
     #   <b>bold</b>
