@@ -1,0 +1,57 @@
+#!/usr/bin/env sh
+#
+# /usr/bin/screen_switch by milsen
+#
+# A script to correctly set the output of X11 to a VGA-connected monitor.
+#
+
+function usage() {
+  echo <<EOF
+  usage: $(basename $0) [-b|-g] [width] [height] [freq]
+
+    -b  use cvt without -r flag
+    -g  use gtf instead of cvt
+EOF
+}
+
+# get options
+while getopts ":bg" opt; do
+  case $opt in
+    b) opts="" ;;
+    g) cmd="gtf"
+       opts="" ;;
+    *) usage && exit 1 ;;
+  esac
+done
+shift $((OPTIND - 1))
+
+# find out width and height by looking in /var/log/Xorg.0.log
+# default: cvt -r 1920 1080 60
+cmd=${cmd-cvt}
+opts=${opts--r}
+width=${1-1920}
+height=${2-1080}
+freq=${3-60}
+
+# construct the modeline command and execute it
+full_cmd="$cmd $opts $width $height $freq"
+echo $full_cmd
+$full_cmd
+
+# get modeline to use with xrandr
+modeline="$($full_cmd | grep "Modeline" | cut -d \" -f 2- | tr -d \")"
+modename="$(echo $modeline | cut -d " " -f 1)"
+
+# set output on external screen
+xrandr --newmode $modeline
+xrandr --addmode DP2 $modename
+xrandr --output DP2 --mode $modename
+
+# turn off laptop screen output
+xrandr --output eDP1 --off
+
+. ~/.config/user-dirs.dirs
+IMAGE_DIR="${XDG_PICTURES_DIR:-$HOME/media/images}"
+
+# random wallpaper
+feh --no-fehbg --bg-fill --randomize "$IMAGE_DIR"/wallpapers/
