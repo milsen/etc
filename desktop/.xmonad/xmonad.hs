@@ -250,7 +250,7 @@ layoutTransform l
 main = do
     xmproc <- spawnPipe "xmobar /home/m/.xmonad/.xmobarrc" -- spawn xmobar
 
-    xmonad $ defaultConfig                -- use default config, override:
+    xmonad $ def                          -- use default config, override:
         { terminal           = "termite"  -- preferred terminal emulator
         , focusFollowsMouse  = True       -- window focus should follow mouse
         , borderWidth        = 2          -- border width in pixels
@@ -267,10 +267,10 @@ main = do
 
         -- hooks, layouts
         , layoutHook         = avoidStruts $ smartBorders $ myLayoutHook
-        , manageHook         = manageDocks <+> myManageHook <+> manageHook defaultConfig
+        , manageHook         = manageDocks <+> myManageHook <+> manageHook def
 
         -- , handleEventHook    = myEventHook
-        , logHook            = dynamicLogWithPP defaultPP
+        , logHook            = dynamicLogWithPP $ def
                                     { ppCurrent         = xmobarColor color11 ""
                                     , ppVisible         = wrap "<" ">"
                                     , ppHidden          = id
