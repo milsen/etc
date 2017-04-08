@@ -269,7 +269,7 @@ main = do
         , layoutHook         = avoidStruts $ smartBorders $ myLayoutHook
         , manageHook         = manageDocks <+> myManageHook <+> manageHook def
 
-        -- , handleEventHook    = myEventHook
+        , handleEventHook    = docksEventHook
         , logHook            = dynamicLogWithPP $ def
                                     { ppCurrent         = xmobarColor color11 ""
                                     , ppVisible         = wrap "<" ">"
@@ -284,5 +284,5 @@ main = do
                                     , ppOutput          = hPutStrLn xmproc
                                     , ppExtras          = []
                                     }
-        -- , startupHook        = myStartupHook
+        , startupHook        = docksStartupHook
         }
