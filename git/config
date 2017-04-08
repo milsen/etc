@@ -8,9 +8,11 @@
 [alias]
     amel = commit --amend --no-edit
     ap = add -p
+    au = "!sh -c 'git add -u; git diff --staged' -"
     br = branch
     co = checkout
     ds = diff --staged
+    fpr = "!sh -c 'nr=\"$1\" ; shift ; git fetch upstream refs/pull/$nr/head:pr-$nr \"$@\"' -"
     stat = status
     tr = !"git tr1"
     tr1 = log --graph --format=format:'%C(yellow)%h%C(reset) %s %C(dim white)- %an%C(reset) %C(bold red)%d%C(reset)' --all
