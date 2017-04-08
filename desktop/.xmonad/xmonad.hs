@@ -197,45 +197,7 @@ myManageHook = composeAll
     where role = stringProperty "WM_WINDOW_ROLE"
 
 ------------------------------------------------------------------------
--- Event handling
-
--- Defines a custom handler function for X Events. The function should
--- return (All True) if the default handler is to be run afterwards. To
--- combine event hooks use mappend or mconcat from Data.Monoid.
---
--- * NOTE: EwmhDesktops users should use the 'ewmh' function from
--- XMonad.Hooks.EwmhDesktops to modify their defaultConfig as a whole.
--- It will add EWMH event handling to your custom event hooks by
--- combining them with ewmhDesktopsEventHook.
---
--- myEventHook = mempty
-
-------------------------------------------------------------------------
--- Status bars and logging
-
--- Perform an arbitrary action on each internal state change or X event.
--- See the 'XMonad.Hooks.DynamicLog' extension for examples.
---
--- * NOTE: EwmhDesktops users should use the 'ewmh' function from
--- XMonad.Hooks.EwmhDesktops to modify their defaultConfig as a whole.
--- It will add EWMH logHook actions to your custom log hook by
--- combining it with ewmhDesktopsLogHook.
---
--- myLogHook = return ()
-
-------------------------------------------------------------------------
--- Startup hook
-
--- Perform an arbitrary action each time xmonad starts or is restarted with
--- mod-q.  Used by, e.g., XMonad.Layout.PerWorkspace to initialize per-workspace
--- layout choices.
---
--- * NOTE: EwmhDesktops users should use the 'ewmh' function from
--- XMonad.Hooks.EwmhDesktops to modify their defaultConfig as a whole. It will
--- add initialization of EWMH support to your custom startup hook by combining
--- it with ewmhDesktopsStartup.
---
--- myStartupHook = return ()
+-- Main function:
 
 -- show Layout as just one character
 layoutTransform :: String -> String
