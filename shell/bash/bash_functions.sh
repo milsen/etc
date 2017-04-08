@@ -68,3 +68,16 @@ mfu() {
     awk '{CMD[$2]++;count++;}END {for (a in CMD)print CMD[a] " "  CMD[a]/count*100 "% " a;}' | \
     grep -v "./" | column -c3 -s " " -t | sort -nr | nl |  head "-n${1:-10}"
 }
+
+# general function for system commands
+q() {
+  case "$1" in
+    killx)    killall xmonad ;;
+    lock)     slock systemctl suspend -i
+              exit ;;
+    poweroff) systemctl poweroff ;;
+    reboot)   systemctl reboot ;;
+    suspend)  systemctl suspend ;;
+    *)        return ;;
+  esac
+}
