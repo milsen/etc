@@ -9,7 +9,7 @@
 
 # Shell Variables
 HISTCONTROL=ignoredups  # don't put duplicate lines in history
-HISTSIZE=2000           # set command history in memory to 2000
+HISTSIZE=-1             # set command history in memory to unlimited
 HISTFILESIZE=""         # set command history size in history-file to unlimited
 
 # Shell Options
@@ -17,6 +17,7 @@ shopt -s histappend     # append to the history file, don't overwrite it
 shopt -s checkwinsize   # check winsize after commands, update LINES and COLUMNS
 shopt -s globstar       # "**" matches all files and zero or more (sub)dirs
 shopt -s extglob        # enable the globs ?(),*(),+(),@(),!()
+shopt -s autocd         # when command is only a directory, cd to that dir
 
 # Misc Settings {{{
 # set XDG_CONFIG_HOME if it is not set already
@@ -28,6 +29,9 @@ export INPUTRC="$XDG_CONFIG_HOME"/readline/inputrc
 # use lesspipe if executable to make less more friendly for non-text input files
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 export LESSHISTFILE=-           # disable creation of history file in ~/.lesshst
+
+# the visual editor of choice
+export VISUAL=/usr/bin/vim
 
 # }}}
 # Prompt-Settings {{{
