@@ -46,6 +46,7 @@ function symlink_non_develop_files() {
 }
 
 function symlink_scripts() {
+  chmod a+x "$DOTFILES_DIR/scripts/"*
   mkdir -p "$HOME"/bin
   ln -sfv "$DOTFILES_DIR/scripts/"*                    "$HOME"/bin
 }
