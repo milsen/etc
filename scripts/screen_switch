@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/bin/bash --
 #
 # /usr/bin/screen_switch by milsen
 #
