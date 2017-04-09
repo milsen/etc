@@ -24,12 +24,6 @@ function ask_user() {
   done
 }
 
-function git_pull_origin() {
-  [ -d "$DOTFILES_DIR/.git" ] && \
-    git --work-tree="$DOTFILES_DIR" --git-dir="$DOTFILES_DIR/.git" \
-    pull origin master
-}
-
 function symlink_non_develop_files() {
   mkdir -p "$HOME"/.cache/mpd/playlists
 
@@ -56,8 +50,6 @@ for com in git curl vim; do
   check_dependency "$com"
 done
 
-ask_user "Do you want to update the dotfiles first (pull origin master)?" \
-  "git_pull_origin"
 ask_user "Do you want to symlink files for non-development purposes as well?" \
   "symlink_non_develop_files"
 ask_user "Do you want to symlink scripts as well?" "symlink_scripts"
