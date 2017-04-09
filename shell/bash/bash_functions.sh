@@ -12,6 +12,22 @@ alert() {
 }
 
 
+# backup data on external hard drive using rsync
+backup_rsync() {
+  if [ ! -d /media/sdb1-usb-Intenso_External/ ]; then
+    echo "No dir /media/sdb1-usb-Intenso_External/ found."
+    return
+  fi
+
+  sudo rsync -aAX \
+    --info=progress2,symsafe,stats3 \
+    --delete \
+    --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found"} \
+    --temp-dir="$HOME"/.cache/rsync/tmp/ \
+    / /media/sdb1-usb-Intenso_External
+}
+
+
 # print out list of albums in $XDG_MUSIC_DIR
 albums() {
   source "$XDG_CONFIG_HOME"/user-dirs.dirs
