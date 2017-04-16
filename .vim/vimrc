@@ -377,7 +377,7 @@ cnoremap <C-l> <Right>
 " jumps, keep screen in the middle
 nnoremap <silent> gg ggzz@=(line('.')==1?'':'zv')<CR>
 nnoremap <silent> G Gzz@=(line('.')==line('$')?'':'zv')<CR>
-nnoremap <CR> <C-]>zzzv
+nnoremap <CR> :call JumpToDefinition()<CR>n<C-o>zzzv
 nnoremap <BS> <C-o>zzzv
 
 " go through completion results with Tab/S+Tab
@@ -579,6 +579,17 @@ function! FoldText() " {{{
   let l:fillcount = l:totalcharcount - len(l:line) - len(l:foldedlinecount)
   return l:line . repeat(" ", l:fillcount) . l:foldedlinecount
 endfunction " }}}
+
+function! JumpToDefinition() "{{{
+  let l:word = expand("<cword>")
+  let @/="\\<" . l:word . "\\>"
+  " if the word under the cursor is a tag, jump to it, else use gd
+  if empty(taglist("^" . l:word . "$"))
+    normal! gd
+  else
+    execute "normal! \<C-]>"
+  endif
+endfunction "}}}
 
 function! Preserve(command) "{{{
   let l:winview = winsaveview()   " save cursor and window position
