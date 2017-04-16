@@ -15,6 +15,7 @@ call plug#begin('~/.vim/bundle')
 Plug 'Raimondi/delimitMate'
 Plug 'justinmk/vim-dirvish'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all --no-update-rc' }
+Plug 'junegunn/fzf.vim'
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
 Plug 'haya14busa/incsearch.vim'
@@ -305,12 +306,6 @@ vnoremap <silent> <Leader><Space> :nohlsearch<CR>
 " reset syntax highlighting
 nnoremap <silent> <Leader>; :diffupdate<CR>:sy sync fromstart<CR><C-l>
 
-
-" open fzf with Leader+.
-nnoremap <silent> <Leader>. :FZF<CR>
-nnoremap <silent> <Leader>: :FZF ../<CR>
-nnoremap <silent> <Leader>~ :FZF ~<CR>
-
 " show contents of registers with Leader+r
 nnoremap <silent> <Leader>r :register<CR>
 
@@ -323,6 +318,15 @@ noremap <silent> <Leader>u :UndotreeToggle<CR>
 noremap <silent> <Leader>G :Gdiff<CR>
 noremap <silent> <Leader>! :Neomake!<CR>
 
+" FZF-commands
+nnoremap <silent> <Leader>. :Files<CR>
+nnoremap <silent> <Leader>: :Files ../<CR>
+nnoremap <silent> <Leader>~ :Files ~<CR>
+nnoremap <silent> <Leader>/ :Files /<CR>
+nnoremap <silent> <Leader>- :Lines<CR>
+nnoremap <silent> <Leader>_ :BLines<CR>
+nnoremap <silent> <Leader>g :GitFiles<CR>
+nnoremap <silent> <Leader>t :Tags<CR>
 
 " Text Commands
 " indent the whole file
@@ -603,5 +607,4 @@ endfunction "}}}
 if has('nvim')
     tnoremap jk <C-\><C-n>
 endif
-
 " }}}
