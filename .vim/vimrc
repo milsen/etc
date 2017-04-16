@@ -116,6 +116,7 @@ set backupdir=~/.cache/vim/backup
 set swapfile
 set directory=~/.cache/vim/swap
 set autowrite           " automatically save before commands like :next or :make
+set diffopt+=vertical   " show diffs vertically
 
 " }}}
 " Wrapping, Formatting and Indenting {{{
