@@ -30,8 +30,9 @@ export INPUTRC="$XDG_CONFIG_HOME"/readline/inputrc
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 export LESSHISTFILE=-           # disable creation of history file in ~/.lesshst
 
-# the visual editor of choice
+# the editor of choice
 export VISUAL=/usr/bin/vim
+export EDITOR=$VISUAL
 
 # }}}
 # Prompt-Settings {{{
