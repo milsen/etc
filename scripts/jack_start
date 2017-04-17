@@ -1,0 +1,44 @@
+#!/bin/bash --
+
+# The jackd command executed by qjackctl at startup is located in ~/.jackdrc:
+# /usr/bin/jackd -v -R -P80 -dalsa -dhw:USB -r48000 -p256 -n2
+#
+# This command starts JACK with a real-time scheduling priority of 80.
+# It also sets JACK parameters for low latency and few xruns: The lower
+# rate/period, the lower the latency and the higher a chance of xruns.
+# The jackd command is equivalent to (but sometimes works better than):
+#
+# jack_control start
+# jack_control eps realtime true
+# jack_control eps realtime-priority 80
+# jack_control ds alsa
+# jack_control dps device hw:USB
+# jack_control dps rate 48000
+# jack_control dps period 256
+# jack_control dps nperiods 2
+
+# If JACK's not starting, see whether other processes are using the sound card:
+echo "Searching for processes blocking the USB sound card..."
+sudo fuser -vki -TERM /dev/snd/pcmC1*
+if sudo fuser -s /dev/snd/pcmC1*; then
+  exit 1
+fi
+
+# Sometimes the existing jack config file causes problems, delete it:
+rm -f ~/.config/jack/conf.xml
+
+# open qjackctl which should start jackd using the command in .jackdrc:
+qjackctl &
+
+# set real-time scheduling priority for JACK to 80
+sudo schedtool -R -p 80 $(pidof jackd)
+
+# wait until jack is started
+sleep 2
+
+# set up timidity for midi playback
+nohup timidity -iA -Oj > /dev/null 2>&1 &
+
+# get alsa midi ports to jack
+a2jmidid -e > /dev/null 2>&1 &
+
