@@ -520,8 +520,8 @@ omap ; <Plug>SneakPrevious
 " }}}
 " UltiSnips {{{
 let g:UltiSnipsSnippetsDir="~/.vim/snippets"
-let g:UltiSnipsExpandTrigger="<Tab>"       " snip expansion with Tab
-let g:UltiSnipsListSnippets="<S-Tab>"      " snip listing with Shift+Tab
+let g:UltiSnipsExpandTrigger="<C-j>"       " snip expansion with Ctrl-j
+let g:UltiSnipsListSnippets="<C-l>"        " snip listing with Ctrl-l
 let g:UltiSnipsJumpForwardTrigger="<C-j>"  " go to next and previous snippet
 let g:UltiSnipsJumpBackwardTrigger="<C-k>" " field with Ctrl-j/-k
 " BUG:
