@@ -40,7 +40,7 @@ albums() {
 
 # fuzzy directory-change
 cdf() {
-  cd *$1*/
+  cd *"$1"*/
 }
 
 
