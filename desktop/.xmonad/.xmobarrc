@@ -1,4 +1,4 @@
-Config { font     = "-xos4-terminus-bold-r-normal--20-200-72-72-c-100-iso8859-18"
+Config { font     = "xft:xos4 Terminus:style=Bold:size=16"
        , bgColor  = "#282a2e"
        , fgColor  = "#c9ccca"
        , border   = NoBorder
