@@ -26,10 +26,13 @@ function ask_user() {
 
 function symlink_non_develop_files() {
   mkdir -p "$HOME"/.cache/mpd/playlists
+  mkdir -p "$HOME"/.cache/qutebrowser
 
   ln -sfv "$DOTFILES_DIR/desktop/abcde/.abcde.conf"    "$HOME"
   ln -sfv "$DOTFILES_DIR/desktop/dunst/"               "$HOME"/.config/
   ln -sfv "$DOTFILES_DIR/desktop/feh/"                 "$HOME"/.config/
+  ln -sfv "$DOTFILES_DIR/desktop/qutebrowser/keys.conf"        "$HOME"/.config/qutebrowser/
+  ln -sfv "$DOTFILES_DIR/desktop/qutebrowser/qutebrowser.conf" "$HOME"/.config/qutebrowser/
   ln -sfv "$DOTFILES_DIR/desktop/xdg/user-dirs.dirs"   "$HOME"/.config/
   ln -sfv "$DOTFILES_DIR/desktop/.xmonad/"             "$HOME"
   ln -sfv "$DOTFILES_DIR/desktop/zathura/"             "$HOME"/.config/
