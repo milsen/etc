@@ -102,7 +102,7 @@ set clipboard+=unnamed  " always use system clipboard for copy-pasting
 set scroll=10           " scroll over 30 lines with Ctrl+u and Ctrl+d
 set scrolloff=4         " keep cursor 4 lines away from edge while scrolling
 let g:netrw_liststyle=3 " liststyle of netrw-file-browser (:Explore)
-set keywordprg="man"    " open man with help-key (M)
+set keywordprg="man"    " open man with help-key
 set wildmenu            " command completion with tab
 set complete+=k         " use dictionary-auto-completion
 
@@ -393,10 +393,6 @@ nnoremap <silent> X :Sayonara<CR>
 
 " let Y copy the rest of the line (and behave like other operators)
 nnoremap Y y$
-
-" use M for manual
-nnoremap M K
-vnoremap M K
 
 " split and seam up lines with } and { (formerly J)
 nnoremap <silent> g} Do<Esc>pgk:call Preserve("s/\v +$//")<CR>gj==
