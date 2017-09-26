@@ -54,12 +54,11 @@ mfu() {
 # general function for system commands
 q() {
   case "$1" in
-    killx)    killall xmonad ;;
-    lock)     slock systemctl suspend -i
-              exit ;;
-    poweroff) systemctl poweroff ;;
-    reboot)   systemctl reboot ;;
-    suspend)  systemctl suspend ;;
-    *)        return ;;
+    k|killx)    killall xmonad ;;
+    l|lock)     slock; exit ;;
+    p|poweroff) systemctl poweroff ;;
+    r|reboot)   systemctl reboot ;;
+    s|suspend)  systemctl suspend; exit ;;
+    *)          return ;;
   esac
 }
