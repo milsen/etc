@@ -388,7 +388,7 @@ inoremap <Tab> <C-r>=Completion()<CR>
 inoremap <S-Tab> <C-p>
 
 " writing and quitting
-nnoremap <silent> Ö :w<CR>
+nnoremap <silent> Ö :update<CR>
 nnoremap <silent> X :Sayonara<CR>
 
 " let Y copy the rest of the line (and behave like other operators)
