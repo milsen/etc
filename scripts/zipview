@@ -1,0 +1,40 @@
+#!/bin/bash --
+#
+# ~/bin/zipview by milsen
+#
+# Open an archive containing only images in a feh gallery.
+# Use xarchiver as a fallback.
+#
+
+if [[ -z "$1" ]]; then
+  echo "No argument given."
+  exit 1
+fi
+
+# Returns 1s if at least one item in $1 is not an image.
+only_images() {
+  for ext in $1; do
+    case "$ext" in
+      jpg | JPG | jpeg | JPEG | png | PNG) ;;
+      *) echo 1 ;;
+    esac
+  done
+}
+
+# Get file extensions for files in archive.
+IFS=$'\n'
+filenames="$(basename -a $(unzip -Z -1 "$1" | grep -v "/$"))"
+extlist="$(for f in $filenames; do echo "${f##*.}"; done | uniq)"
+
+# If the files are all images, extract archive into tmp-directory and view
+# contained images, else use xarchiver.
+if [[ -z "$(only_images $extlist)" ]]; then
+  tmpdir="$(basename "$1")"
+  tmpdir="$(mktemp -d /tmp/zipview_XXXXX_"${tmpdir%.*}")" || exit 1
+  7z e "$1" -o"$tmpdir"
+  feh -F -d -S filename "$tmpdir" && rm -rf "$tmpdir" &
+else
+  xarchiver "$1"
+fi
+
+exit 0
