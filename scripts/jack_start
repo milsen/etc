@@ -17,6 +17,12 @@
 # jack_control dps period 256
 # jack_control dps nperiods 2
 
+# If the audio interface is not connected, exit.
+if [ -z "$(grep "USB-Audio" /proc/asound/cards)" ]; then
+  echo "Audio interface is not connected."
+  exit 1
+fi
+
 # If JACK's not starting, see whether other processes are using the sound card:
 echo "Searching for processes blocking the USB sound card..."
 sudo fuser -vki -TERM /dev/snd/pcmC1*
