@@ -617,7 +617,14 @@ endfunction "}}}
 " Neovim Settings ------------------------------------------------------ {{{
 
 if has('nvim')
-    tnoremap jk <C-\><C-n>
+  tnoremap jk <C-\><C-n>
+
+  " Set guicursor to blinking block in normal/visual/commandline mode, vertical
+  " line in insert/visual exclusive mode and horizontal line in replace/
+  " operator pending mode.
+  set guicursor=n-v-c-sm:block-blinkoff400-blinkon250
+        \,i-ci-ve:ver25
+        \,r-cr-o:hor20
 
   " use neovim as a manpager
   nnoremap <Leader>M :vert<Space>Man<Space>
