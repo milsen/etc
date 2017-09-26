@@ -212,7 +212,7 @@ layoutTransform l
 
 -- fields not overridden, will use the defaults in xmonad/XMonad/Config.hs
 main = do
-    xmproc <- spawnPipe "xmobar /home/m/.xmonad/.xmobarrc" -- spawn xmobar
+    xmproc <- spawnPipe "xmobar /home/m/.xmonad/xmobar.hs" -- spawn xmobar
 
     xmonad $ def                          -- use default config, override:
         { terminal           = "termite"  -- preferred terminal emulator
