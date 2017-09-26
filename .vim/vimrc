@@ -428,6 +428,10 @@ iabbrev improt import
 " }}}
 " Plugins -------------------------------------------------------------- {{{
 
+" ftplugins {{{
+let g:no_gitrebase_maps = 1 " do not map K in gitrebase buffers
+let g:tex_conceal = ""      " do not use conceal characters in latex files
+" }}}
 " DelimitMate {{{
 let delimitMate_matchpairs = "(:),[:],{:}"
 
