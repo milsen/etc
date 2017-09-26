@@ -14,3 +14,4 @@ error.log
 */.xmonad/xmonad.errors
 */.xmonad/xmonad.hi
 */.xmonad/xmonad.o
+*/.xmonad/xmonad.state
