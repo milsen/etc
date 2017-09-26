@@ -14,6 +14,7 @@ endif
 call plug#begin('~/.vim/bundle')
 Plug 'Raimondi/delimitMate'
 Plug 'justinmk/vim-dirvish'
+Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all --no-update-rc' }
 Plug 'junegunn/fzf.vim'
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
@@ -29,6 +30,7 @@ Plug 'tpope/vim-repeat'
 Plug 'mhinz/vim-sayonara'
 Plug 'justinmk/vim-sneak'
 Plug 'tpope/vim-surround'
+Plug 'vim-utils/vim-troll-stopper'
 
 " color schemes
 Plug 'kristijanhusak/vim-hybrid-material'
