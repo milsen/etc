@@ -62,3 +62,11 @@ q() {
     *)          return ;;
   esac
 }
+
+weather() {
+  curl -s wttr.in/"$1"?"${2:-0}"
+}
+
+webcopy() {
+  wget --mirror --convert-links --adjust-extension --page-requisites --no-parent "$1"
+}
