@@ -28,16 +28,6 @@ backup_rsync() {
 }
 
 
-# print out list of albums in $XDG_MUSIC_DIR
-albums() {
-  source "$XDG_CONFIG_HOME"/user-dirs.dirs
-  MUSIC_DIR=${XDG_MUSIC_DIR:-$HOME/music}
-  find "$MUSIC_DIR" -maxdepth 2 -mindepth 2 -type d -printf "- %h / %f\n" | \
-    sed 's#'"$MUSIC_DIR"'/##' | \
-    sort
-}
-
-
 # fuzzy directory-change
 cdf() {
   cd *"$1"*/
