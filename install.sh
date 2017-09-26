@@ -24,6 +24,39 @@ function ask_user() {
   done
 }
 
+function symlink_develop_files() {
+  DEVELOP_DIR="$DOTFILES_DIR/develop"
+
+  # create config-directories
+  mkdir -p "$HOME"/.config
+  mkdir -p "$HOME"/.config/bash
+
+  # symlink non-vim-files
+  ln -sfv "$DEVELOP_DIR/coreutils/"                   "$HOME"/.config/
+  ln -sfv "$DEVELOP_DIR/git/"                         "$HOME"/.config/
+  ln -sfv "$DEVELOP_DIR/.latexmkrc"                   "$HOME"
+  ln -sfv "$DEVELOP_DIR/readline/"                    "$HOME"/.config/
+  ln -sfv "$DEVELOP_DIR/shell/bash/.bash_aliases"     "$HOME"
+  ln -sfv "$DEVELOP_DIR/shell/bash/bash_functions.sh" "$HOME"/.config/bash
+  ln -sfv "$DEVELOP_DIR/shell/bash/.bash_logout"      "$HOME"
+  ln -sfv "$DEVELOP_DIR/shell/bash/.bashrc"           "$HOME"
+  ln -sfv "$DEVELOP_DIR/shell/.profile"               "$HOME"
+  ln -sfv "$DEVELOP_DIR/.vim/"                        "$HOME"
+
+  # make sure that other bash configuration files do not exist such that .profile
+  # is actually sourced for login-shells
+  rm -f "$HOME"/.bash_login
+  rm -f "$HOME"/.bash_profile
+
+  # symlink (neo)vim-files
+  ln -sfv "$HOME"/.vim       "$HOME"/.config/nvim
+  ln -sfv "$HOME"/.vim/vimrc "$HOME"/.config/nvim/init.vim
+
+  # create vim-directories
+  mkdir -p ~/.vim/bundle
+  mkdir -p ~/.cache/vim/{backup,undo,swap}
+}
+
 function symlink_non_develop_files() {
   DESKTOP_DIR="$DOTFILES_DIR/desktop"
 
@@ -55,38 +88,11 @@ for com in git curl vim; do
   check_dependency "$com"
 done
 
+# do the actual symlinking
 ask_user "Do you want to symlink files for non-development purposes as well?" \
   "symlink_non_develop_files"
 ask_user "Do you want to symlink scripts as well?" "symlink_scripts"
-
-# create config-directories
-mkdir -p "$HOME"/.config
-mkdir -p "$HOME"/.config/bash
-
-# symlink non-vim-files
-ln -sfv "$DOTFILES_DIR/shell/bash/.bash_aliases"     "$HOME"
-ln -sfv "$DOTFILES_DIR/shell/bash/bash_functions.sh" "$HOME"/.config/bash
-ln -sfv "$DOTFILES_DIR/shell/bash/.bash_logout"      "$HOME"
-ln -sfv "$DOTFILES_DIR/shell/bash/.bashrc"           "$HOME"
-ln -sfv "$DOTFILES_DIR/shell/.profile"               "$HOME"
-ln -sfv "$DOTFILES_DIR/coreutils/"                   "$HOME"/.config/
-ln -sfv "$DOTFILES_DIR/git/"                         "$HOME"/.config/
-ln -sfv "$DOTFILES_DIR/misc_runcom/.latexmkrc"       "$HOME"
-ln -sfv "$DOTFILES_DIR/readline/"                    "$HOME"/.config/
-
-# make sure that other bash configuration files do not exist such that .profile
-# is actually sourced for login-shells
-rm -f "$HOME"/.bash_login
-rm -f "$HOME"/.bash_profile
-
-# symlink (neo)vim-files
-ln -sfv "$DOTFILES_DIR/.vim/"                      "$HOME"
-ln -sfv "$HOME"/.vim                               "$HOME"/.config/nvim
-ln -sfv "$HOME"/.vim/vimrc                         "$HOME"/.config/nvim/init.vim
-
-# create vim-directories
-mkdir -p ~/.vim/bundle
-mkdir -p ~/.cache/vim/{backup,undo,swap}
+symlink_develop_files
 
 # install vim-plugins using vim-plug
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
