@@ -19,7 +19,6 @@ Plug 'junegunn/fzf.vim'
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
 Plug 'haya14busa/incsearch.vim'
-Plug 'neomake/neomake'
 Plug 'wellle/targets.vim'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'lervag/vimtex', { 'for': 'tex' }
@@ -161,8 +160,6 @@ augroup buffer_autocmds " {{{
           \ if line("'\"") > 1 && line("'\"") <= line("$") |
           \   execute "normal! g'\"zv" |
           \ endif
-    " lint files after reading/writing them
-    autocmd BufReadPost,BufWritePost * Neomake
     " highlight trailing whitespace as an error
     autocmd BufRead,InsertLeave * match Error /[\u3000[:space:]]\+$/
     autocmd InsertEnter * match Error /[\u3000[:space:]]\+\%#\@<!$/
@@ -316,7 +313,6 @@ nnoremap <Leader>q :<C-u><C-r>='let @'. v:register .' = '. string(getreg(v:regis
 noremap <silent> <Leader>, :aboveleft 25vs +Dirvish<CR>
 noremap <silent> <Leader>u :UndotreeToggle<CR>
 noremap <silent> <Leader>G :Gdiff<CR>
-noremap <silent> <Leader>! :Neomake!<CR>
 
 " FZF-commands
 nnoremap <silent> <Leader>. :Files<CR>
