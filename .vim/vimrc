@@ -626,5 +626,9 @@ if has('nvim')
     autocmd Filetype man noremap <CR> :Man <C-r><C-w><CR>
     autocmd Filetype man noremap q :quit<CR>
   augroup END
+
+  " use inccommand substitution
+  noremap gs :s#\%V
+  set inccommand=split
 endif
 " }}}
