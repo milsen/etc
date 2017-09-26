@@ -25,21 +25,23 @@ function ask_user() {
 }
 
 function symlink_non_develop_files() {
+  DESKTOP_DIR="$DOTFILES_DIR/desktop"
+
   mkdir -p "$HOME"/.cache/mpd/playlists
   mkdir -p "$HOME"/.cache/qutebrowser
 
-  ln -sfv "$DOTFILES_DIR/desktop/abcde/.abcde.conf"    "$HOME"
-  ln -sfv "$DOTFILES_DIR/desktop/dunst/"               "$HOME"/.config/
-  ln -sfv "$DOTFILES_DIR/desktop/feh/"                 "$HOME"/.config/
-  ln -sfv "$DOTFILES_DIR/desktop/mpd/"                 "$HOME"/.config/
-  ln -sfv "$DOTFILES_DIR/desktop/ncmpcpp/"             "$HOME"/.config/
-  ln -sfv "$DOTFILES_DIR/desktop/qutebrowser/keys.conf"        "$HOME"/.config/qutebrowser/
-  ln -sfv "$DOTFILES_DIR/desktop/qutebrowser/qutebrowser.conf" "$HOME"/.config/qutebrowser/
-  ln -sfv "$DOTFILES_DIR/desktop/xdg/user-dirs.dirs"   "$HOME"/.config/
-  ln -sfv "$DOTFILES_DIR/desktop/.xmonad/"             "$HOME"
-  ln -sfv "$DOTFILES_DIR/desktop/zathura/"             "$HOME"/.config/
-  ln -sfv "$DOTFILES_DIR/desktop/.xinitrc"             "$HOME"
-  ln -sfv "$DOTFILES_DIR/term/termite/"                "$HOME"/.config/
+  ln -sfv "$DESKTOP_DIR/abcde/.abcde.conf"            "$HOME"
+  ln -sfv "$DESKTOP_DIR/dunst/"                       "$HOME"/.config/
+  ln -sfv "$DESKTOP_DIR/feh/"                         "$HOME"/.config/
+  ln -sfv "$DESKTOP_DIR/mpd/"                         "$HOME"/.config/
+  ln -sfv "$DESKTOP_DIR/ncmpcpp/"                     "$HOME"/.config/
+  ln -sfv "$DESKTOP_DIR/qutebrowser/keys.conf"        "$HOME"/.config/qutebrowser/
+  ln -sfv "$DESKTOP_DIR/qutebrowser/qutebrowser.conf" "$HOME"/.config/qutebrowser/
+  ln -sfv "$DESKTOP_DIR/termite/"                     "$HOME"/.config/
+  ln -sfv "$DESKTOP_DIR/xdg/user-dirs.dirs"           "$HOME"/.config/
+  ln -sfv "$DESKTOP_DIR/.xinitrc"                     "$HOME"
+  ln -sfv "$DESKTOP_DIR/.xmonad/"                     "$HOME"
+  ln -sfv "$DESKTOP_DIR/zathura/"                     "$HOME"/.config/
 }
 
 function symlink_scripts() {
