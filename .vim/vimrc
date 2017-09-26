@@ -380,7 +380,7 @@ cnoremap <C-l> <Right>
 " jumps, keep screen in the middle
 nnoremap <silent> gg ggzz@=(line('.')==1?'':'zv')<CR>
 nnoremap <silent> G Gzz@=(line('.')==line('$')?'':'zv')<CR>
-nnoremap <CR> :call JumpToDefinition()<CR>n<C-o>zzzv
+nnoremap <CR> :call JumpToDefinition()<CR>
 nnoremap <BS> <C-o>zzzv
 
 " go through completion results with Tab/S+Tab
@@ -581,13 +581,26 @@ function! FoldText() " {{{
 endfunction " }}}
 
 function! JumpToDefinition() "{{{
-  let l:word = expand("<cword>")
-  let @/="\\<" . l:word . "\\>"
-  " if the word under the cursor is a tag, jump to it, else use gd
-  if empty(taglist("^" . l:word . "$"))
-    normal! gd
+  if &ft ==# "qf"
+    execute "normal! \<CR>"
+  elseif &ft ==# 'gitrebase'
+    let l:commit_hash = split(getline('.'))[1]
+    if l:commit_hash =~ '\x\{9}'
+      execute "!git show " . l:commit_hash
+    else
+      normal! gd
+    endif
   else
-    execute "normal! \<C-]>"
+    let l:word = expand("<cword>")
+    let @/="\\<" . l:word . "\\>"
+    " if the word under the cursor is a tag, jump to it, else use gd
+    if empty(taglist("^" . l:word . "$"))
+      normal! gd
+    else
+      execute "normal! \<C-]>"
+    endif
+    set hlsearch
+    redraw
   endif
 endfunction "}}}
 
