@@ -1,6 +1,6 @@
-#!/bin/sh --
+#!/bin/bash --
 #
-# /usr/bin/music-player by milsen
+# "$HOME"/bin/music-player by milsen
 #
 # A script to show ncmpcpp and corresponding cover art.
 # $1 - geometry string for feh displaying the cover art

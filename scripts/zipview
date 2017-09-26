@@ -1,6 +1,6 @@
 #!/bin/bash --
 #
-# ~/bin/zipview by milsen
+# "$HOME"/bin/zipview by milsen
 #
 # Open an archive containing only images in a feh gallery.
 # Use xarchiver as a fallback.

@@ -1,5 +1,7 @@
 #!/bin/bash --
-
+#
+# "$HOME"/bin/jack_start by milsen
+#
 # The jackd command executed by qjackctl at startup is located in ~/.jackdrc:
 # /usr/bin/jackd -v -R -P80 -dalsa -dhw:USB -r48000 -p256 -n2
 #
