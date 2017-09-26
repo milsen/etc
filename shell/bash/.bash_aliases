@@ -4,6 +4,7 @@
 #
 
 # cd aliases
+alias cda='cd ~/art'
 alias cdb='cd ~/bin'
 alias cdd='cd ~/doc'
 alias cde='cd ~/etc'
@@ -21,6 +22,11 @@ alias cdB4='cd ~/doc/Studium/B4/'
 alias cdB5='cd ~/doc/Studium/B5/'
 alias cdB6='cd ~/doc/Studium/B6/'
 alias cdB7='cd ~/doc/Studium/B7/'
+alias cdM1='cd ~/doc/Studium/M1/'
+alias cdM2='cd ~/doc/Studium/M2/'
+alias cdM3='cd ~/doc/Studium/M3/'
+alias cdM4='cd ~/doc/Studium/M4/'
+alias cdM5='cd ~/doc/Studium/M5/'
 
 alias ..='cd ..'
 alias ...='cd ../../'
@@ -54,11 +60,10 @@ if [ -x /usr/bin/dircolors ]; then
   alias egrep='egrep --color=auto'
 fi
 
-# do not remove files by accident
-alias cp='cp -i'      # prompt before each use of cp, mv and rm
+# do not remove files by accident - prompt before each use of cp, mv and rm
+alias cp='cp -i'
 alias mv='mv -i'
 alias rm='rm -i'
-alias tp='trash-put'  # use trash-put instead of rm if possible
 
 # remove all temporary files
 alias rm~="find . -type f -name '*~' -not -iwholename '*Trash*' -exec rm -i {} \;"
@@ -68,4 +73,6 @@ alias ipyno='ipython notebook --pylab=inline --ip=localhost'
 alias octavep='octave --persist'
 
 # other aliases
-alias music='ncmpcpp'
+alias gallery='feh -F -d -S filename'
+alias powertab='~/pkg/powertabeditor/build/bin/powertabeditor'
+alias qutebrowser='qutebrowser --backend=webengine'
