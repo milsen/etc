@@ -396,12 +396,13 @@ nnoremap Y y$
 nnoremap M K
 vnoremap M K
 
-" split and seam up lines with gS (formerly J)
-nnoremap <silent> gsj Do<Esc>pgk:call Preserve("s/\v +$//")<CR>gj
-nnoremap <silent> gsk DO<Esc>pgj:call Preserve("s/\v +$//")<CR>gk==
-nnoremap <silent> gSj :call Preserve("normal! J")<CR>
-nnoremap <silent> gSk :call Preserve("normal! kddpgkJ")<CR>gk
-vnoremap <silent> gS J
+" split and seam up lines with } and { (formerly J)
+nnoremap <silent> g} Do<Esc>pgk:call Preserve("s/\v +$//")<CR>gj==
+nnoremap <silent> g{ DO<Esc>pgj:call Preserve("s/\v +$//")<CR>gk==
+nnoremap <silent> } :call Preserve("normal! J")<CR>
+nnoremap <silent> { :call Preserve("normal! kddpgkJ")<CR>gk
+vnoremap <silent> } J
+xnoremap <silent> } J
 
 " format text using Q
 nnoremap Q gw
