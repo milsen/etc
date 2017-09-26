@@ -7,6 +7,7 @@ import System.Exit
 import System.IO
 import XMonad
 import XMonad.Actions.CycleWS
+import XMonad.Actions.SpawnOn
 import XMonad.Actions.WindowGo
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
@@ -187,7 +188,7 @@ myLayoutHook = tiled ||| Full -- ||| Mirror tiled ||| Grid
 myManageHook = composeAll
     [ className =? "dunst-notification" --> doIgnore
     , className =? "MPlayer"            --> doFloat
-    , title     =? "abcde_album_art"    --> doFloat
+    , className =? "Display"            --> doFloat
     , title     =? "cover art"          --> doF (W.focusDown)
     , title     =? "cover art"          --> doFloat
     , title     =? "music-player"       --> doFloat
@@ -230,7 +231,7 @@ main = do
 
         -- hooks, layouts
         , layoutHook         = avoidStruts $ smartBorders $ myLayoutHook
-        , manageHook         = manageDocks <+> myManageHook <+> manageHook def
+        , manageHook         = manageDocks <+> manageSpawn <+> myManageHook <+> manageHook def
 
         , handleEventHook    = docksEventHook
         , logHook            = dynamicLogWithPP $ def
