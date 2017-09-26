@@ -93,8 +93,9 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm,              xK_o     ), spawn "termite -t music-player --geometry 800x300+780+50 -e \"music-player 300x300+1600+50\"")
     , ((modm,              xK_p     ), spawn "mpc toggle")
     , ((modm,              xK_g     ), spawn "termite -e ranger")
-    , ((modm,              xK_f     ), spawn "firefox")
-    , ((modm,              xK_Print ), spawn "scrot '%Y-%m-%d_%H-%M-%S.png' -e 'mv $f ~/media/images/shots' && notify-send 'Screenshot taken'")
+    , ((modm,              xK_i     ), spawnOn "1" "qutebrowser --backend=webengine")
+    , ((modm .|. mod1Mask, xK_i     ), spawnOn "9" "thunderbird")
+    , ((modm,              xK_Print ), spawn "scrot '%Y-%m-%d_%H-%M-%S.png' -ze 'mv $f ~/media/images/shots' && notify-send 'Screenshot taken'")
 
     -- xF86 keys
     , ((0, xF86XK_AudioMute        ), spawn "amixer set Master toggle")
