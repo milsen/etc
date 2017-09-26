@@ -20,6 +20,11 @@ shopt -s extglob        # enable the globs ?(),*(),+(),@(),!()
 shopt -s autocd         # when command is only a directory, cd to that dir
 
 # Misc Settings {{{
+# use neovim as the manpager
+if [ -n "$(command -v "nvim")" ]; then
+  export MANPAGER="nvim -c 'set ft=man' -"
+fi
+
 # set XDG_CONFIG_HOME if it is not set already
 export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
 

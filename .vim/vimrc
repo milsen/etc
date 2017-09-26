@@ -618,5 +618,13 @@ endfunction "}}}
 
 if has('nvim')
     tnoremap jk <C-\><C-n>
+
+  " use neovim as a manpager
+  nnoremap <Leader>M :vert<Space>Man<Space>
+  let g:no_man_maps = 1
+  augroup nvim_man
+    autocmd Filetype man noremap <CR> :Man <C-r><C-w><CR>
+    autocmd Filetype man noremap q :quit<CR>
+  augroup END
 endif
 " }}}
