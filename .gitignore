@@ -2,12 +2,12 @@
 error.log
 
 # vim-directories
-.vim/autoload
-.vim/bundle
-.vim/spell
+*/.vim/autoload
+*/.vim/bundle
+*/.vim/spell
 
 # neovim init-file (symlinked to vimrc)
-.vim/init.vim
+*/.vim/init.vim
 
 # xmonad
 */.xmonad/xmonad-x*
