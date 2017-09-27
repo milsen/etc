@@ -78,9 +78,8 @@ function symlink_desktop_files() {
 }
 
 function symlink_scripts() {
-  chmod a+x "$DOTFILES_DIR/scripts/"*
-  mkdir -p "$HOME"/bin
-  ln -sfv "$DOTFILES_DIR/scripts/"*                    "$HOME"/bin
+  chmod a+x "$DOTFILES_DIR/bin/"*
+  ln -sfv "$DOTFILES_DIR/bin/" "$HOME"
 }
 
 # make sure that git, curl and vim are installed
