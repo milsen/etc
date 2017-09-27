@@ -48,7 +48,7 @@ function symlink_develop_files() {
   rm -f "$HOME"/.bash_login
   rm -f "$HOME"/.bash_profile
 
-  # symlink (neo)vim-files
+  # symlink neovim-files
   ln -sfv "$HOME"/.vim       "$HOME"/.config/nvim
   ln -sfv "$HOME"/.vim/vimrc "$HOME"/.config/nvim/init.vim
 
@@ -57,7 +57,7 @@ function symlink_develop_files() {
   mkdir -p ~/.cache/vim/{backup,undo,swap}
 }
 
-function symlink_non_develop_files() {
+function symlink_desktop_files() {
   DESKTOP_DIR="$DOTFILES_DIR/desktop"
 
   mkdir -p "$HOME"/.cache/mpd/playlists
@@ -89,10 +89,10 @@ for com in git curl vim; do
 done
 
 # do the actual symlinking
-ask_user "Do you want to symlink files for non-development purposes as well?" \
-  "symlink_non_develop_files"
-ask_user "Do you want to symlink scripts as well?" "symlink_scripts"
 symlink_develop_files
+ask_user "Do you want to symlink files for non-development purposes as well?" \
+  "symlink_desktop_files"
+ask_user "Do you want to symlink scripts as well?" "symlink_scripts"
 
 # install vim-plugins using vim-plug
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
