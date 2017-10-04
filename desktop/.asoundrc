@@ -1,0 +1,15 @@
+# needed to make skype work
+pcm.!default
+{
+    type asym
+    playback.pcm
+    {
+        type plug
+        slave.pcm "dmix"
+    }
+    capture.pcm
+    {
+        type plug
+        slave.pcm "dsnoop"
+    }
+}
