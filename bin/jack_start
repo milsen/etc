@@ -2,12 +2,12 @@
 #
 # "$HOME"/bin/jack_start by milsen
 #
-# The jackd command executed by qjackctl at startup is located in ~/.jackdrc:
-# /usr/bin/jackd -v -R -P80 -dalsa -dhw:USB -r48000 -p256 -n2
-#
-# This command starts JACK with a real-time scheduling priority of 80.
-# It also sets JACK parameters for low latency and few xruns: The lower
-# rate/period, the lower the latency and the higher a chance of xruns.
+# This script checks whether a USB soundcard is connected. If so, it creates a
+# ~/jackdrc which is then executed by qjackctl at startup. The executed command
+# starts JACK with a real-time scheduling priority of 80. and sets JACK
+# parameters for low latency and few xruns: It holds that
+#                       latency = nperiods*(rate/period)
+# A low latency, however, also increases the chance of xruns.
 # The jackd command is equivalent to (but sometimes works better than):
 #
 # jack_control start
@@ -15,9 +15,9 @@
 # jack_control eps realtime-priority 80
 # jack_control ds alsa
 # jack_control dps device hw:USB
-# jack_control dps rate 48000
-# jack_control dps period 256
-# jack_control dps nperiods 2
+# jack_control dps rate 44100
+# jack_control dps period 128
+# jack_control dps nperiods 3
 
 # If the audio interface is not connected, exit.
 if [ -z "$(grep "USB-Audio" /proc/asound/cards)" ]; then
@@ -35,18 +35,20 @@ fi
 # Sometimes the existing jack config file causes problems, delete it:
 rm -f ~/.config/jack/conf.xml
 
-# open qjackctl which should start jackd using the command in .jackdrc:
+# Create .jackdrc with the correct settings for low latency/few xruns.
+echo '/usr/bin/jackd -v -R -P80 -dalsa -dhw:USB -r44100 -p128 -n3' > "$HOME"/.jackdrc
+
+# Open qjackctl which should start jackd using the command in .jackdrc:
 qjackctl &
 
-# set real-time scheduling priority for JACK to 80
+# Set real-time scheduling priority for JACK to 80.
 sudo schedtool -R -p 80 $(pidof jackd)
 
-# wait until jack is started
+# Wait until jack is started.
 sleep 2
 
-# set up timidity for midi playback
+# Set up timidity for MIDI playback.
 nohup timidity -iA -Oj > /dev/null 2>&1 &
 
-# get alsa midi ports to jack
+# Get ALSA MIDI ports to JACK.
 a2jmidid -e > /dev/null 2>&1 &
-
