@@ -35,8 +35,9 @@ fi
 # Sometimes the existing jack config file causes problems, delete it:
 rm -f ~/.config/jack/conf.xml
 
-# Create .jackdrc with the correct settings for low latency/few xruns.
-echo '/usr/bin/jackd -v -R -P80 -dalsa -dhw:USB -r44100 -p128 -n3' > "$HOME"/.jackdrc
+# Create .jackdrc with the correct settings for low latency/few xruns (qjackctl
+# does this automatically according to "$HOME"/.config/rncbc.org/QjackCtl.conf).
+# echo '/usr/bin/jackd -v -R -P80 -dalsa -dhw:USB -r44100 -p128 -n3' > "$HOME"/.jackdrc
 
 # Open qjackctl which should start jackd using the command in .jackdrc:
 qjackctl &
