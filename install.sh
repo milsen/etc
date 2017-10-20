@@ -69,8 +69,7 @@ function symlink_desktop_files() {
   ln -sfv "$DESKTOP_DIR/mpd/"                         "$HOME"/.config/
   ln -sfv "$DESKTOP_DIR/ncmpcpp/"                     "$HOME"/.config/
   ln -sfv "$DESKTOP_DIR/pulse/daemon.conf"            "$HOME"/.config/pulse/
-  ln -sfv "$DESKTOP_DIR/qutebrowser/keys.conf"        "$HOME"/.config/qutebrowser/
-  ln -sfv "$DESKTOP_DIR/qutebrowser/qutebrowser.conf" "$HOME"/.config/qutebrowser/
+  ln -sfv "$DESKTOP_DIR/qutebrowser/config.py"        "$HOME"/.config/qutebrowser/
   ln -sfv "$DESKTOP_DIR/rncbc.org/"                   "$HOME"/.config/
   ln -sfv "$DESKTOP_DIR/termite/"                     "$HOME"/.config/
   ln -sfv "$DESKTOP_DIR/xdg/user-dirs.dirs"           "$HOME"/.config/
