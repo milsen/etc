@@ -75,4 +75,3 @@ alias octavep='octave --persist'
 # other aliases
 alias gallery='feh -F -d -S filename'
 alias powertab='~/pkg/powertabeditor/build/bin/powertabeditor'
-alias qutebrowser='qutebrowser --backend=webengine'

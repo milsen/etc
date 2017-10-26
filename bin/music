@@ -176,7 +176,7 @@ fi
 
 # Get info on RYM about the album.
 if [ -n "$info" ]; then
-  qutebrowser --backend=webengine \
+  qutebrowser \
     ":open -p http://rateyourmusic.com/search?searchtype=l&searchterm=$album"
 fi
 
