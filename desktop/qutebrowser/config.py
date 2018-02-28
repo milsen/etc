@@ -95,58 +95,7 @@ color13 = "#c8afce"
 color14 = "#82b8b1"
 color15 = "#adb0ae"
 
-# c.aliases
-# c.auto_save.interval
-# c.auto_save.session
-# c.backend
-# c.bindings.commands
-# c.bindings.default
-# c.bindings.key_mappings
-
-# Colors
-# c.colors.completion.category.bg
-# c.colors.completion.category.border.bottom
-# c.colors.completion.category.border.top
-# c.colors.completion.category.fg
-# c.colors.completion.even.bg
-# c.colors.completion.fg = "white"
-# c.colors.completion.item.selected.bg
-# c.colors.completion.item.selected.border.bottom
-# c.colors.completion.item.selected.border.top
-# c.colors.completion.item.selected.fg
-# c.colors.completion.match.fg
-# c.colors.completion.odd.bg
-# c.colors.completion.scrollbar.fg = c.colors.completion.fg
-# c.colors.completion.scrollbar.bg = c.colors.completion.bg
-# c.colors.downloads.bar.bg
-# c.colors.downloads.error.bg
-# c.colors.downloads.error.fg
-# c.colors.downloads.start.bg
-# c.colors.downloads.start.fg
-# c.colors.downloads.stop.bg
-# c.colors.downloads.stop.fg
-# c.colors.downloads.system.bg
-# c.colors.downloads.system.fg
-# c.colors.hints.bg
-# c.colors.hints.fg
-# c.colors.hints.match.fg
-# c.colors.keyhint.bg
-# c.colors.keyhint.fg
-# c.colors.keyhint.suffix.fg
-# c.colors.messages.error.bg
-# c.colors.messages.error.border
-# c.colors.messages.error.fg
-# c.colors.messages.info.bg
-# c.colors.messages.info.border
-# c.colors.messages.info.fg
-# c.colors.messages.warning.bg
-# c.colors.messages.warning.border
-# c.colors.messages.warning.fg
-# c.colors.prompts.bg
-# c.colors.prompts.border
-# c.colors.prompts.fg
-# c.colors.prompts.selected.bg
-
+# Settings
 c.colors.statusbar.normal.bg = color0
 c.colors.statusbar.normal.fg = "white"
 c.colors.statusbar.private.bg = color0 # TODO
@@ -172,81 +121,19 @@ c.colors.statusbar.url.warn.fg = color3
 c.colors.tabs.bar.bg = "#555555"
 c.colors.tabs.even.bg = color0
 c.colors.tabs.even.fg = "white"
-# c.colors.tabs.indicator.error
-# c.colors.tabs.indicator.start
-# c.colors.tabs.indicator.stop
-# c.colors.tabs.indicator.system
 c.colors.tabs.odd.bg = c.colors.tabs.even.bg
 c.colors.tabs.odd.fg = c.colors.tabs.even.fg
 c.colors.tabs.selected.even.bg = c.colors.tabs.even.fg
 c.colors.tabs.selected.even.fg = c.colors.tabs.even.bg
 c.colors.tabs.selected.odd.bg = c.colors.tabs.selected.even.bg
 c.colors.tabs.selected.odd.fg = c.colors.tabs.selected.even.fg
-# c.colors.webpage.bg
 
-# c.completion.cmd_history_max_items
-# c.completion.height
-# c.completion.quick
-# c.completion.scrollbar.padding
-# c.completion.scrollbar.width
-# c.completion.show
-# c.completion.shrink
-# c.completion.timestamp_format
-# c.completion.web_history_max_items
-# c.confirm_quit
-# c.content.cache.appcache
-# c.content.cache.maximum_pages
-# c.content.cache.size
-# c.content.cookies.accept
-# c.content.cookies.store
-# c.content.default_encoding
-# c.content.developer_extras
-# c.content.dns_prefetch
-# c.content.frame_flattening
-# c.content.geolocation
-# c.content.headers.accept_language
-# c.content.headers.custom
-# c.content.headers.do_not_track
-# c.content.headers.referer
-# c.content.headers.user_agent
-# c.content.host_blocking.enabled
-# c.content.host_blocking.lists
-# c.content.host_blocking.whitelist
-# c.content.hyperlink_auditing
-# c.content.images
-# c.content.javascript.alert
-# c.content.javascript.can_access_clipboard
-# c.content.javascript.can_close_tabs
-# c.content.javascript.can_open_tabs_automatically
-# c.content.javascript.enabled
-# c.content.javascript.log
-# c.content.javascript.modal_dialog
-# c.content.javascript.prompt
-# c.content.local_content_can_access_file_urls
-# c.content.local_content_can_access_remote_urls
-# c.content.local_storage
-# c.content.media_capture
-# c.content.netrc_file
-# c.content.notifications
 c.content.pdfjs = True
-# c.content.plugins
-# c.content.print_element_backgrounds
 c.content.private_browsing = True
-# c.content.proxy
-# c.content.proxy_dns_requests
-# c.content.ssl_strict
-# c.content.user_stylesheets
-# c.content.webgl
 c.content.xss_auditing = True
-# c.downloads.location.directory
 c.downloads.location.prompt = False
 c.downloads.location.remember = False
-# c.downloads.location.suggestion
-# c.downloads.open_dispatcher
-# c.downloads.position
-# c.downloads.remove_finished
-c.editor.command = ["termite", "-e", "nvim", "{}"]
-# c.editor.encoding
+c.editor.command = ["termite", "-e", "nvim {}"]
 
 c.fonts.completion.category = "bold 12pt monospace"
 c.fonts.completion.entry = "12pt monospace"
@@ -262,86 +149,20 @@ c.fonts.prompts = "12pt sans-serif"
 c.fonts.statusbar = "16pt monospace"
 c.fonts.tabs = "16pt monospace"
 
-# c.fonts.web.family.cursive
-# c.fonts.web.family.fantasy
-# c.fonts.web.family.fixed
-# c.fonts.web.family.sans_serif
-# c.fonts.web.family.serif
-# c.fonts.web.family.standard
-# c.fonts.web.size.default
-# c.fonts.web.size.default_fixed
-# c.fonts.web.size.minimum
-# c.fonts.web.size.minimum_logical
-
-# c.hints.auto_follow = "unique-match"
 c.hints.auto_follow_timeout = 400
-# c.hints.border
-# c.hints.chars
 c.hints.dictionary = "/usr/share/dict/cracklib-small"
-# c.hints.find_implementation
-# c.hints.hide_unmatched_rapid_hints
-# c.hints.min_chars
 c.hints.mode = "word"
-# c.hints.next_regexes
-# c.hints.prev_regexes
-# c.hints.scatter
-# c.hints.uppercase = False
 
-# c.history_gap_interval
-# c.ignore_case
-# c.input.forward_unbound_keys
-# c.input.insert_mode.auto_leave
-# c.input.insert_mode.auto_load
-# c.input.insert_mode.plugins
-# c.input.links_included_in_focus_chain
 c.input.partial_timeout = 1000
-# c.input.rocker_gestures
-# c.input.spatial_navigation
-# c.keyhint.blacklist
 c.keyhint.delay = 200
 
-# c.messages.timeout
-# c.messages.unfocused
-# c.new_instance_open_target
-# c.new_instance_open_target_window
-# c.prompt.filebrowser
-# c.prompt.radius
-# c.qt.args
-# c.qt.force_platform
-# c.qt.force_software_rendering
 c.scrolling.bar = True
 c.scrolling.smooth = True
-# c.session_default_name
-# c.spellcheck.languages
-# c.statusbar.hide
-# c.statusbar.padding
-# c.statusbar.position
-#
-# c.tabs.background
-# c.tabs.close_mouse_button
-# c.tabs.favicons.scale
-# c.tabs.favicons.show
-# c.tabs.indicator_padding
+
 c.tabs.last_close = "close"
 c.tabs.mousewheel_switching = False
-# c.tabs.new_position.related
-# c.tabs.new_position.unrelated
-# c.tabs.padding
-# c.tabs.position
-# c.tabs.select_on_remove
-# c.tabs.show
-# c.tabs.show_switching_delay
-# c.tabs.tabs_are_windows
-# c.tabs.title.alignment
-# c.tabs.title.format
-# c.tabs.title.format_pinned
-# c.tabs.width.bar
-# c.tabs.width.indicator
-# c.tabs.wrap
 
-# c.url.auto_search
 c.url.default_page = "about:blank"
-# c.url.incdec_segments
 c.url.searchengines = {
   'DEFAULT' : 'https://duckduckgo.com/?q={}',
   'd' : 'https://dict.cc/?s={}',
@@ -353,12 +174,6 @@ c.url.searchengines = {
   's' : 'https://www.startpage.com/do/search?lui=english&cat=web&query={}',
   'y' : 'https://www.youtube.com/results?search_query={}',
   }
-# c.url.start_pages
-# c.url.yank_ignored_parameters
 
-# c.window.hide_wayland_decoration
 c.window.title_format = "{perc}{title}{title_sep}qutebrowser{private}"
 c.zoom.default = "150%"
-# c.zoom.levels
-# c.zoom.mouse_divider
-# c.zoom.text_only
