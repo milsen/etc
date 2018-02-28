@@ -12,6 +12,7 @@
     br = branch
     co = checkout
     ds = diff --staged
+    files = diff-tree --no-commit-id --name-only -r
     fpr = "!sh -c 'nr=\"$1\"; shift; git fetch upstream refs/pull/$nr/head:pr-$nr \"$@\"' -"
     gud = "!f() { \
                git log --author=\"$(git config --get user.name)\" \
