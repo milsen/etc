@@ -10,6 +10,7 @@ import XMonad.Actions.CycleWS
 import XMonad.Actions.SpawnOn
 import XMonad.Actions.WindowGo
 import XMonad.Hooks.DynamicLog
+import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageDocks
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Layout.NoBorders
@@ -214,7 +215,7 @@ layoutTransform l
 main = do
     xmproc <- spawnPipe "xmobar /home/m/.xmonad/xmobar.hs" -- spawn xmobar
 
-    xmonad $ def                          -- use default config, override:
+    xmonad $ ewmh def                     -- use default config, override:
         { terminal           = "termite"  -- preferred terminal emulator
         , focusFollowsMouse  = True       -- window focus should follow mouse
         , borderWidth        = 2          -- border width in pixels
@@ -233,7 +234,8 @@ main = do
         , layoutHook         = avoidStruts $ smartBorders $ myLayoutHook
         , manageHook         = manageDocks <+> manageSpawn <+> myManageHook <+> manageHook def
 
-        , handleEventHook    = docksEventHook
+        -- note: ewmh-hook is needed to stop some app-menus from disappering
+        , handleEventHook    = docksEventHook <+> ewmhDesktopsEventHook
         , logHook            = dynamicLogWithPP $ def
                                     { ppCurrent         = xmobarColor color11 ""
                                     , ppVisible         = wrap "<" ">"
