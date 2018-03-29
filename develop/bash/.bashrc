@@ -74,12 +74,9 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # load functions
-. ~/.config/bash/*
-
-# load alias definitions
-if [ -r ~/.bash_aliases ]; then
-  . ~/.bash_aliases
-fi
+for f in ~/.config/bash/*; do
+  source "$f";
+done
 
 # enable programmable completion features
 if [ -r /etc/bash_completion ] && ! shopt -oq posix; then

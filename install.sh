@@ -36,8 +36,8 @@ function symlink_develop_files() {
   ln -sfv "$DEVELOP_DIR/git/"                         "$HOME"/.config/
   ln -sfv "$DEVELOP_DIR/.latexmkrc"                   "$HOME"
   ln -sfv "$DEVELOP_DIR/readline/"                    "$HOME"/.config/
-  ln -sfv "$DEVELOP_DIR/shell/bash/.bash_aliases"     "$HOME"
-  ln -sfv "$DEVELOP_DIR/shell/bash/bash_functions.sh" "$HOME"/.config/bash
+  ln -sfv "$DEVELOP_DIR/shell/bash/bash_aliases"      "$HOME"/.config/bash
+  ln -sfv "$DEVELOP_DIR/shell/bash/bash_functions"    "$HOME"/.config/bash
   ln -sfv "$DEVELOP_DIR/shell/bash/.bash_logout"      "$HOME"
   ln -sfv "$DEVELOP_DIR/shell/bash/.bashrc"           "$HOME"
   ln -sfv "$DEVELOP_DIR/shell/.profile"               "$HOME"

@@ -1,6 +1,6 @@
 #!/bin/bash --
 #
-# "XDG_CONFIG_HOME"/bash/bash_functions.sh by milsen
+# "XDG_CONFIG_HOME"/bash/bash_functions by milsen
 #
 
 # alert after command execution with terminal or error icon and command name
