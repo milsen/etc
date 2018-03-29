@@ -19,6 +19,7 @@ alias ..='cd ..'
 alias ...='cd ../../'
 alias ....='cd ../../../'
 alias .....='cd ../../../../'
+alias ......='cd ../../../../../'
 
 # ls aliases
 alias ll='ls -alFh'   # list all files in list format with classifer
@@ -62,3 +63,4 @@ alias octavep='octave --persist'
 # other aliases
 alias gallery='feh -F -d -S filename'
 alias powertab='~/pkg/powertabeditor/build/bin/powertabeditor'
+alias startxlog='startx > ~/.xsession-errors 2>&1'
