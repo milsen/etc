@@ -5,57 +5,54 @@
 # A script to update and show information about my music collection.
 #
 
+# exit when receiving a SIGINT (e.g. via Ctrl-C) or a SIGTERM signal
+trap -- "exit 0" SIGINT SIGTERM
+
 # Get important file paths.
 source "$XDG_CONFIG_HOME"/user-dirs.dirs
 MUSIC_DIR=${XDG_MUSIC_DIR:-$HOME/music}
 OWNED_ALBUMS_FILE="$HOME/doc/Listen/albums.txt"
 WISHLIST_FILE="$HOME/doc/Listen/wishlist.md"
+GET_ALBUM_INFO="$HOME"/bin/album-info
 
 usage() {
+  local cmd=$(basename $0)
   cat <<EOF
-  usage: $(basename $0) [OPTIONS]
+  Usage: $cmd [OPTIONS] [Query...]
+
+  Unless -e, -u or unknown options are specified, $cmd will do the following:
+    1. Input collection:
+       The input is made up of the query and the content of the files specified
+       via options. If no query is given and no options are specified, -a is
+       used as the default input option.
+    2. Pre-selection (optional).
+    3. Selection (only if album action is specified).
+    4. Album Printing.
+    5. Album Actions (optional).
 
     Input:
       -o        operate on owned albums in $OWNED_ALBUMS_FILE
       -w        operate on albums in wishlist $WISHLIST_FILE
       -a        operate on all albums (short for -ow)
-      -n [arg]  operate on the given album name
 
-    Input Manipulation (the last option given supercedes the previous ones):
+    Pre-Selection:
       -f        select album(s) from the input using fzf
-      -g [arg]  select album(s) from the input using grep [arg]
+      -g <arg>  select album(s) from the input using grep [arg]
       -r        select a random album from the input
-
-    Input-Independent Actions:
-      -e        edit the wishlist in $WISHLIST_FILE
-      -u        update list of owned albums in $OWNED_ALBUMS_FILE
 
     Album Actions (these force selecting a single album):
       -i        get info about album
       -p        play album with mpc (if not owned via youtube-dl)
       -x        copy album name to the X clipboard
+
+    Input-Independent Actions:
+      -e        edit the wishlist in $WISHLIST_FILE
+      -u        update list of owned albums in $OWNED_ALBUMS_FILE
 EOF
 }
 
 append_albums() {
-  list="$list $(cat "$1" | grep "^-")"
-}
-
-fzf_select() {
-  fzf --multi
-  # --preview='source <<EOF
-  # cover_preview() {
-  #   # get the file with the cover art (jpg or png)
-  #   cover_dir="$music_dir"/"$(echo "$1" | cut -d " " -f "2-" | sed 's# / #/#')"
-  #   cover_file="$(find "$cover_dir" -regex '.*cover\.\(jpg\|png\)' | head -n 1)"
-  #   if [ -r "$cover_file" ]; then
-  #     feh -q -^ "cover art" --zoom fill -g "300x300+1600+50}" "$cover_file" \
-  #       /dev/null 2>&1 &
-  #   fi
-  # }
-# EOF
-  # ; cover_preview {+1}' \
-  # --preview-window hidden
+  list="$(if [ -n "$list" ]; then echo "$list"; fi; cat "$1" | grep "^-")"
 }
 
 play_last_in_playlist() {
@@ -107,15 +104,15 @@ while getopts ":aefg:in:opruwx" opt; do
   case $opt in
     a) append_albums "$OWNED_ALBUMS_FILE"
        append_albums "$WISHLIST_FILE" ;;
-    e) ${EDITOR:-nvim} +"normal Go- " +"startinsert!" "$WISHLIST_FILE" ;;
-    f) input_processing=fzf ;;
-    g) input_processing=grep; grep_keyword=$OPTARG ;;
+    e) ${EDITOR:-nvim} +"normal Go- " +"startinsert!" "$WISHLIST_FILE" && exit 0 ;;
+    f) selection="$(echo "$selection fzf")" ;;
+    g) selection="$(echo "$selection grep")"
+       grep_keyword=$OPTARG ;;
     i) info=1 ;;
-    n) list="$(echo -e "- $OPTARG\n$list")" ;;
     o) append_albums "$OWNED_ALBUMS_FILE" ;;
     p) play=1 ;;
-    r) input_processing=random ;;
-    u) update_album_list "$OPTARG" ;;
+    r) selection="$(echo "$selection random")" ;;
+    u) update_album_list && exit 0 ;;
     w) append_albums "$WISHLIST_FILE" ;;
     x) copy=1 ;;
     *) usage && exit ;;
@@ -123,20 +120,35 @@ while getopts ":aefg:in:opruwx" opt; do
 done
 shift $((OPTIND - 1))
 
-# if no album is specified so far, use the owned ones as a default.
+# Get query after args if it is given and add it to the list.
+query="$(printf '%s ' "$@")"
+query="${query% }"
+if [ -n "$query" ]; then
+  query="? $query"
+  if [ -z "$list" ]; then
+    list="$query"
+  else
+    list="$(echo -e "$list\n$query")"
+  fi
+fi
+
+# If no album is specified so far, use all as default.
 if [ -z "$list" ]; then
   append_albums "$OWNED_ALBUMS_FILE"
+  append_albums "$WISHLIST_FILE"
 fi
 
 # Sort the list and remove duplicates.
 list="$(echo "$list" | sort | uniq)"
 
-# Input processing.
-case $input_processing in
-  fzf)    list="$(echo "$list" | fzf_select)"              ;;
-  grep)   list="$(echo "$list" | grep -- "$grep_keyword")" ;;
-  random) list="$(echo "$list" | sort -R | head -n 1)"     ;;
-esac
+### Pre-selection.
+for s in $selection; do
+  case $s in
+    fzf)    list="$(echo "$list" | fzf --multi)"             ;;
+    grep)   list="$(echo "$list" | grep -- "$grep_keyword")" ;;
+    random) list="$(echo "$list" | sort -R | head -n 1)"     ;;
+  esac
+done
 
 # Select single album if neccessary for action option.
 # Echo selected album(s) afterwards.
@@ -148,9 +160,15 @@ else
   echo "$list"
 fi
 
+### Album Actions.
 # Copy the album name into the clipboard.
 if [ -n "$copy" ]; then
   echo "$album" | xsel -ib
+fi
+
+# Get album info.
+if [ -n "$play" ] || [ -n "$info" ] ; then
+  album_info="$($GET_ALBUM_INFO "$album")"
 fi
 
 # Play the album using mpc.
@@ -163,22 +181,19 @@ if [ -n "$play" ]; then
     play_last_in_playlist album
   else
     # Else play the album using a stream found via youtube-dl.
-    search_term="$(echo "$album" | sed 's# / # #') full"
+    search_term="$(echo "$album" | sed 's# / # #')"
 
     url="$(youtube-dl --get-url --format 140 gvsearch1:"$search_term")" && {
-      # youtube-dl --skip-download --write-thumbnail gvsearch1:"$search_term"
       mpc -q add "$url"
       play_last_in_playlist file
     }
   fi
-  notify-send "Now playing \"$album\"."
+
+  notify-send -- "Now playing \"$album\"." "$album_info"
 fi
 
-# Get info on RYM about the album.
 if [ -n "$info" ]; then
-  qutebrowser \
-    ":open -p http://rateyourmusic.com/search?searchtype=l&searchterm=$album"
+  echo "$album_info"
 fi
 
 exit $?
-
