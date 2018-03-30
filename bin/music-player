@@ -6,8 +6,17 @@
 # $1 - geometry string for feh displaying the cover art
 #
 # Usage:
-# termite -t music --geometry 800x290+780+50 -e "music-player 300x300+1600+50"
+#   termite -t music-player --geometry 800x290+780+50 -e "music-player 300x300+1600+50"
 #
+
+# kill instances of music-player on other desktops
+desktop="$(xdotool get_desktop)"
+pids="$(xdotool search --name "^music-player$" getwindowpid %@)"
+desktop_pids="$(xdotool search --desktop "$desktop" --name "^music-player$" getwindowpid %@)"
+other_pids="$(echo -e "$pids\n$desktop_pids" | sort | uniq -u)"
+if [ -n "$other_pids" ]; then
+  kill $other_pids
+fi
 
 # define a function to show the cover art for the playing album
 cover_reload_loop() {
@@ -19,18 +28,21 @@ cover_reload_loop() {
 
   # initialize geometry as argument or default value
   geometry="${1:-300x300+1600+50}"
+  player_in_sight=1
+  pid=""
 
   while :; do
-    # initialize pid
-    pid=""
-
     # get the file with the cover art (jpg or png)
-    cover_dir="$music_dir"/"$(dirname "$(mpc current -f %file%)")"
+    # if [ "$(mpc current -f %file% | head -c 4)" = "http" ]; then
+    #   cover_dir=/tmp/music-thumb
+    # else
+      cover_dir="$music_dir"/"$(dirname "$(mpc current -f %file%)")"
+    # fi
     cover_file="$(find "$cover_dir" -regex '.*cover\.\(jpg\|png\)' | head -n 1)"
 
     # if the image file can be read and a geometry is given,
     # display the image and remember its pid
-    if [ -r "$cover_file" ] && [ -n "$geometry" ]; then
+    if [ -r "$cover_file" ] && [ -n "$player_in_sight" ]; then
       feh -q -^ "cover art" --zoom fill -g "$geometry" "$cover_file" \
         > /dev/null 2>&1 &
       pid="$!"
@@ -39,33 +51,36 @@ cover_reload_loop() {
     # wait for mpd play/pause/next/prev and database update
     mpc idle player update > /dev/null 2>&1
 
-    # get size of image display window
-    # (implicitly find out whether it still exists)
-    size="$(xdotool search --name "cover art" getwindowgeometry | \
-      tail -n 1 | \
-      cut -d " " -f 4)"
+    # find out whether the music-player is on the current desktop
+    desktop="$(xdotool get_desktop)"
+    player_in_sight="$(xdotool search  --desktop $desktop --name "^music-player$")"
 
-    # if an image window with a certain geometry was found,
-    # add 4 pixels to the size for window border width and also get its position
-    if [ -n "$size" ]; then
-      x="$(echo "$size" | cut -d "x" -f 1)"
-      x="$((x + 4))"
-      y="$(echo "$size" | cut -d "x" -f 2)"
-      y="$((y + 4))"
-      size="${x}x$y"
+    if [ -n "$player_in_sight" ]; then
+      # if an image window with a certain geometry is found,
+      # add 4 pixels to the size for window border width and also get its position
+      art_geometry="$(xdotool search --name "^cover art$" getwindowgeometry)"
+      if [ -n "$art_geometry" ]; then
+        size="$(echo "$art_geometry" | tail -n 1 | cut -d " " -f 4)"
+        x="$(echo "$size" | cut -d "x" -f 1)"
+        x="$((x + 4))"
+        y="$(echo "$size" | cut -d "x" -f 2)"
+        y="$((y + 4))"
+        size="${x}x$y"
 
-      pos="$(xdotool search --name "cover art" getwindowgeometry | \
-        tail -n 2 | head -n 1 | \
-        cut -d " " -f 4 | \
-        sed -e 's/,/+/')"
+        pos="$(echo "$art_geometry" | tail -n 2 | head -n 1 | \
+          cut -d " " -f 4 | \
+          sed -e 's/,/+/')"
 
-      # remember the image window's geometry and kill it
-      geometry="$size+$pos"
-      kill "$pid"
-
-    else
-      # if no image window was found, set the geometry to the empty string
-      geometry=""
+        # remember the image window's geometry and kill it
+        geometry="$size+$pos"
+        if [ -n "$pid" ]; then
+          kill "$pid"
+          pid=""
+        fi
+      else
+        # if no image window was found, reset the geometry
+        geometry="${1:-300x300+1600+50}"
+      fi
     fi
   done
 }
