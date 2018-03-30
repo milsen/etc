@@ -11,7 +11,6 @@ trap -- "exit 0" SIGINT SIGTERM
 # Get important file paths.
 source "$XDG_CONFIG_HOME"/user-dirs.dirs
 MUSIC_DIR=${XDG_MUSIC_DIR:-$HOME/music}
-OWNED_ALBUMS_FILE="$HOME/doc/Listen/albums.txt"
 WISHLIST_FILE="$HOME/doc/Listen/wishlist.md"
 GET_ALBUM_INFO="$HOME"/bin/album-info
 
@@ -20,7 +19,7 @@ usage() {
   cat <<EOF
   Usage: $cmd [OPTIONS] [Query...]
 
-  Unless -e, -u or unknown options are specified, $cmd will do the following:
+  Unless -e or unknown options are specified, $cmd will do the following:
     1. Input collection:
        The input is made up of the query and the content of the files specified
        via options. If no query is given and no options are specified, -a is
@@ -31,7 +30,7 @@ usage() {
     5. Album Actions (optional).
 
     Input:
-      -o        operate on owned albums in $OWNED_ALBUMS_FILE
+      -o        operate on owned albums found in $MUSIC_DIR
       -w        operate on albums in wishlist $WISHLIST_FILE
       -a        operate on all albums (short for -ow)
 
@@ -47,12 +46,23 @@ usage() {
 
     Input-Independent Actions:
       -e        edit the wishlist in $WISHLIST_FILE
-      -u        update list of owned albums in $OWNED_ALBUMS_FILE
 EOF
 }
 
+owned_albums() {
+  find "$MUSIC_DIR" -maxdepth 2 -mindepth 2 -type d \
+      -printf "- %h / %f\n" | \
+      sed 's#'"$MUSIC_DIR"'/##'
+}
+
 append_albums() {
-  list="$(if [ -n "$list" ]; then echo "$list"; fi; cat "$1" | grep "^-")"
+  case $1 in
+    owned )    added="$(owned_albums)" ;;
+    wishlist ) added="$(cat "$WISHLIST_FILE" | grep "^-")" ;;
+    query )    added="$2" ;;
+    *)         echo "Error in script." && exit 1 ;;
+  esac
+  list="$(if [ -n "$list" ]; then echo "$list"; fi; echo "$added")"
 }
 
 play_last_in_playlist() {
@@ -85,16 +95,9 @@ select_item() {
   fi
 }
 
-update_album_list() {
-  find "$MUSIC_DIR" -maxdepth 2 -mindepth 2 -type d \
-      -printf "- %h / %f\n" | \
-      sed 's#'"$MUSIC_DIR"'/##' > "$OWNED_ALBUMS_FILE" \
-      && echo "$OWNED_ALBUMS_FILE was updated."
-}
-
 # Exit if an important file is not found/readable.
-if [ ! -r "$OWNED_ALBUMS_FILE" ]; then
-  echo "$OWNED_ALBUMS_FILE not found." && exit 1
+if [ ! -r "$MUSIC_DIR" ]; then
+  echo "$MUSIC_DIR not found." && exit 1
 elif [ ! -r "$WISHLIST_FILE" ]; then
   echo "$WISHLIST_FILE not found." && exit 1
 fi
@@ -102,18 +105,18 @@ fi
 # Get options.
 while getopts ":aefg:in:opruwx" opt; do
   case $opt in
-    a) append_albums "$OWNED_ALBUMS_FILE"
-       append_albums "$WISHLIST_FILE" ;;
+    a) append_albums owned
+       append_albums wishlist ;;
     e) ${EDITOR:-nvim} +"normal Go- " +"startinsert!" "$WISHLIST_FILE" && exit 0 ;;
     f) selection="$(echo "$selection fzf")" ;;
     g) selection="$(echo "$selection grep")"
        grep_keyword=$OPTARG ;;
     i) info=1 ;;
-    o) append_albums "$OWNED_ALBUMS_FILE" ;;
+    o) append_albums owned ;;
     p) play=1 ;;
     r) selection="$(echo "$selection random")" ;;
     u) update_album_list && exit 0 ;;
-    w) append_albums "$WISHLIST_FILE" ;;
+    w) append_albums wishlist ;;
     x) copy=1 ;;
     *) usage && exit ;;
   esac
@@ -124,18 +127,13 @@ shift $((OPTIND - 1))
 query="$(printf '%s ' "$@")"
 query="${query% }"
 if [ -n "$query" ]; then
-  query="? $query"
-  if [ -z "$list" ]; then
-    list="$query"
-  else
-    list="$(echo -e "$list\n$query")"
-  fi
+  append_albums query "? $query"
 fi
 
 # If no album is specified so far, use all as default.
 if [ -z "$list" ]; then
-  append_albums "$OWNED_ALBUMS_FILE"
-  append_albums "$WISHLIST_FILE"
+  append_albums owned
+  append_albums wishlist
 fi
 
 # Sort the list and remove duplicates.
@@ -149,6 +147,11 @@ for s in $selection; do
     random) list="$(echo "$list" | sort -R | head -n 1)"     ;;
   esac
 done
+
+# If no albums are left, exit.
+if [ -z "$list" ]; then
+  exit 2
+fi
 
 # Select single album if neccessary for action option.
 # Echo selected album(s) afterwards.
@@ -174,8 +177,8 @@ fi
 # Play the album using mpc.
 if [ -n "$play" ]; then
   # If the album is owned, play it directly with mpc.
-  if [ -n "$(grep -- "$album" "$OWNED_ALBUMS_FILE")" ]; then
-    dir="$(grep -- "$album" "$OWNED_ALBUMS_FILE" | \
+  if [ -n "$(grep -- "$album" <(owned_albums))" ]; then
+    dir="$(grep -- "$album" <(owned_albums) | \
       cut -d " " -f "2-" | sed 's# / #/#')"
     mpc ls "$dir" | mpc -q add
     play_last_in_playlist album
