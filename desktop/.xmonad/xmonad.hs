@@ -43,7 +43,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- launch a terminal/fzf-launcher
     [ ((modm,              xK_Return), spawn $ XMonad.terminal conf)
-    , ((modm .|. mod1Mask, xK_Return), spawn "termite -r fzf-launcher --geometry 950x510+480+330 -e \"bash --rcfile ~/src/fzf-launcher/fzf-launcher\"")
+    , ((modm .|. mod1Mask, xK_Return), spawn "termite -t fzf-launcher --geometry 950x510+480+330 -e fzf-launcher")
 
     -- close focused window
     , ((modm,              xK_d     ), kill)
@@ -190,12 +190,12 @@ myManageHook = composeAll
     [ className =? "dunst-notification" --> doIgnore
     , className =? "MPlayer"            --> doFloat
     , className =? "Display"            --> doFloat
+    , title     =? "fzf-launcher"       --> doFloat
     , title     =? "cover art"          --> doF (W.focusDown)
     , title     =? "cover art"          --> doFloat
     , title     =? "music-player"       --> doFloat
     , resource  =? "desktop_window"     --> doIgnore
     , resource  =? "kdesktop"           --> doIgnore
-    , role      =? "fzf-launcher"       --> doFloat
     , role      =? "gimp-toolbox"       --> doFloat ]
     where role = stringProperty "WM_WINDOW_ROLE"
 

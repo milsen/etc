@@ -1,0 +1,152 @@
+#!/bin/bash --
+#
+# "$HOME"/bin/fzf-launcher by milsen
+#
+# Create a new bash session that lets you choose a command with fzf.
+# Either run that command directly with Alt+Enter or press Enter once to edit
+# the command in a real bash session (user-defined tab-completion available) and
+# Enter again to run it. The command will be run with nohup if it is a desktop
+# application, else it is executed in the terminal.
+#
+# Example usage:
+#
+#   termite -t fzf-launcher --geometry 950x510+480+300 -e fzf-launcher &
+#
+# Since this launches just a terminal running a shell you can use the bash
+# completion mechanism to build new tools (for logout, window switching etc.)
+
+# new bash session
+bash --rcfile <(cat << 'OUTER_EOF'
+
+# exit when receiving a SIGINT (e.g. via Ctrl-C) or a SIGTERM signal
+trap -- "exit 1" SIGINT SIGTERM
+
+# source personal bashrc such that aliases and custom completion are available
+source ~/.bashrc
+
+# make it possible for nohup to deal with aliased commands (see man alias)
+alias nohup="nohup "
+
+# disable saving commandline history
+set +o history
+
+# set additional fzf default options
+export FZF_DEFAULT_OPTS=" --reverse --inline-info --height=100%"
+
+# programs for which fzf-launch should exit without waiting for a key press
+export FZF_LAUNCH_TERM_APPS="alsamixer less man more nano ncmpcpp notify-send ranger vi vim nvim"
+
+# select command using fzf, the output consists of three lines:
+# query, "alt-enter" if pressed, match
+# the preview-shell is non-interactive, so it does not read .bashrc...
+fzf_output="$(compgen -c | \
+  fzf --print-query \
+      --expect=alt-enter \
+      --cycle \
+      --algo=v1 \
+      --preview='\
+          for f in ~/.config/bash/*; \
+            do source "$f";
+          done;
+          LC_ALL=C builtin type {+1}; \
+          echo; \
+          file="$(builtin type -p {+1})"; \
+          if [ -n "$file" ]; \
+            then if man {+1} > /dev/null 2>&1;
+              then MANWIDTH=$(tput cols) MANROFFOPT=-Wbreak man {+1}; \
+            elif [ -n "$(file -i "$file"| grep text)" ]; \
+              then head -n 100 "$file";
+            fi; \
+          fi' \
+      --preview-window 60%:wrap)"
+
+# if the output (without alt-enter) consists of query and match, use the chosen
+# command, else (if no match was found) use the query
+fzf_match="$(echo "$fzf_output" | grep -v "alt-enter" | tail -n 1)"
+
+# if the fzf-prompt was exited with enter rather than alt-enter
+if [ -z "$(echo "$fzf_output" | grep "alt-enter")" ]; then
+  # read in remaining command, sadly the following does not offer user-defined
+  # tab-completion, so we have to do this the hard way:
+  #   read -r -e -p "> " -i "$fzf_match " cmd
+
+  # open a special bash session to read in the command and use xdotool to write
+  # text to the input stream (answers from
+  # https://unix.stackexchange.com/questions/213799/ did not work)
+  cmd="$(bash --rcfile <(cat << 'EOF'
+# exit when receiving a SIGINT (e.g. via Ctrl-C) or a SIGTERM signal
+trap -- "exit 1" SIGINT SIGTERM
+
+# source personal bashrc such that aliases and custom completion are available
+source ~/.bashrc
+
+# disable saving commandline history
+set +o history
+
+# set some readline-options (and use menu-complete instead of complete later)
+# such that the line positioning is not skewed by completion results
+bind 'set disable-completion off'
+bind 'set show-all-if-ambiguous off'
+bind 'set show-all-if-unmodified off'
+bind 'set completion-query-items -1'
+bind 'set page-completions off'
+
+# set prompt to "> " and delete chars in front of it
+export PS1="> "
+export PS1="\r\e[M$PS1"
+
+# let return write "echo '^^^" in front of the command and " && exit 0" after it
+bind '"\C-m": "\C-aecho \x27^^^\C-e\x27 && exit 0\C-j"'
+EOF
+  echo "xdotool type --clearmodifiers \"$fzf_match \""))"
+
+  # get rid of weird prompt characters, cmd begins after "^^^"
+  cmd="$(echo "$cmd" | grep "\^\^\^" | sed 's/.*\^\^\^//')"
+  clear
+  echo "> $cmd"
+else
+  # else use the fzf-match as the command
+  cmd="$fzf_match"
+fi
+
+# get the main command (at the end of all pipes) without opts or args
+main_cmd="$(echo "$cmd" | \
+  rev | cut -d "|" -f 1 | rev | \
+  sed -e 's/^[[:space:]]*//' | \
+  cut -d " " -f 1)"
+
+# if nothing or just whitespace was typed, simply exit
+if [ -z "$main_cmd" ]; then
+  exit 0
+fi
+
+# if the command is a symbolic link, get the command it links to
+if [ -n "$(type -p "$main_cmd")" ]; then
+  main_cmd="$(basename "$(readlink -f "$(type -p "$main_cmd")")")"
+fi
+
+# if it is in desktop applications, simply launch it as a background process,
+# detached from the terminal
+desktop_files="$(grep -l "^Exec=\(.*/\)\?$main_cmd\( \|$\)" /usr/share/applications/*.desktop)"
+if [ -n "$desktop_files" ]; then
+  is_term_app="$(grep "^Terminal=true$" $desktop_files)"
+  if [ -z "$is_term_app" ]; then
+    { eval nohup ${cmd% } > /dev/null 2>&1 & } && exit 0
+  fi
+fi
+
+# else launch it in the terminal
+eval ${cmd% }
+
+# if the command was a terminal app without direct ouput to the terminal, exit
+for termcmd in ${FZF_LAUNCH_TERM_APPS}; do
+  if [ "$main_cmd" = "$termcmd" ]; then
+    exit 0
+  fi
+done
+
+# wait until the user presses a key such that he has time to read the output
+read -r -s -n 1 dummy
+exit 0
+OUTER_EOF
+)
