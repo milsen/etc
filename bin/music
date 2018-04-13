@@ -91,7 +91,7 @@ select_item() {
   if [ "$(echo "$1" | wc -l)" -eq 1 ]; then
     echo "$1"
   else
-    echo "$1" | fzf
+    echo "$1" | fzf --cycle
   fi
 }
 
@@ -142,7 +142,7 @@ list="$(echo "$list" | sort | uniq)"
 ### Pre-selection.
 for s in $selection; do
   case $s in
-    fzf)    list="$(echo "$list" | fzf --multi)"             ;;
+    fzf)    list="$(echo "$list" | fzf --multi --cycle)"     ;;
     grep)   list="$(echo "$list" | grep -- "$grep_keyword")" ;;
     random) list="$(echo "$list" | sort -R | head -n 1)"     ;;
   esac
@@ -161,6 +161,11 @@ if [ -n "$copy" ] || [ -n "$play" ] || [ -n "$info" ]; then
   album="$(echo "$album" | cut -d " " -f "2-" )"
 else
   echo "$list"
+fi
+
+# If no albums are left, exit.
+if [ -z "$album" ]; then
+  exit 2
 fi
 
 ### Album Actions.
@@ -184,7 +189,11 @@ if [ -n "$play" ]; then
     play_last_in_playlist album
   else
     # Else play the album using a stream found via youtube-dl.
-    search_term="$(echo "$album" | sed 's# / # #')"
+    if [ -n "$(echo "$album" | grep "/")" ]; then
+      search_term="$(echo "$album" | sed 's# / # #') full"
+    else
+      search_term="$album"
+    fi
 
     url="$(youtube-dl --get-url --format 140 gvsearch1:"$search_term")" && {
       mpc -q add "$url"
