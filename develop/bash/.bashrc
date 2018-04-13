@@ -39,6 +39,21 @@ export LESSHISTFILE=-           # disable creation of history file in ~/.lesshst
 export VISUAL=/usr/bin/vim
 export EDITOR=$VISUAL
 
+# open ranger with Alt-g
+# (do not use bind -x since that breaks nested ranger-shells)
+bind '"\eg": "\C-a\C-k ranger\C-m"'
+# open another terminal in the same directory
+bind -x '"\et": "eval nohup termite -d \"$PWD\" > /dev/null 2>&1 &"'
+
+# prevent nested ranger
+ranger() {
+  if [ -z "$RANGER_LEVEL" ]; then
+    /usr/bin/ranger "$@"
+  else
+    exit
+  fi
+}
+
 # }}}
 # Prompt-Settings {{{
 # see man bash  ("PROMPTING") and ANSI escape sequences
