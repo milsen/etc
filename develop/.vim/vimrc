@@ -308,6 +308,10 @@ nnoremap <silent> <Leader>; :diffupdate<CR>:sy sync fromstart<CR><C-l>
 " show contents of registers with Leader+r
 nnoremap <silent> <Leader>r :register<CR>
 
+" fast quickfix list movement
+nnoremap <silent> <Leader>> :cp<CR>
+nnoremap <silent> <Leader>< :cn<CR>
+
 " edit a macro on the fly
 nnoremap <Leader>q :<C-u><C-r>='let @'. v:register .' = '. string(getreg(v:register))<CR><C-f><Left>
 
