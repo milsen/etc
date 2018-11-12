@@ -10,6 +10,14 @@
     ap = add -p
     au = "!sh -c 'git add -u; git diff --staged' -"
     br = branch
+    cmp = "!f() { \
+               local work_dir=\"${3:-$GIT_PREFIX}\"; \
+               local oldfile=\"/tmp/OLD_$(basename \"${work_dir}$2\")\"; \
+               git show HEAD:\"$work_dir$2\" > \"$oldfile\" && \
+                    $1 \"$work_dir$2\" \"$oldfile\" && \
+                    rm "$oldfile"; \
+            }; f"
+    cmpm = "!f() { git cmp mscore \"$1\" \"$GIT_PREFIX\"; }; f"
     co = checkout
     ds = diff --staged
     files = diff-tree --no-commit-id --name-only -r
@@ -21,9 +29,10 @@
                      { printf \"added lines:   %7s\\nremoved lines: %7s\\ntotal lines:   %7s\\n\", add, subs, loc }' ; \
             }; f"
     stat = status
-    tr = !"git tr1"
+    tr = "!git tr1"
     tr1 = log --graph --format=format:'%C(yellow)%h%C(reset) %s %C(dim white)- %an%C(reset) %C(bold red)%d%C(reset)' --all
     tr2 = log --graph --format=format:'%C(yellow)%h%C(reset) %s %C(dim white)- %an%C(reset) %C(bold red)%d%C(reset)'
+    udiff = diff -U100000
 [merge]
     conflictstyle = diff3
 [push]
