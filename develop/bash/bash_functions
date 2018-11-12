@@ -45,10 +45,10 @@ mfu() {
 q() {
   case "$1" in
     k|killx)    killall xmonad ;;
-    l|lock)     slock; exit ;;
-    p|poweroff) systemctl poweroff ;;
+    l|lock)     slock ;;
+    p|poweroff) xbacklight -set 100; systemctl poweroff ;;
     r|reboot)   systemctl reboot ;;
-    s|suspend)  systemctl suspend; exit ;;
+    s|suspend)  systemctl suspend ;;
     *)          return ;;
   esac
 }
