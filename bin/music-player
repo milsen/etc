@@ -43,8 +43,8 @@ cover_reload_loop() {
     # if the image file can be read and a geometry is given,
     # display the image and remember its pid
     if [ -r "$cover_file" ] && [ -n "$player_in_sight" ]; then
-      feh -q -^ "cover art" --zoom fill -g "$geometry" "$cover_file" \
-        > /dev/null 2>&1 &
+      feh -q -^ "cover art" --zoom fill --scale-down -g "$geometry" \
+        "$cover_file" > /dev/null 2>&1 &
       pid="$!"
     fi
 
