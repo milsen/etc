@@ -195,7 +195,7 @@ if [ -n "$play" ]; then
       search_term="$album"
     fi
 
-    url="$(youtube-dl --get-url --format 140 gvsearch1:"$search_term")" && {
+    url="$(youtube-dl --get-url --format 140 ytsearch1:"$search_term")" && {
       mpc -q add "$url"
       play_last_in_playlist file
     }
