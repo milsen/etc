@@ -36,11 +36,11 @@ function symlink_develop_files() {
   ln -sfv "$DEVELOP_DIR/git/"                         "$HOME"/.config/
   ln -sfv "$DEVELOP_DIR/.latexmkrc"                   "$HOME"
   ln -sfv "$DEVELOP_DIR/readline/"                    "$HOME"/.config/
-  ln -sfv "$DEVELOP_DIR/shell/bash/bash_aliases"      "$HOME"/.config/bash
-  ln -sfv "$DEVELOP_DIR/shell/bash/bash_functions"    "$HOME"/.config/bash
-  ln -sfv "$DEVELOP_DIR/shell/bash/.bash_logout"      "$HOME"
-  ln -sfv "$DEVELOP_DIR/shell/bash/.bashrc"           "$HOME"
-  ln -sfv "$DEVELOP_DIR/shell/.profile"               "$HOME"
+  ln -sfv "$DEVELOP_DIR/bash/bash_aliases"            "$HOME"/.config/bash
+  ln -sfv "$DEVELOP_DIR/bash/bash_functions"          "$HOME"/.config/bash
+  ln -sfv "$DEVELOP_DIR/bash/.bash_logout"            "$HOME"
+  ln -sfv "$DEVELOP_DIR/bash/.bashrc"                 "$HOME"
+  ln -sfv "$DEVELOP_DIR/.profile"                     "$HOME"
   ln -sfv "$DEVELOP_DIR/.vim/"                        "$HOME"
 
   # make sure that other bash configuration files do not exist such that .profile
