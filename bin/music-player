@@ -6,7 +6,7 @@
 # $1 - geometry string for feh displaying the cover art
 #
 # Usage:
-#   termite -t music-player --geometry 800x290+780+50 -e "music-player 300x300+1600+50"
+#   termite -t music-player -e music-player
 #
 
 # kill instances of music-player on other desktops
@@ -27,7 +27,6 @@ cover_reload_loop() {
   music_dir="${XDG_MUSIC_DIR:-$HOME/Music}"
 
   # initialize geometry as argument or default value
-  geometry="${1:-300x300+1600+50}"
   player_in_sight=1
   pid=""
 
@@ -43,7 +42,7 @@ cover_reload_loop() {
     # if the image file can be read and a geometry is given,
     # display the image and remember its pid
     if [ -r "$cover_file" ] && [ -n "$player_in_sight" ]; then
-      feh -q -^ "cover art" --zoom fill --scale-down -g "$geometry" \
+      feh -q -^ "cover art" --zoom fill --scale-down \
         "$cover_file" > /dev/null 2>&1 &
       pid="$!"
     fi
@@ -53,33 +52,14 @@ cover_reload_loop() {
 
     # find out whether the music-player is on the current desktop
     desktop="$(xdotool get_desktop)"
-    player_in_sight="$(xdotool search  --desktop $desktop --name "^music-player$")"
+    player_in_sight="$(xdotool search --desktop $desktop --name "^music-player$")"
 
     if [ -n "$player_in_sight" ]; then
-      # if an image window with a certain geometry is found,
-      # add 4 pixels to the size for window border width and also get its position
-      art_geometry="$(xdotool search --name "^cover art$" getwindowgeometry)"
-      if [ -n "$art_geometry" ]; then
-        size="$(echo "$art_geometry" | tail -n 1 | cut -d " " -f 4)"
-        x="$(echo "$size" | cut -d "x" -f 1)"
-        x="$((x + 4))"
-        y="$(echo "$size" | cut -d "x" -f 2)"
-        y="$((y + 4))"
-        size="${x}x$y"
-
-        pos="$(echo "$art_geometry" | tail -n 2 | head -n 1 | \
-          cut -d " " -f 4 | \
-          sed -e 's/,/+/')"
-
-        # remember the image window's geometry and kill it
-        geometry="$size+$pos"
-        if [ -n "$pid" ]; then
-          kill "$pid"
-          pid=""
-        fi
-      else
-        # if no image window was found, reset the geometry
-        geometry="${1:-300x300+1600+50}"
+      # if an image window is found, kill it.
+      art_found="$(xdotool search --name "^cover art$")"
+      if [ -n "$art_found" ] && [ -n "$pid" ]; then
+        kill "$pid"
+        pid=""
       fi
     fi
   done
