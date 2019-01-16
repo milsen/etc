@@ -12,6 +12,7 @@ import XMonad.Actions.WindowGo
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageDocks
+import XMonad.Hooks.ManageHelpers
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Layout.NoBorders
 import Data.Monoid
@@ -43,7 +44,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- launch a terminal/fzf-launcher
     [ ((modm,              xK_Return), spawn $ XMonad.terminal conf)
-    , ((modm .|. mod1Mask, xK_Return), spawn "termite -t fzf-launcher --geometry 950x510+480+330 -e fzf-launcher")
+    , ((modm .|. mod1Mask, xK_Return), spawn "termite -t fzf-launcher -e fzf-launcher")
 
     -- close focused window
     , ((modm,              xK_d     ), kill)
@@ -92,7 +93,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm .|. mod1Mask, xK_q     ), io (exitWith ExitSuccess))
 
     -- Applications
-    , ((modm,              xK_o     ), spawn "termite -t music-player --geometry 800x300+780+50 -e \"music-player 300x300+1600+50\"")
+    , ((modm,              xK_o     ), spawn "termite -t music-player -e \"music-player 300x300+1600+50\"")
+    , ((modm .|. mod1Mask, xK_o     ), spawn "termite -t music-player -e \"music -p\"")
     , ((modm,              xK_p     ), spawn "mpc toggle")
     , ((modm,              xK_g     ), spawn "termite -e ranger")
     , ((modm,              xK_i     ), spawnOn "1" "qutebrowser")
@@ -190,10 +192,10 @@ myManageHook = composeAll
     [ className =? "dunst-notification" --> doIgnore
     , className =? "MPlayer"            --> doFloat
     , className =? "Display"            --> doFloat
-    , title     =? "fzf-launcher"       --> doFloat
+    , title     =? "fzf-launcher"       --> doRectFloat (W.RationalRect 0.25 0.25 0.5 0.5)
     , title     =? "cover art"          --> doF (W.focusDown)
-    , title     =? "cover art"          --> doFloat
-    , title     =? "music-player"       --> doFloat
+    , title     =? "cover art"          --> doRectFloat (W.RationalRect 0.83 0.049 0.15 0.275)
+    , title     =? "music-player"       --> doRectFloat (W.RationalRect 0.425 0.049 0.379 0.275)
     , resource  =? "desktop_window"     --> doIgnore
     , resource  =? "kdesktop"           --> doIgnore
     , role      =? "gimp-toolbox"       --> doFloat ]
