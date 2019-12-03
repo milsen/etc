@@ -14,8 +14,20 @@ alert() {
 
 # backup data on external hard drive using rsync
 backup_rsync() {
-  if [ ! -d /media/sdb1-usb-Intenso_External/ ]; then
-    echo "No dir /media/sdb1-usb-Intenso_External/ found."
+  directories="/media/sdb1-usb-Intenso_External"
+  directories="$directories /media/sdb-usb-JMicron_Generic_"
+  target=""
+
+  for dir in $directories; do
+    if [ ! -d "$dir/" ]; then
+      echo "No dir "$dir/" found."
+    else
+      target="$dir"
+      break
+    fi
+  done
+
+  if [ -z "$target" ]; then
     return
   fi
 
@@ -24,7 +36,7 @@ backup_rsync() {
     --delete \
     --exclude={"/swapfile","/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found"} \
     --temp-dir="$HOME"/.cache/rsync/tmp/ \
-    / /media/sdb1-usb-Intenso_External
+    / "$target"
 }
 
 
