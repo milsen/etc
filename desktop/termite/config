@@ -11,7 +11,7 @@ allow_bold = true
 dynamic_title = true
 urgent_on_bell = true
 clickable_url = true
-font = xos4 Terminus 18
+font = Terminus (TTF) 18
 scrollback_lines = 10000
 search_wrap = true
 # icon_name = terminal
@@ -70,7 +70,7 @@ color15 = #adb0ae
 # background = rgba(63, 63, 63, 0.8)
 
 [hints]
-font = Terminus 20
+font = Terminus (TTF) 20
 foreground = #dcdccc
 background = #3f3f3f
 active_foreground = #e68080
