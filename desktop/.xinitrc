@@ -18,7 +18,7 @@ fi
 IMAGE_DIR="${XDG_PICTURES_DIR:-$HOME/images}"
 
 # random wallpaper
-feh --no-fehbg --bg-fill --randomize "$IMAGE_DIR"/wallpapers/
+feh --no-fehbg --bg-fill --randomize "$IMAGE_DIR"/wallpapers/ &
 
 # keyboard configuration, see /usr/share/X11/xkb/rules/base.lst
 setxkbmap -layout de
