@@ -7,7 +7,7 @@
 
 function usage() {
   echo <<EOF
-  usage: $(basename $0) [-b|-g] [width] [height] [freq]
+  usage: $(basename $0) [-b|-g] [display] [width] [height] [freq]
 
     -b  use cvt without -r flag
     -g  use gtf instead of cvt
@@ -29,9 +29,10 @@ shift $((OPTIND - 1))
 # default: cvt -r 1920 1080 60
 cmd=${cmd-cvt}
 opts=${opts--r}
-width=${1-1920}
-height=${2-1080}
-freq=${3-60}
+display=${1-DP2}
+width=${2-1920}
+height=${3-1080}
+freq=${4-60}
 
 # construct the modeline command and execute it
 full_cmd="$cmd $opts $width $height $freq"
@@ -44,8 +45,8 @@ modename="$(echo $modeline | cut -d " " -f 1)"
 
 # set output on external screen
 xrandr --newmode $modeline
-xrandr --addmode DP2 $modename
-xrandr --output DP2 --mode $modename
+xrandr --addmode "$display" $modename
+xrandr --output "$display" --mode $modename
 
 # turn off laptop screen output
 xrandr --output eDP1 --off
