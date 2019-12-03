@@ -32,7 +32,7 @@ if [[ -z "$(only_images $extlist)" ]]; then
   tmpdir="$(basename "$1")"
   tmpdir="$(mktemp -d /tmp/zipview_XXXXX_"${tmpdir%.*}")" || exit 1
   7z e "$1" -o"$tmpdir"
-  feh -F -d -S filename "$tmpdir" && rm -rf "$tmpdir" &
+  feh -d -F -S filename --keep-zoom-vp "$tmpdir" && rm -rf "$tmpdir" &
 else
   xarchiver "$1"
 fi
