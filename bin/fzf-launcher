@@ -70,12 +70,16 @@ if [ -z "$(echo "$fzf_output" | grep "alt-enter")" ]; then
   # tab-completion, so we have to do this the hard way:
   #   read -r -e -p "> " -i "$fzf_match " cmd
 
-  # open a special bash session to read in the command and use xdotool to write
-  # text to the input stream (answers from
-  # https://unix.stackexchange.com/questions/213799/ did not work)
+  # open a special bash session to read in the command and use perl to write out
+  # $fzf_match (see https://unix.stackexchange.com/questions/213799/)
   cmd="$(bash --rcfile <(cat << 'EOF'
 # exit when receiving a SIGINT (e.g. via Ctrl-C) or a SIGTERM signal
 trap -- "exit 1" SIGINT SIGTERM
+
+# define function to set commandline to certain string
+function inject() {
+  perl -e 'ioctl(STDIN, 0x5412, $_) for split "", join " ", @ARGV' "$@"
+}
 
 # source personal bashrc such that aliases and custom completion are available
 source ~/.bashrc
@@ -95,14 +99,17 @@ bind 'set page-completions off'
 export PS1="> "
 export PS1="\r\e[M$PS1"
 
-# let return write "echo '^^^" in front of the command and " && exit 0" after it
+# let return write "echo '^^^" in front of the command and "' && exit 0" after it
 bind '"\C-m": "\C-aecho \x27^^^\C-e\x27 && exit 0\C-j"'
 EOF
-  echo "xdotool type --clearmodifiers \"$fzf_match \""))"
+  echo "inject \"$fzf_match \""))"
 
   # get rid of weird prompt characters, cmd begins after "^^^"
-  cmd="$(echo "$cmd" | grep "\^\^\^" | sed 's/.*\^\^\^//')"
-  clear
+  cmd="$(echo "$cmd" | sed 's/.*\^\^\^//')"
+
+  # clear screen and scrollback buffer
+  printf "\e[3J\033c"
+
   echo "> $cmd"
 else
   # else use the fzf-match as the command
