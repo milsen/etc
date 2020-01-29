@@ -105,7 +105,7 @@ EOF
   echo "inject \"$fzf_match \""))"
 
   # get rid of weird prompt characters, cmd begins after "^^^"
-  cmd="$(echo "$cmd" | sed 's/.*\^\^\^//')"
+  cmd="$(echo "$cmd" | grep "\^\^\^" | sed 's/.*\^\^\^//')"
 
   # clear screen and scrollback buffer
   printf "\e[3J\033c"
