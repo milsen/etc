@@ -1,0 +1,18 @@
+#!/bin/bash --
+
+get_id() {
+  LANG=C pactl list |\
+    grep -B 1 "Name: module-jack-$1" |\
+    grep Module |\
+    sed 's/[^0-9]//g'
+}
+
+# Move all inputs to original sink.
+inputs=$(pacmd list-sink-inputs | grep index | cut -d':' -f2 | cut -d' ' -f2)
+for id in $inputs; do
+  pactl move-sink-input "$id" 1
+done
+
+pactl unload-module $(get_id "sink")
+pactl unload-module $(get_id "source")
+sleep 2

@@ -25,6 +25,9 @@ if [ -z "$(grep "USB-Audio" /proc/asound/cards)" ]; then
   exit 1
 fi
 
+# Suspend PulseAudio.
+pacmd suspend true
+
 # If JACK's not starting, see whether other processes are using the sound card:
 echo "Searching for processes blocking the USB sound card..."
 sudo fuser -vki -TERM /dev/snd/pcmC1*
@@ -47,6 +50,18 @@ sudo schedtool -R -p 80 $(pidof jackd)
 
 # Wait until jack is started.
 sleep 2
+
+# Set JACK sink and source for PulseAudio.
+pactl load-module module-jack-sink channels=2 > /dev/null
+pactl load-module module-jack-source channels=2 > /dev/null
+pacmd set-default-sink jack_out
+pacmd set-default-source jack_in
+
+# Move all inputs to JACK sink.
+inputs=$(pacmd list-sink-inputs | grep index | cut -d':' -f2 | cut -d' ' -f2)
+for id in $inputs; do
+  pactl move-sink-input "$id" jack_out
+done
 
 # Set up timidity for MIDI playback.
 nohup timidity -iA -Oj > /dev/null 2>&1 &
