@@ -2,7 +2,7 @@
 #
 # "$HOME"/bin/screen-switch by milsen
 #
-# A script to correctly set the output of X11 to a VGA-connected monitor.
+# A script to correctly set the output of X to a monitor.
 #
 
 function usage() {
