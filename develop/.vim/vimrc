@@ -183,6 +183,18 @@ augroup filetype_general
   " use filetype-specific dictionaries for completion
   autocmd FileType * execute
         \ "setlocal dictionary+=".$HOME."/.vim/dictionaries/".expand('<amatch>')
+  " get a dictionary, spellcheck and completion for simple text files
+  autocmd BufEnter *
+        \ if empty(&ft) |
+        \   setlocal dictionary+=/usr/share/dict/cracklib-small |
+        \ endif
+  autocmd Filetype markdown,text
+        \ setlocal dictionary+=/usr/share/dict/cracklib-small
+        \          spell spelllang=en,de
+  autocmd Filetype *
+        \ if &omnifunc == "" |
+        \   setlocal omnifunc=syntaxcomplete#Complete |
+        \ endif
 augroup END
 
 " do not switch buffers in help or similar windows, it is just confusing
@@ -206,6 +218,12 @@ augroup bash
   autocmd FileType sh setlocal foldenable foldmethod=marker
   autocmd FileType readline setlocal expandtab softtabstop=2 shiftwidth=2
   autocmd FileType readline setlocal foldenable foldmethod=marker
+augroup END
+
+augroup cpp
+  autocmd!
+  autocmd FileType cpp setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=0
+  autocmd FileType cpp setlocal tags=~/src/ogdf/tags
 augroup END
 
 augroup git_commits
@@ -233,6 +251,11 @@ augroup filetype_java
   autocmd FileType java setlocal expandtab softtabstop=4 shiftwidth=4
 augroup END
 
+augroup filetype_python
+  autocmd!
+  autocmd FileType python setlocal expandtab softtabstop=4 shiftwidth=4
+augroup END
+
 augroup filetype_ruby
   autocmd!
   autocmd FileType ruby setlocal expandtab softtabstop=2 shiftwidth=2
@@ -242,7 +265,7 @@ augroup filetype_tex
   autocmd!
   " set tex files to tex, not plaintex
   autocmd BufNewFile,BufRead *.tex setlocal filetype=tex
-  autocmd FileType tex setlocal spell
+  autocmd FileType tex setlocal spell spelllang=en,de
   autocmd FileType tex setlocal foldenable
   " for vimtex plugin:
   autocmd FileType tex setlocal foldmethod=expr
