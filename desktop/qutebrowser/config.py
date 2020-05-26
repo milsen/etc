@@ -16,7 +16,6 @@ for binding in unwanted_bindings:
     config.unbind(binding)
 
 # Key Remappings
-del c.bindings.key_mappings["<Ctrl-J>"]
 c.bindings.key_mappings[","] = ";"
 
 # Tab commands
@@ -135,19 +134,19 @@ c.downloads.location.prompt = False
 c.downloads.location.remember = False
 c.editor.command = ["termite", "-e", "nvim {}"]
 
-c.fonts.completion.category = "bold 12pt monospace"
-c.fonts.completion.entry = "12pt monospace"
-c.fonts.debug_console = "12pt monospace"
-c.fonts.downloads = "10pt monospace"
-c.fonts.hints = "bold 17px monospace"
-c.fonts.keyhint = "12pt monospace"
-c.fonts.messages.error = "12pt monospace"
-c.fonts.messages.info = "12pt monospace"
-c.fonts.messages.warning = "12pt monospace"
-c.fonts.monospace = "Terminus"
+c.fonts.default_family = 'xos4 Terminus'
+c.fonts.completion.category = "bold 12pt default_family"
+c.fonts.completion.entry = "12pt default_family"
+c.fonts.debug_console = "12pt default_family"
+c.fonts.downloads = "10pt default_family"
+c.fonts.hints = "bold 17px default_family"
+c.fonts.keyhint = "12pt default_family"
+c.fonts.messages.error = "12pt default_family"
+c.fonts.messages.info = "12pt default_family"
+c.fonts.messages.warning = "12pt default_family"
 c.fonts.prompts = "12pt sans-serif"
-c.fonts.statusbar = "16pt monospace"
-c.fonts.tabs = "16pt monospace"
+c.fonts.statusbar = "16pt default_family"
+c.fonts.tabs = "bold 16pt default_family"
 
 c.hints.auto_follow_timeout = 400
 c.hints.dictionary = "/usr/share/dict/cracklib-small"
@@ -156,7 +155,7 @@ c.hints.mode = "word"
 c.input.partial_timeout = 1000
 c.keyhint.delay = 200
 
-c.scrolling.bar = True
+c.scrolling.bar = "always"
 c.scrolling.smooth = True
 
 c.tabs.last_close = "close"
@@ -175,5 +174,5 @@ c.url.searchengines = {
   'y' : 'https://www.youtube.com/results?search_query={}',
   }
 
-c.window.title_format = "{perc}{title}{title_sep}qutebrowser{private}"
+c.window.title_format = "{perc}{current_title}{title_sep}qutebrowser{private}"
 c.zoom.default = "150%"
