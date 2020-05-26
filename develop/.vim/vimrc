@@ -294,18 +294,18 @@ let maplocalleader = "\\"
 " edit files with Leader+e(file identifier)
 nnoremap <Leader>e# :vs#<CR>
 nnoremap <Leader>E# :e#<CR>
-nnoremap <Leader>ev :vs $MYVIMRC<CR>
-nnoremap <Leader>Ev :e $MYVIMRC<CR>
-nnoremap <Leader>eb :vs ~/.bashrc<CR>
-nnoremap <Leader>Eb :e ~/.bashrc<CR>
-nnoremap <Leader>ea :vs ~/.config/bash/bash_aliases<CR>
-nnoremap <Leader>Ea :e ~/.config/bash/bash_aliases<CR>
-nnoremap <Leader>ef :vs ~/.config/bash/bash_functions<CR>
-nnoremap <Leader>Ef :e ~/.config/bash/bash_functions<CR>
-nnoremap <Leader>el :vs ~/.bash_logout<CR>
-nnoremap <Leader>El :e ~/.bash_logout<CR>
-nnoremap <Leader>ep :vs ~/.profile<CR>
-nnoremap <Leader>Ep :e ~/.profile<CR>
+nnoremap <Leader>ev :vs ~/etc/develop/.vim/vimrc<CR>
+nnoremap <Leader>Ev :e ~/etc/develop/.vim/vimrc<CR>
+nnoremap <Leader>eb :vs ~/etc/develop/bash/.bashrc<CR>
+nnoremap <Leader>Eb :e ~/etc/develop/bash/.bashrc<CR>
+nnoremap <Leader>ea :vs ~/etc/develop/bash/bash_aliases<CR>
+nnoremap <Leader>Ea :e ~/etc/develop/bash/bash_aliases<CR>
+nnoremap <Leader>ef :vs ~/etc/develop/bash/bash_functions<CR>
+nnoremap <Leader>Ef :e ~/etc/develop/bash/bash_functions<CR>
+nnoremap <Leader>el :vs ~/etc/develop/bash/.bash_logout<CR>
+nnoremap <Leader>El :e ~/etc/develop/bash/.bash_logout<CR>
+nnoremap <Leader>ep :vs ~/etc/develop/.profile<CR>
+nnoremap <Leader>Ep :e ~/etc/develop/.profile<CR>
 nnoremap <Leader>ei :vs ~/.config/readline/inputrc<CR>
 nnoremap <Leader>Ei :e ~/.config/readline/inputrc<CR>
 nnoremap <Leader>ex :vs ~/.Xresources<CR>
