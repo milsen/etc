@@ -28,7 +28,13 @@
                gawk '{ add += $1; subs += $2; loc += $1 - $2 } END \
                      { printf \"added lines:   %7s\\nremoved lines: %7s\\ntotal lines:   %7s\\n\", add, subs, loc }' ; \
             }; f"
+    nuke = restore --source=HEAD --worktree --staged :/
+    nuks = restore --source=HEAD --staged :/
+    nukw = restore --source=HEAD --worktree :/
+    ri = rebase --interactive
+    rs = restore
     stat = status
+    sw = switch
     tr = "!git tr1"
     tr1 = log --graph --format=format:'%C(yellow)%h%C(reset) %s %C(dim white)- %an%C(reset) %C(bold red)%d%C(reset)' --all
     tr2 = log --graph --format=format:'%C(yellow)%h%C(reset) %s %C(dim white)- %an%C(reset) %C(bold red)%d%C(reset)'
