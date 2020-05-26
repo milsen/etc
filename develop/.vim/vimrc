@@ -90,8 +90,10 @@ set gdefault            " use :s command by default with g(lobal) flag
 
 " }}}
 " Miscellaneous Settings {{{
+set lazyredraw          " do not redraw during execution of macros etc.
 set timeout             " wait fpr next key during key codes
 set ttimeoutlen=500     " wait 500ms during key codes for next key
+set nojoinspaces        " let formatting only insert one space after ./!/?
 set cpoptions+=E        " failed operator does not enter insert mode
 set nomodeline          " disable modelines for security reasons
 set magic               " use regular expressions without \
