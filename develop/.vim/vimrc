@@ -282,6 +282,9 @@ nnoremap <Leader>Ei :e ~/.config/readline/inputrc<CR>
 nnoremap <Leader>ex :vs ~/.Xresources<CR>
 nnoremap <Leader>Ex :e ~/.Xresources<CR>
 
+" go to corresponding header/cpp file, needs ctags --extras=f
+nnoremap <Leader>h :call GoToHeaderFile()<CR>
+
 " source files with Leader+s(file identifier)
 nnoremap <Leader>s% :source %<CR>
 nnoremap <Leader>s# :source #<CR>
@@ -599,6 +602,27 @@ function! FoldText() " {{{
   " line + filler spaces + 4 fields for foldedlinecount
   let l:fillcount = l:totalcharcount - len(l:line) - len(l:foldedlinecount)
   return l:line . repeat(" ", l:fillcount) . l:foldedlinecount
+endfunction " }}}
+
+function! GoToHeaderFile() " {{{
+  " switch h <-> cpp extension of filename
+  let l:extension = expand("%:e")
+  let l:new_extension = ""
+  if l:extension ==# "h"
+    let l:new_extension = "cpp"
+  elseif l:extension ==# "cpp"
+    let l:new_extension = "h"
+  else
+    echoerr "Not in a header/cpp file!"
+    return
+  endif
+  let l:filename = expand("%:t:r") . "." . l:new_extension
+
+  " search for tag in taglist and jump to it
+  let l:taglist = taglist("^" . l:filename . "$")
+  if !empty(l:taglist)
+    execute "edit " . l:taglist[0]['filename']
+  endif
 endfunction " }}}
 
 function! JumpToDefinition() "{{{
