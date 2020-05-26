@@ -23,6 +23,7 @@ Plug 'haya14busa/incsearch.vim'
 Plug 'wellle/targets.vim'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'lervag/vimtex', { 'for': 'tex' }
+Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
@@ -400,6 +401,10 @@ nnoremap <silent> X :Sayonara<CR>
 " let Y copy the rest of the line (and behave like other operators)
 nnoremap Y y$
 
+" substitute and smart-case subvert (from abolish.vim)
+noremap gs :s#\%V
+noremap gS :S#\%V
+
 " split and seam up lines with } and { (formerly J)
 nnoremap <silent> g} Do<Esc>pgk:call Preserve("s/\v +$//")<CR>gj==
 nnoremap <silent> g{ DO<Esc>pgj:call Preserve("s/\v +$//")<CR>gk==
@@ -641,7 +646,6 @@ if has('nvim')
   augroup END
 
   " use inccommand substitution
-  noremap gs :s#\%V
   set inccommand=split
 endif
 " }}}
