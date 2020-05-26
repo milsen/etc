@@ -321,7 +321,13 @@ nnoremap <Leader>q :<C-u><C-r>='let @'. v:register .' = '. string(getreg(v:regis
 " Plugin-Toggling
 noremap <silent> <Leader>, :aboveleft 25vs +Dirvish<CR>
 noremap <silent> <Leader>u :UndotreeToggle<CR>
-noremap <silent> <Leader>G :Gdiff<CR>
+
+" Git commands
+noremap <silent> <Leader>gs :G<CR>
+noremap <silent> <Leader>gd :Gdiffsplit<CR>
+noremap <silent> <Leader>gc :Git commit<CR>
+noremap <silent> <Leader>gh :diffget //3<CR>
+noremap <silent> <Leader>gf :diffget //2<CR>
 
 " FZF-commands
 nnoremap <silent> <Leader>. :Files<CR>
@@ -330,7 +336,7 @@ nnoremap <silent> <Leader>~ :Files ~<CR>
 nnoremap <silent> <Leader>/ :Files /<CR>
 nnoremap <silent> <Leader>- :Lines<CR>
 nnoremap <silent> <Leader>_ :BLines<CR>
-nnoremap <silent> <Leader>g :GitFiles<CR>
+nnoremap <silent> <Leader>G :GitFiles<CR>
 nnoremap <silent> <Leader>t :Tags<CR>
 
 " Text Commands
@@ -600,7 +606,7 @@ function! JumpToDefinition() "{{{
     execute "normal! \<CR>"
   elseif &ft ==# 'gitrebase'
     let l:commit_hash = split(getline('.'))[1]
-    if l:commit_hash =~ '\x\{9}'
+    if l:commit_hash =~ '\x\{7}'
       execute "!git show " . l:commit_hash
     else
       normal! gd
