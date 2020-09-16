@@ -97,7 +97,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm .|. mod1Mask, xK_o     ), spawn "termite -t music-player -e \"music -p\"")
     , ((modm,              xK_p     ), spawn "mpc toggle")
     , ((modm,              xK_g     ), spawn "termite -e ranger")
-    , ((modm,              xK_i     ), spawnOn "1" "qutebrowser")
+    , ((modm,              xK_i     ), spawnOn "1" "firefox")
+    , ((modm,              xK_u     ), spawnOn "8" "telegram-desktop")
     , ((modm .|. mod1Mask, xK_i     ), spawnOn "9" "thunderbird")
     , ((modm,              xK_Print ), spawn "scrot '%Y-%m-%d_%H-%M-%S.png' -ze 'mv $f ~/media/images/shots' && notify-send 'Screenshot taken'")
 
@@ -191,11 +192,13 @@ myLayoutHook = tiled ||| Full -- ||| Mirror tiled ||| Grid
 myManageHook = composeAll
     [ className =? "dunst-notification" --> doIgnore
     , className =? "MPlayer"            --> doFloat
+    , className =? "octave-gui"         --> doFloat
     , className =? "Display"            --> doFloat
+    , className =? "qjackctl"           --> doFloat
     , title     =? "fzf-launcher"       --> doRectFloat (W.RationalRect 0.25 0.25 0.5 0.5)
     , title     =? "cover art"          --> doF (W.focusDown)
-    , title     =? "cover art"          --> doRectFloat (W.RationalRect 0.83 0.049 0.15 0.275)
-    , title     =? "music-player"       --> doRectFloat (W.RationalRect 0.425 0.049 0.379 0.275)
+    , title     =? "cover art"          --> doRectFloat (W.RationalRect 0.83 0.049 0.15 0.29)
+    , title     =? "music-player"       --> doRectFloat (W.RationalRect 0.425 0.049 0.379 0.29)
     , resource  =? "desktop_window"     --> doIgnore
     , resource  =? "kdesktop"           --> doIgnore
     , role      =? "gimp-toolbox"       --> doFloat ]
