@@ -135,6 +135,7 @@ c.downloads.location.remember = False
 c.editor.command = ["termite", "-e", "nvim {}"]
 
 c.fonts.default_family = 'xos4 Terminus'
+c.fonts.default_size = '12pt'
 c.fonts.completion.category = "bold 12pt default_family"
 c.fonts.completion.entry = "12pt default_family"
 c.fonts.debug_console = "12pt default_family"
@@ -146,7 +147,8 @@ c.fonts.messages.info = "12pt default_family"
 c.fonts.messages.warning = "12pt default_family"
 c.fonts.prompts = "12pt sans-serif"
 c.fonts.statusbar = "16pt default_family"
-c.fonts.tabs = "bold 16pt default_family"
+c.fonts.tabs.selected = "14pt default_family"
+c.fonts.tabs.unselected = "14pt default_family"
 
 c.hints.auto_follow_timeout = 400
 c.hints.dictionary = "/usr/share/dict/cracklib-small"
