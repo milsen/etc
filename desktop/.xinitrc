@@ -38,4 +38,4 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 
 # execute xmonad as parent process for X
 # if it is killed, X is killed, too
-exec xmonad
+exec i3

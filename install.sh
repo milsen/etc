@@ -66,6 +66,8 @@ function symlink_desktop_files() {
   ln -sfv "$DESKTOP_DIR/abcde/.abcde.conf"            "$HOME"
   ln -sfv "$DESKTOP_DIR/dunst/"                       "$HOME"/.config/
   ln -sfv "$DESKTOP_DIR/feh/"                         "$HOME"/.config/
+  ln -sfv "$DESKTOP_DIR/i3/"                          "$HOME"/.config/
+  ln -sfv "$DESKTOP_DIR/i3status/"                    "$HOME"/.config/
   ln -sfv "$DESKTOP_DIR/mpd/"                         "$HOME"/.config/
   ln -sfv "$DESKTOP_DIR/ncmpcpp/"                     "$HOME"/.config/
   ln -sfv "$DESKTOP_DIR/pulse/daemon.conf"            "$HOME"/.config/pulse/
@@ -75,7 +77,6 @@ function symlink_desktop_files() {
   ln -sfv "$DESKTOP_DIR/termite/"                     "$HOME"/.config/
   ln -sfv "$DESKTOP_DIR/xdg/user-dirs.dirs"           "$HOME"/.config/
   ln -sfv "$DESKTOP_DIR/.xinitrc"                     "$HOME"
-  ln -sfv "$DESKTOP_DIR/.xmonad/"                     "$HOME"
   ln -sfv "$DESKTOP_DIR/zathura/"                     "$HOME"/.config/
 }
 
