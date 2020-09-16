@@ -350,6 +350,10 @@ nnoremap <silent> <Leader>< :cn<CR>
 " edit a macro on the fly
 nnoremap <Leader>q :<C-u><C-r>='let @'. v:register .' = '. string(getreg(v:register))<CR><C-f><Left>
 
+" get filename into unnamed register
+nnoremap <Leader>f :let @" = expand("%")<CR>
+nnoremap <Leader>F :let @" = expand("%:p")<CR>
+
 " Plugin-Toggling
 noremap <silent> <Leader>, :aboveleft 25vs +Dirvish<CR>
 noremap <silent> <Leader>u :UndotreeToggle<CR>
