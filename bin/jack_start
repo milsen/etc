@@ -16,8 +16,8 @@
 # jack_control ds alsa
 # jack_control dps device hw:USB
 # jack_control dps rate 44100
-# jack_control dps period 128
-# jack_control dps nperiods 3
+# jack_control dps period 256
+# jack_control dps nperiods 2
 
 # If the audio interface is not connected, exit.
 if [ -z "$(grep "USB-Audio" /proc/asound/cards)" ]; then
@@ -40,7 +40,7 @@ rm -f ~/.config/jack/conf.xml
 
 # Create .jackdrc with the correct settings for low latency/few xruns (qjackctl
 # does this automatically according to "$HOME"/.config/rncbc.org/QjackCtl.conf).
-# echo '/usr/bin/jackd -v -R -P80 -dalsa -dhw:USB -r44100 -p128 -n3' > "$HOME"/.jackdrc
+# echo '/usr/bin/jackd -v -R -P80 -dalsa -dhw:USB -r44100 -p256 -n2' > "$HOME"/.jackdrc
 
 # Open qjackctl which should start jackd using the command in .jackdrc:
 qjackctl &
