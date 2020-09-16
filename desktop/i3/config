@@ -1,0 +1,278 @@
+# i3 config file (v4)
+#
+# Please see https://i3wm.org/docs/userguide.html for a complete reference!
+#
+# This config file uses keycodes (bindsym) and was written for the QWERTY
+# layout.
+#
+# To get a config file with the same key positions, but for your current
+# layout, use the i3-config-wizard
+
+# colors
+set $foreground "#c9ccca"
+set $color0     "#282a2e"
+set $color1     "#b84747"
+set $color2     "#518234"
+set $color3     "#e0925c"
+set $color4     "#4f7798"
+set $color5     "#a582b0"
+set $color6     "#52b6a9"
+set $color7     "#686f77"
+set $color8     "#50565e"
+set $color9     "#d25d5d"
+set $color10    "#bdc75e"
+set $color11    "#ebc273"
+set $color12    "#83a7c5"
+set $color13    "#c8afce"
+set $color14    "#82b8b1"
+set $color15    "#adb0ae"
+
+# class                 border   backgr. text        indicator child_border
+client.focused          $color11 $color0 $foreground $color13  $color11
+client.focused_inactive $color12 $color0 $foreground $color13  $color12
+client.unfocused        $color7  $color0 $foreground $color13  $color7
+client.urgent           $color9  $color0 $foreground $color13  $color9
+client.placeholder      $color14 $color0 $foreground $color13  $color14
+client.background       $color0
+
+# window borders
+default_border pixel 2
+default_floating_border pixel 2
+hide_edge_borders smart
+
+# Set Super as modifier key
+set $mod Mod4
+
+# Font for window titles. Will also be used by the bar unless a different font
+# is used in the bar {} block below.
+font pango:Terminus (TTF) 16px
+
+# Before i3 v4.8, we used to recommend this one as the default:
+# font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+# The font above is very space-efficient, that is, it looks good, sharp and
+# clear in small sizes. However, its unicode glyph coverage is limited, the old
+# X core fonts rendering does not support right-to-left and this being a bitmap
+# font, it doesn't scale on retina/hidpi displays.
+
+# use these keys for focus, movement, and resize directions when reaching for
+# the arrows is not convenient
+set $up k
+set $down j
+set $left h
+set $right l
+
+# use Mouse+Mod1 to drag floating windows to their wanted position
+floating_modifier $mod
+
+# start a terminal
+bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+t exec i3-sensible-terminal
+
+# kill focused window
+bindsym $mod+d kill; exec killall -USR1 i3status
+
+# start dmenu (a program launcher)
+# bindsym Mod1+d exec dmenu_run
+# There also is the (new) i3-dmenu-desktop which only displays applications
+# shipping a .desktop file. It is a wrapper around dmenu, so you need that
+# installed.
+# bindsym Mod1+d exec --no-startup-id i3-dmenu-desktop
+
+# change focus
+bindsym $mod+$left focus left; exec killall -USR1 i3status
+bindsym $mod+$down focus down; exec killall -USR1 i3status
+bindsym $mod+$up focus up; exec killall -USR1 i3status
+bindsym $mod+$right focus right; exec killall -USR1 i3status
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Left focus left; exec killall -USR1 i3status
+bindsym $mod+Down focus down; exec killall -USR1 i3status
+bindsym $mod+Up focus up; exec killall -USR1 i3status
+bindsym $mod+Right focus right; exec killall -USR1 i3status
+
+# move focused window
+bindsym $mod+Mod1+$left move left
+bindsym $mod+Mod1+$down move down
+bindsym $mod+Mod1+$up move up
+bindsym $mod+Mod1+$right move right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Mod1+Left move left
+bindsym $mod+Mod1+Down move down
+bindsym $mod+Mod1+Up move up
+bindsym $mod+Mod1+Right move right
+
+# split in horizontal orientation
+bindsym $mod+x split h
+
+# split in vertical orientation
+bindsym $mod+y split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+Mod1+space fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+space layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+f floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+Mod1+f focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# focus the child container
+bindsym $mod+Mod1+a focus child
+
+# move the currently focused window to the scratchpad
+bindsym $mod+Mod1+minus move scratchpad; exec killall -USR1 i3status
+
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+bindsym $mod+minus scratchpad show; exec killall -USR1 i3status
+
+# Define names for default workspaces for which we configure key bindings later on.
+# We use variables to avoid repeating the names in multiple places.
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# switch to workspace
+bindsym $mod+1 workspace $ws1; exec killall -USR1 i3status
+bindsym $mod+2 workspace $ws2; exec killall -USR1 i3status
+bindsym $mod+3 workspace $ws3; exec killall -USR1 i3status
+bindsym $mod+4 workspace $ws4; exec killall -USR1 i3status
+bindsym $mod+5 workspace $ws5; exec killall -USR1 i3status
+bindsym $mod+6 workspace $ws6; exec killall -USR1 i3status
+bindsym $mod+7 workspace $ws7; exec killall -USR1 i3status
+bindsym $mod+8 workspace $ws8; exec killall -USR1 i3status
+bindsym $mod+9 workspace $ws9; exec killall -USR1 i3status
+bindsym $mod+0 workspace $ws10; exec killall -USR1 i3status
+
+# move focused container to workspace
+bindsym $mod+Mod1+1 move container to workspace $ws1; exec killall -USR1 i3status
+bindsym $mod+Mod1+2 move container to workspace $ws2; exec killall -USR1 i3status
+bindsym $mod+Mod1+3 move container to workspace $ws3; exec killall -USR1 i3status
+bindsym $mod+Mod1+4 move container to workspace $ws4; exec killall -USR1 i3status
+bindsym $mod+Mod1+5 move container to workspace $ws5; exec killall -USR1 i3status
+bindsym $mod+Mod1+6 move container to workspace $ws6; exec killall -USR1 i3status
+bindsym $mod+Mod1+7 move container to workspace $ws7; exec killall -USR1 i3status
+bindsym $mod+Mod1+8 move container to workspace $ws8; exec killall -USR1 i3status
+bindsym $mod+Mod1+9 move container to workspace $ws9; exec killall -USR1 i3status
+bindsym $mod+Mod1+0 move container to workspace $ws10; exec killall -USR1 i3status
+
+# reload the configuration file
+bindsym $mod+r reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Mod1+r restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+Mod1+q exec "i3-msg exit"
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+
+        # Pressing left will shrink the window’s width.
+        # Pressing right will grow the window’s width.
+        # Pressing up will shrink the window’s height.
+        # Pressing down will grow the window’s height.
+        bindsym $left       resize shrink width 10 px or 10 ppt
+        bindsym $down       resize grow height 10 px or 10 ppt
+        bindsym $up         resize shrink height 10 px or 10 ppt
+        bindsym $right      resize grow width 10 px or 10 ppt
+
+        # same bindings, but for the arrow keys
+        bindsym Left        resize shrink width 10 px or 10 ppt
+        bindsym Down        resize grow height 10 px or 10 ppt
+        bindsym Up          resize shrink height 10 px or 10 ppt
+        bindsym Right       resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+plus mode "default"
+}
+
+bindsym $mod+plus mode "resize"
+
+# Start i3bar to display a workspace bar (plus the system information i3status
+# finds out, if available)
+bar {
+      status_command ~/.config/i3status/i3status.sh
+      mode dock
+      hidden_state show
+      position top
+      modifier none
+      font pango:Terminus (TTF) bold 20px
+
+      colors {
+        background $color0
+        statusline $foreground
+        separator $color7
+
+        focused_workspace  $color0 $color0 $color11
+        active_workspace   #color0 $color0 $foreground
+        inactive_workspace #color0 $color0 $foreground
+        urgent_workspace   $color0 $color0 $color9
+        binding_mode       #color0 $color0 #foreground
+    }
+}
+
+bindsym $mod+b bar hidden_state toggle
+
+#######################################################################
+# automatically start i3-config-wizard to offer the user to create a
+# keysym-based config which used their favorite modifier (alt or windows)
+#
+# i3-config-wizard will not launch if there already is a config file
+# in ~/.i3/config.
+#
+# Please remove the following exec line:
+#######################################################################
+# exec i3-config-wizard
+#
+
+# Multimedia keys
+bindsym $mod+Mod1+Return exec termite -t fzf-launcher -e fzf-launcher; exec killall -USR1 i3status
+bindsym $mod+o           exec termite -t music-player -e "music-player 300x300+1600+50"; exec killall -USR1 i3status
+bindsym $mod+Mod1+o      exec termite -t music-player -e "music -p"; exec killall -USR1 i3status
+bindsym $mod+p           exec mpc toggle
+bindsym $mod+g           exec termite -e ranger; exec killall -USR1 i3status
+bindsym $mod+i           workspace 1; exec firefox; exec killall -USR1 i3status
+bindsym $mod+u           workspace 8; exec telegram-desktop; exec killall -USR1 i3status
+bindsym $mod+Mod1+i      workspace 9; exec thunderbird; exec killall -USR1 i3status
+bindsym $mod+Print       exec "scrot '%Y-%m-%d_%H-%M-%S.png' -ze 'mv $f ~/media/images/shots' && notify-send 'Screenshot taken'"
+
+# Multimedia keys
+bindsym XF86AudioMute         exec amixer set Master toggle
+bindsym XF86AudioRaiseVolume  exec amixer set Master 5%+
+bindsym XF86AudioLowerVolume  exec amixer set Master 5%-
+bindsym XF86AudioMicMute      exec amixer set "Mic Boost" toggle
+bindsym XF86MonBrightnessDown exec xbacklight -dec 10
+bindsym XF86MonBrightnessUp   exec xbacklight -inc 10
+
+# assign [class="^Evince$"] 5: doc
+for_window [class="^qjackctl$"] floating enable
+for_window [title="^fzf-launcher$"] floating enable
+for_window [title="^cover art$"] floating enable
+for_window [title="^music-player$"] floating enable
+for_window [title="^gimp-toolbox$"] floating enable
+for_window [title="^octave-gui$"] floating enable
+no_focus [title="^cover art$"]
+
+
+
+# , title     =? "fzf-launcher"       --> doRectFloat (W.RationalRect 0.25 0.25 0.5 0.5)
+# , title     =? "cover art"          --> doRectFloat (W.RationalRect 0.83 0.049 0.15 0.29)
+# , title     =? "music-player"       --> doRectFloat (W.RationalRect 0.425 0.049 0.379 0.29)
