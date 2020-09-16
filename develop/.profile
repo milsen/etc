@@ -14,3 +14,15 @@ fi
 if [ -d "$HOME/bin" ] ; then
   PATH="$HOME/bin:$PATH"
 fi
+
+if [ -d "$HOME/.local/bin" ] ; then
+  PATH="$HOME/.local/bin:$PATH"
+fi
+
+# set PATH so it includes user's ruby-gem bin if it exists
+command -v "ruby" >/dev/null 2>&1 && { \
+  gemdir="$HOME/.gem/ruby/2.7.0"
+  if [ -d "$gemdir" ] ; then
+    PATH="$gemdir/bin:$PATH"
+  fi
+}
