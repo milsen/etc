@@ -10,3 +10,5 @@ set selection-clipboard "clipboard"
 # open document using complete width
 set adjust-open "width"
 
+# set scroll distance
+set scroll-step 50
