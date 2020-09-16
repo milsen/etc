@@ -72,3 +72,13 @@ weather() {
 webcopy() {
   wget --mirror --convert-links --adjust-extension --page-requisites --no-parent "$1"
 }
+
+webcam_photo() {
+  ffmpeg -f v4l2 -video_size 1280x720 -i /dev/video0 -vframes 1 "${1:-webcam.png}"
+}
+
+webcam_film() {
+  ffmpeg -f v4l2 -video_size 1280x720 -i /dev/video0 \
+    -f alsa -i default  \
+    -c:v libx264 -preset ultrafast -c:a aac "${1:-webcam.mp4}"
+}
