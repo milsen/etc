@@ -60,3 +60,5 @@
     added = green bold
     changed = red bold
     untracked = red
+[pull]
+    ff = only
