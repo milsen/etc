@@ -36,7 +36,7 @@ export INPUTRC="$XDG_CONFIG_HOME"/readline/inputrc
 export LESSHISTFILE=-           # disable creation of history file in ~/.lesshst
 
 # the editor of choice
-export VISUAL=/usr/bin/vim
+export VISUAL=/usr/bin/nvim
 export EDITOR=$VISUAL
 
 # open ranger with Alt-g
