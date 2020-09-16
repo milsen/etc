@@ -1,18 +1,18 @@
 #!/bin/bash --
 
 get_id() {
-  LANG=C pactl list |\
-    grep -B 1 "Name: module-jack-$1" |\
-    grep Module |\
-    sed 's/[^0-9]//g'
+  pactl list short |\
+    grep "^[0-9]\+"$'\t'"$1" |\
+    cut -d$'\t' -f1
 }
 
 # Move all inputs to original sink.
 inputs=$(pacmd list-sink-inputs | grep index | cut -d':' -f2 | cut -d' ' -f2)
 for id in $inputs; do
-  pactl move-sink-input "$id" 1
+  pactl move-sink-input "$id" \
+    "$(get_id "alsa_output.usb-Focusrite_Scarlett_2i4_USB-00.analog-surround-40")"
 done
 
-pactl unload-module $(get_id "sink")
-pactl unload-module $(get_id "source")
+pactl unload-module $(get_id "module-jack-sink")
+pactl unload-module $(get_id "module-jack-source")
 sleep 2
