@@ -1,0 +1,51 @@
+#!/bin/bash --
+#
+# "$HOME"/bin/tag by milsen
+#
+
+coverpic=""
+
+# has no image tag
+if [ -z "$(eyeD3 -l critical "$@" | grep "^[^:]*Image")" ]; then
+  thisdir="$(dirname "$@")"
+  cover="$(find "$thisdir" -regex ".*cover\.\(jpg\|png\)" -print | head -n 1)"
+  coverpic="/tmp/$(echo "${thisdir}" | tr '/' _)_cover.jpg"
+
+  # create a low-res coverpic from the original cover if possible
+  if [ ! -f "$coverpic" ]; then
+    if [ -n "$cover" ]; then
+      convert "$cover" -resize 240x240 \
+        -strip \
+        -colorspace RGB \
+        -interlace Plane \
+        -sampling-factor 4:2:0 \
+        "$coverpic"
+    else
+      coverpic=""
+    fi
+  fi
+fi
+
+if [ -z "$coverpic" ]; then
+  eyeD3 --log-level critical --quiet \
+    --to-v2.4 \
+    --remove-frame UserTextFrame \
+    --remove-frame PRIV \
+    --remove-all-comments \
+    --genre "" \
+    --album-artist "" \
+    "$@"
+else
+  eyeD3 --log-level critical --quiet \
+    --to-v2.4 \
+    --remove-frame UserTextFrame \
+    --remove-frame PRIV \
+    --remove-all-comments \
+    --genre "" \
+    --album-artist "" \
+    --add-image "$coverpic":FRONT_COVER \
+    "$@"
+fi
+
+# copy v2.4 tag to v1.1 tag
+eyeD3 --log-level critical --quiet --to-v1.1 "$@"
