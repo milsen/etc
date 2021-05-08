@@ -5,8 +5,8 @@
 #   qute://help/configuring.html
 #   qute://help/settings.html
 
-# Uncomment this to still load settings configured via autoconfig.yml
-# config.load_autoconfig()
+# Remove False to still load settings configured via autoconfig.yml
+config.load_autoconfig(False)
 
 # Unbindings
 # These default bindings will be useless since their functions is overtaken by
