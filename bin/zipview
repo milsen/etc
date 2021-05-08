@@ -24,11 +24,11 @@ only_images() {
 # Get file extensions for files in archive.
 IFS=$'\n'
 filenames="$(basename -a $(unzip -Z -1 "$1" | grep -v "/$"))"
-extlist="$(for f in $filenames; do echo "${f##*.}"; done | uniq)"
+extlist=$(for f in $filenames; do echo "${f##*.}"; done | uniq)
 
 # If the files are all images, extract archive into tmp-directory and view
 # contained images, else use xarchiver.
-if [[ -z "$(only_images $extlist)" ]]; then
+if [[ -z "$(only_images "$extlist")" ]]; then
   tmpdir="$(basename "$1")"
   tmpdir="$(mktemp -d /tmp/zipview_XXXXX_"${tmpdir%.*}")" || exit 1
   7z e "$1" -o"$tmpdir"
