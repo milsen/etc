@@ -64,6 +64,7 @@ function symlink_desktop_files() {
   mkdir -p "$HOME"/.cache/qutebrowser
 
   ln -sfv "$DESKTOP_DIR/abcde/.abcde.conf"            "$HOME"
+  ln -sfv "$DESKTOP_DIR/alacritty/"                   "$HOME"/.config/
   ln -sfv "$DESKTOP_DIR/dunst/"                       "$HOME"/.config/
   ln -sfv "$DESKTOP_DIR/feh/"                         "$HOME"/.config/
   ln -sfv "$DESKTOP_DIR/i3/"                          "$HOME"/.config/
@@ -74,7 +75,6 @@ function symlink_desktop_files() {
   ln -sfv "$DESKTOP_DIR/qutebrowser/config.py"        "$HOME"/.config/qutebrowser/
   ln -sfv "$DESKTOP_DIR/ranger/"                      "$HOME"/.config/
   ln -sfv "$DESKTOP_DIR/rncbc.org/"                   "$HOME"/.config/
-  ln -sfv "$DESKTOP_DIR/termite/"                     "$HOME"/.config/
   ln -sfv "$DESKTOP_DIR/xdg/user-dirs.dirs"           "$HOME"/.config/
   ln -sfv "$DESKTOP_DIR/.xinitrc"                     "$HOME"
   ln -sfv "$DESKTOP_DIR/zathura/"                     "$HOME"/.config/

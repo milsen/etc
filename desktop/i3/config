@@ -65,8 +65,8 @@ set $right l
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+t exec i3-sensible-terminal
+bindsym $mod+Return exec alacritty
+bindsym $mod+t exec alacritty
 
 # kill focused window
 bindsym $mod+d kill; exec killall -USR1 i3status
@@ -231,24 +231,13 @@ bar {
 
 bindsym $mod+b bar hidden_state toggle
 
-#######################################################################
-# automatically start i3-config-wizard to offer the user to create a
-# keysym-based config which used their favorite modifier (alt or windows)
-#
-# i3-config-wizard will not launch if there already is a config file
-# in ~/.i3/config.
-#
-# Please remove the following exec line:
-#######################################################################
-# exec i3-config-wizard
-#
-
-# Multimedia keys
-bindsym $mod+Mod1+Return exec termite -t fzf-launcher -e fzf-launcher; exec killall -USR1 i3status
-bindsym $mod+o           exec termite -t music-player -e "music-player 300x300+1600+50"; exec killall -USR1 i3status
-bindsym $mod+Mod1+o      exec termite -t music-player -e "music -p"; exec killall -USR1 i3status
+# Applications
+bindsym $mod+Mod1+Return exec alacritty -t fzf-launcher -e fzf-launcher; exec killall -USR1 i3status
+bindsym $mod+Mod1+t      exec alacritty -t fzf-launcher -e fzf-launcher; exec killall -USR1 i3status
+bindsym $mod+o           exec alacritty -t music-player -e music-player 300x300+1600+50; exec killall -USR1 i3status
+bindsym $mod+Mod1+o      exec alacritty -t music-player -e music -p; exec killall -USR1 i3status
 bindsym $mod+p           exec mpc toggle
-bindsym $mod+g           exec termite -e ranger; exec killall -USR1 i3status
+bindsym $mod+g           exec alacritty -e ranger; exec killall -USR1 i3status
 bindsym $mod+i           workspace 1; exec firefox; exec killall -USR1 i3status
 bindsym $mod+u           workspace 8; exec telegram-desktop; exec killall -USR1 i3status
 bindsym $mod+Mod1+i      workspace 9; exec thunderbird; exec killall -USR1 i3status

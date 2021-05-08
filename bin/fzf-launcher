@@ -10,7 +10,7 @@
 #
 # Example usage:
 #
-#   termite -t fzf-launcher --geometry 950x510+480+300 -e fzf-launcher &
+#   alacritty -t fzf-launcher --geometry 950x510+480+300 -e fzf-launcher &
 #
 # Since this launches just a terminal running a shell you can use the bash
 # completion mechanism to build new tools (for logout, window switching etc.)

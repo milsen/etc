@@ -6,7 +6,7 @@
 # $1 - geometry string for feh displaying the cover art
 #
 # Usage:
-#   termite -t music-player -e music-player
+#   alacritty -t music-player -e music-player
 #
 
 # kill instances of music-player on other desktops

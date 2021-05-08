@@ -132,7 +132,7 @@ c.content.private_browsing = True
 c.content.xss_auditing = True
 c.downloads.location.prompt = False
 c.downloads.location.remember = False
-c.editor.command = ["termite", "-e", "nvim {}"]
+c.editor.command = ["alacritty", "-e", "nvim {}"]
 
 c.fonts.default_family = 'xos4 Terminus'
 c.fonts.default_size = '12pt'
