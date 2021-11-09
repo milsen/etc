@@ -272,6 +272,11 @@ augroup filetype_tex
   autocmd FileType tex setlocal foldexpr=vimtex#fold#level(v:lnum)
 augroup END
 
+augroup filetype_text
+  autocmd!
+  autocmd FileType text setlocal textwidth=0
+augroup END
+
 augroup filetype_vim
   autocmd!
   autocmd FileType vim setlocal expandtab softtabstop=2 shiftwidth=2
@@ -332,6 +337,9 @@ nnoremap <silent> <Leader>N :set relativenumber!<CR>
 nnoremap <silent> <Leader>l :set cursorline!<CR>
 nnoremap <silent> <Leader>c :set cursorcolumn!<CR>
 nnoremap <silent> <Leader>C @=(&cc==''?':set cc=+1':':se cc=')<CR><CR>
+
+" toggle spellcheck
+nnoremap <silent> <Leader>S :set spell!<CR>
 
 " switch off hlsearch
 nnoremap <silent> <Leader><Space> :nohlsearch<CR>
