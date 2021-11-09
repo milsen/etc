@@ -360,11 +360,12 @@ noremap <silent> <Leader>u :UndotreeToggle<CR>
 
 " Git commands
 noremap <silent> <Leader>gs :G<CR>
-noremap <silent> <Leader>gg :Ggrep<Space>
+noremap <silent> <Leader>gg :Git grep<Space>
 noremap <silent> <Leader>gd :Gdiffsplit<CR>
 noremap <silent> <Leader>gc :Git commit<CR>
 noremap <silent> <Leader>gl :diffget //3<CR>
 noremap <silent> <Leader>ga :diffget //2<CR>
+noremap <silent> <Leader>gb :Git blame<CR>
 
 " FZF-commands
 nnoremap <silent> <Leader>. :Files<CR>
