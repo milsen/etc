@@ -1,0 +1,43 @@
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[colors.bright]
+black = "#50565e"
+blue = "#83a7c5"
+cyan = "#82b8b1"
+green = "#bdc75e"
+magenta = "#c8afce"
+red = "#d25d5d"
+white = "#adb0ae"
+yellow = "#ebc273"
+
+[colors.cursor]
+cursor = "#a9ccca"
+text = "CellBackground"
+
+[colors.normal]
+black = "#282a2e"
+blue = "#4f7798"
+cyan = "#52b6a9"
+green = "#518234"
+magenta = "#a582b0"
+red = "#b84747"
+white = "#686f77"
+yellow = "#e0925c"
+
+[colors.primary]
+background = "#282a2e"
+foreground = "#c9ccca"
+
+[colors.vi_mode_cursor]
+cursor = "#a9ccca"
+text = "CellBackground"
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+size = 18
+
+[font.normal]
+family = "Terminus"
