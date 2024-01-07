@@ -41,7 +41,7 @@ usage() {
 
     Album Actions (these force selecting a single album):
       -i        get info about album
-      -p        play album with mpc (if not owned via youtube-dl)
+      -p        play album with mpc (if not owned via yt-dlp)
       -x        copy album name to the X clipboard
 
     Input-Independent Actions:
@@ -176,7 +176,9 @@ fi
 
 # Get album info.
 if [ -n "$play" ] || [ -n "$info" ] ; then
-  album_info="$($GET_ALBUM_INFO "$album")"
+  if [ -z "$(echo "$album" | grep "^https\?://")" ]; then
+    album_info="$($GET_ALBUM_INFO "$album")"
+  fi
 fi
 
 # Play the album using mpc.
@@ -188,14 +190,20 @@ if [ -n "$play" ]; then
     mpc ls "$dir" | mpc -q add
     play_last_in_playlist album
   else
-    # Else play the album using a stream found via youtube-dl.
-    if [ -n "$(echo "$album" | grep "/")" ]; then
-      search_term="$(echo "$album" | sed 's# / # #') full"
+    # If the album is an url, play it.
+    if [ -n "$(echo "$album" | grep "^https\?://")" ]; then
+      search_url="$album"
     else
-      search_term="$album"
+      # Else play the album using a stream found via yt-dlp.
+      if [ -n "$(echo "$album" | grep "/")" ]; then
+        search_term="$(echo "$album" | sed 's# / # #') full"
+      else
+        search_term="$album"
+      fi
+      search_url="ytsearch1:$search_term"
     fi
 
-    url="$(youtube-dl --get-url --format 140 ytsearch1:"$search_term")" && {
+    url="$(yt-dlp --get-url --format 140 "$search_url")" && {
       mpc -q add "$url"
       play_last_in_playlist file
     }
