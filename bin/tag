@@ -5,44 +5,52 @@
 
 coverpic=""
 
-# has no image tag
-if [ -z "$(eyeD3 -l critical "$@" | grep "^[^:]*Image")" ]; then
-  thisdir="$(dirname "$@")"
-  cover="$(find "$thisdir" -regex ".*cover\.\(jpg\|png\)" -print | head -n 1)"
-  coverpic="/tmp/$(echo "${thisdir}" | tr '/' _)_cover.jpg"
+thisdir="$(dirname "$(readlink -f "$@")")"
+cover="$(find "$thisdir" -regex ".*cover\.\(jpg\|png\)" -print | head -n 1)"
+coverpic="/tmp/$(echo "${thisdir}" | tr '/' _)_cover.jpg"
 
-  # create a low-res coverpic from the original cover if possible
-  if [ ! -f "$coverpic" ]; then
-    if [ -n "$cover" ]; then
-      convert "$cover" -resize 240x240 \
-        -strip \
-        -colorspace RGB \
-        -interlace Plane \
-        -sampling-factor 4:2:0 \
-        "$coverpic"
-    else
-      coverpic=""
-    fi
+# create a low-res coverpic from the original cover if possible
+if [ ! -f "$coverpic" ]; then
+  if [ -n "$cover" ]; then
+    convert "$cover" -resize 240x240 \
+      -strip \
+      -colorspace RGB \
+      -interlace Plane \
+      -sampling-factor 4:2:0 \
+      "$coverpic"
+  else
+    coverpic=""
   fi
 fi
+
+# get UserTextFrames in order to remove them
+userframes="$(eyeD3 -2 "$@" | grep UserTextFrame | cut -d" " -f3 | cut -d"]" -f1)"
+options="$(for frame in $userframes; do
+  echo --user-text-frame="$frame":
+done)"
+echo $options
 
 if [ -z "$coverpic" ]; then
   eyeD3 --log-level critical --quiet \
     --to-v2.4 \
-    --remove-frame UserTextFrame \
     --remove-frame PRIV \
     --remove-all-comments \
+    --remove-all-images \
+    $options \
     --genre "" \
     --album-artist "" \
+    --publisher "" \
     "$@"
 else
   eyeD3 --log-level critical --quiet \
     --to-v2.4 \
-    --remove-frame UserTextFrame \
     --remove-frame PRIV \
     --remove-all-comments \
+    --remove-all-images \
+    $options \
     --genre "" \
     --album-artist "" \
+    --publisher "" \
     --add-image "$coverpic":FRONT_COVER \
     "$@"
 fi
