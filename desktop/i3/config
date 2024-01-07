@@ -43,6 +43,10 @@ hide_edge_borders smart
 # Set Super as modifier key
 set $mod Mod4
 
+# Let Super trigger Super+Escape when release in less than 300ms
+# (this combi is later bound to the launcher)
+exec_always xcape -t 200 -e 'Super_L=Super_L|Escape'
+
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
 font pango:Terminus (TTF) 16px
@@ -232,7 +236,7 @@ bar {
 bindsym $mod+b bar hidden_state toggle
 
 # Applications
-bindsym $mod+Mod1+Return exec alacritty -t fzf-launcher -e fzf-launcher; exec killall -USR1 i3status
+bindsym $mod+Escape      exec alacritty -t fzf-launcher -e fzf-launcher; exec killall -USR1 i3status
 bindsym $mod+Mod1+t      exec alacritty -t fzf-launcher -e fzf-launcher; exec killall -USR1 i3status
 bindsym $mod+o           exec alacritty -t music-player -e music-player 300x300+1600+50; exec killall -USR1 i3status
 bindsym $mod+Mod1+o      exec alacritty -t music-player -e music -p; exec killall -USR1 i3status
@@ -256,17 +260,12 @@ bindsym XF86AudioMicMute      exec amixer set "Mic Boost" toggle
 bindsym XF86MonBrightnessDown exec xbacklight -dec 10
 bindsym XF86MonBrightnessUp   exec xbacklight -inc 10
 
-# assign [class="^Evince$"] 5: doc
 for_window [class="^qjackctl$"] floating enable
 for_window [title="^fzf-launcher$"] floating enable
 for_window [title="^cover art$"] floating enable
 for_window [title="^music-player$"] floating enable
+for_window [title="^music-player$"] resize set 1008 756
+for_window [title="^music-player$"] move position center
 for_window [title="^gimp-toolbox$"] floating enable
 for_window [title="^octave-gui$"] floating enable
 no_focus [title="^cover art$"]
-
-
-
-# , title     =? "fzf-launcher"       --> doRectFloat (W.RationalRect 0.25 0.25 0.5 0.5)
-# , title     =? "cover art"          --> doRectFloat (W.RationalRect 0.83 0.049 0.15 0.29)
-# , title     =? "music-player"       --> doRectFloat (W.RationalRect 0.425 0.049 0.379 0.29)
