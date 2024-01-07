@@ -21,7 +21,8 @@
     co = checkout
     ds = diff --staged
     files = diff-tree --no-commit-id --name-only -r
-    fpr = "!sh -c 'nr=\"$1\"; shift; git fetch upstream refs/pull/$nr/head:pr-$nr \"$@\"' -"
+    fpr = "!sh -c 'nr=\"$1\"; shift; git fetch upstream refs/pull/$nr/head:pr-$nr \"$@\" && git checkout pr-$nr' -"
+    fmr = "!sh -c 'nr=\"$1\"; shift; git fetch origin merge-requests/$1/head:mr-origin-$1 \"$@\" && git checkout mr-$nr' -"
     gud = "!f() { \
                git log --author=\"$(git config --get user.name)\" \
                        --numstat --pretty=tformat: |\
