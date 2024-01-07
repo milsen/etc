@@ -7,6 +7,7 @@
 # If the above line is not correctly displayed, fix your editor first!
 
 general {
+        output_format = "none"
         colors = true
         color_good = "#c9ccca"
         color_bad = "#d25d5d"
@@ -20,7 +21,7 @@ order += "wireless _first_"
 order += "battery all"
 order += "cpu_usage"
 order += "memory"
-order += "tztime local"
+order += "time"
 
 wireless _first_ {
         format_up = "WLAN: %quality"
@@ -59,6 +60,6 @@ memory {
         threshold_critical = "5%"
 }
 
-tztime local {
+time {
         format = "%d.%m. %X "
 }

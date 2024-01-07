@@ -215,9 +215,9 @@ bindsym $mod+plus mode "resize"
 bar {
       status_command ~/.config/i3status/i3status.sh
       mode dock
-      hidden_state show
       position top
-      modifier none
+      hidden_state hide
+      # modifier none
       font pango:Terminus (TTF) bold 20px
 
       colors {
@@ -229,11 +229,11 @@ bar {
         active_workspace   #color0 $color0 $foreground
         inactive_workspace #color0 $color0 $foreground
         urgent_workspace   $color0 $color0 $color9
-        binding_mode       #color0 $color0 #foreground
+        binding_mode       #color0 $color0 $foreground
     }
 }
 
-bindsym $mod+b bar hidden_state toggle
+bindsym $mod+b bar mode toggle
 
 # Applications
 bindsym $mod+Escape      exec alacritty -t fzf-launcher -e fzf-launcher; exec killall -USR1 i3status
