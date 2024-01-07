@@ -34,6 +34,12 @@ width=${2-1920}
 height=${3-1080}
 freq=${4-60}
 
+# connected_displays="$(xrandr | grep " connected" | cut -d " " -f 1)"
+if ! xrandr | grep "$display connected"; then
+  echo "Display $display not connected!"
+  exit 1
+fi
+
 # construct the modeline command and execute it
 full_cmd="$cmd $opts $width $height $freq"
 echo $full_cmd
@@ -46,13 +52,12 @@ modename="$(echo $modeline | cut -d " " -f 1)"
 # set output on external screen
 xrandr --newmode $modeline
 xrandr --addmode "$display" $modename
-xrandr --output "$display" --mode $modename
+xrandr --output "$display" --mode $modename || exit 1
 
 # turn off laptop screen output
 xrandr --output eDP1 --off
 
+# random wallpaper
 . ~/.config/user-dirs.dirs
 IMAGE_DIR="${XDG_PICTURES_DIR:-$HOME/media/images}"
-
-# random wallpaper
 feh --no-fehbg --bg-fill --randomize "$IMAGE_DIR"/wallpapers/
