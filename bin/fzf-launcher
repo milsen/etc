@@ -15,6 +15,12 @@
 # Since this launches just a terminal running a shell you can use the bash
 # completion mechanism to build new tools (for logout, window switching etc.)
 
+# kill all fzf-launcher windows if one already exists
+fzf_launcher_pids="$(xdotool search --name "^fzf-launcher$" getwindowpid %@)"
+if [[ "$(echo "$fzf_launcher_pids" | wc -l)" -gt 1 ]]; then
+  kill $fzf_launcher_pids
+fi
+
 # new bash session
 bash --rcfile <(cat << 'OUTER_EOF'
 
