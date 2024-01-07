@@ -290,7 +290,6 @@ augroup END
 " }}}
 " Mappings ------------------------------------------------------------- {{{
 
-" mapleader is ',', local leader is '\'
 let mapleader = " "
 let maplocalleader = "\\"
 
