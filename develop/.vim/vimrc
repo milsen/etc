@@ -220,10 +220,16 @@ augroup bash
   autocmd FileType readline setlocal foldenable foldmethod=marker
 augroup END
 
-augroup cpp
+augroup filetype_cpp
   autocmd!
   autocmd FileType cpp setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=0
   autocmd FileType cpp setlocal tags=~/src/ogdf/tags
+  autocmd FileType cpp setlocal formatprg=clang-format
+augroup END
+
+augroup filetype_cmake
+  autocmd!
+  autocmd FileType cmake setlocal expandtab softtabstop=2 shiftwidth=2
 augroup END
 
 augroup git_commits
@@ -355,7 +361,7 @@ nnoremap <silent> <Leader>> :cp<CR>
 nnoremap <silent> <Leader>< :cn<CR>
 
 " edit a macro on the fly
-nnoremap <Leader>q :<C-u><C-r>='let @'. v:register .' = '. string(getreg(v:register))<CR><C-f><Left>
+nnoremap <Leader>Q :<C-u><C-r>='let @'. v:register .' = '. string(getreg(v:register))<CR><C-f><Left>
 
 " get filename into unnamed register
 nnoremap <Leader>f :let @" = expand("%")<CR>
@@ -367,12 +373,14 @@ noremap <silent> <Leader>u :UndotreeToggle<CR>
 
 " Git commands
 noremap <silent> <Leader>gs :G<CR>
-noremap <silent> <Leader>gg :Git grep<Space>
+noremap <silent> <Leader>gg :Ggrep<Space>
+noremap <silent> <Leader>gt :Ggrep<Space><C-R><C-W><CR>
 noremap <silent> <Leader>gd :Gdiffsplit<CR>
 noremap <silent> <Leader>gc :Git commit<CR>
 noremap <silent> <Leader>gl :diffget //3<CR>
 noremap <silent> <Leader>ga :diffget //2<CR>
 noremap <silent> <Leader>gb :Git blame<CR>
+noremap <silent> <Leader>ge :Gedit<Space>:%<Left><Left>
 
 " FZF-commands
 nnoremap <silent> <Leader>. :Files<CR>
@@ -392,6 +400,10 @@ nnoremap <silent> <Leader>= :call Preserve("normal! gg=G")<CR>
 " remove trailing whitespace
 nnoremap <silent> <Leader>w :call Preserve("%s/\\s\\+$//e")<CR>
 vnoremap <silent> <Leader>w :s/\s\+$//e<CR>
+
+" format using formatprg
+nnoremap <silent> <Leader>q :call Preserve("normal! gggqG")<CR>
+vnoremap <silent> <Leader>q gq
 
 " copy, cut and paste from the system register with Leader+y/d/p
 nnoremap <Leader>p "+p
