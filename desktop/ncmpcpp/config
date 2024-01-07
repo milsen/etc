@@ -21,7 +21,6 @@ mpd_music_dir = "~/media/music"
 visualizer_fifo_path = ""
 visualizer_output_name = ""
 visualizer_in_stereo = "no"
-visualizer_sync_interval = "30"
 # (for spectrum/wave visualization ncmpcpp needs fftw3 support)
 visualizer_type = "wave"
 visualizer_look = "◆│"
@@ -181,7 +180,7 @@ autocenter_mode = "yes"
 progressbar_look = "─╼ "
 
 #default_place_to_search_in = "database" # (database/playlist)
-user_interface = "classic"               # (classic/alternative)
+user_interface = "alternative"           # (classic/alternative)
 #data_fetching_delay = "yes"
 #media_library_primary_tag = "artist"    # (artist, album_artist, date, genre, composer, performer)
 #default_find_mode = "wrapped"           # (wrapped/normal)
