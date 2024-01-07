@@ -77,7 +77,6 @@ function symlink_desktop_files() {
   ln -sfv "$DESKTOP_DIR/rncbc.org/"                   "$HOME"/.config/
   ln -sfv "$DESKTOP_DIR/xdg/user-dirs.dirs"           "$HOME"/.config/
   ln -sfv "$DESKTOP_DIR/.xinitrc"                     "$HOME"
-  ln -sfv "$DESKTOP_DIR/zathura/"                     "$HOME"/.config/
 }
 
 function symlink_scripts() {
