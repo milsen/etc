@@ -115,10 +115,10 @@ bindsym $mod+y split v
 # enter fullscreen mode for the focused container
 bindsym $mod+Mod1+space fullscreen toggle
 
-# change container layout (stacked, tabbed, toggle split)
-bindsym $mod+s layout stacking
-bindsym $mod+space layout tabbed
-bindsym $mod+e layout toggle split
+# change container layout (stacked, tabbed, splith, splitv)
+bindsym $mod+space layout toggle tabbed split
+bindsym $mod+s layout toggle split
+bindsym $mod+Mod1s layout stacking
 
 # toggle tiling / floating
 bindsym $mod+f floating toggle
@@ -240,17 +240,22 @@ bindsym $mod+Escape      exec alacritty -t fzf-launcher -e fzf-launcher; exec ki
 bindsym $mod+Mod1+t      exec alacritty -t fzf-launcher -e fzf-launcher; exec killall -USR1 i3status
 bindsym $mod+o           exec alacritty -t music-player -e music-player 300x300+1600+50; exec killall -USR1 i3status
 bindsym $mod+Mod1+o      exec alacritty -t music-player -e music -p; exec killall -USR1 i3status
-bindsym $mod+p           exec mpc toggle
+bindsym $mod+p           exec mpc -q toggle
 bindsym $mod+g           exec alacritty -e ranger; exec killall -USR1 i3status
 bindsym $mod+i           workspace 1; exec firefox; exec killall -USR1 i3status
-bindsym $mod+u           workspace 8; exec telegram-desktop; exec killall -USR1 i3status
+bindsym $mod+u           workspace 8; exec ferdium; exec killall -USR1 i3status
 bindsym $mod+Mod1+i      workspace 9; exec thunderbird; exec killall -USR1 i3status
+bindsym $mod+z           workspace 10; exec keepassxc; exec killall -USR1 i3status
 bindsym $mod+Print       exec "scrot '%Y-%m-%d_%H-%M-%S.png' -ze 'mv $f ~/media/images/shots' && notify-send 'Screenshot taken'"
 
-bindsym $mod+Comma       exec dunstctl close
-bindsym $mod+Mod1+Comma  exec dunstctl close-all
-bindsym $mod+Period      exec dunstctl history-pop
-bindsym $mod+Mod1+Period exec dunstctl context
+# dunst
+bindsym $mod+comma       exec dunstctl close
+bindsym $mod+Mod1+comma  exec dunstctl close-all
+bindsym $mod+period      exec dunstctl history-pop
+bindsym $mod+Mod1+period exec dunstctl context
+
+bindsym $mod+asciicircum      exec i3lock -c 282a2e
+bindsym $mod+Mod1+asciicircum exec systemctl suspend
 
 # Multimedia keys
 bindsym XF86AudioMute         exec amixer set Master toggle
