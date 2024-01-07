@@ -43,7 +43,7 @@ export EDITOR=$VISUAL
 # (do not use bind -x since that breaks nested ranger-shells)
 bind '"\eg": "\C-a\C-k ranger\C-m"'
 # open another terminal in the same directory
-bind -x '"\et": "eval nohup alacritty -d \"$PWD\" > /dev/null 2>&1 &"'
+bind -x '"\et": "eval nohup alacritty > /dev/null 2>&1 &"'
 
 # prevent nested ranger
 ranger() {
