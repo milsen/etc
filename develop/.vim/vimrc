@@ -74,7 +74,7 @@ set visualbell t_vb=    " no visual cues for warnings
 " }}}
 " Statusline {{{
 set statusline=\ %f%m%r                    " filename, modified/read-only flags
-set statusline+=%(\ (%{fugitive#head()})%) " git branch
+set statusline+=%(\ (%{FugitiveHead()})%)  " git branch
 set statusline+=%=                         " left-right separator
 set statusline+=[%{&ff}%(:%{&ft}%)]        " fileformat and filetype
 set statusline+=\ [%l,%v]                  " current line, column
