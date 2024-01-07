@@ -43,6 +43,7 @@ cover_reload_loop() {
     # display the image and remember its pid
     if [ -r "$cover_file" ] && [ -n "$player_in_sight" ]; then
       feh -q -^ "cover art" --zoom fill --scale-down \
+        --geometry="400x400+1500+250" \
         "$cover_file" > /dev/null 2>&1 &
       pid="$!"
     fi

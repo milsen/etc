@@ -238,7 +238,7 @@ bindsym $mod+b bar mode toggle
 # Applications
 bindsym $mod+Escape      exec alacritty -t fzf-launcher -e fzf-launcher; exec killall -USR1 i3status
 bindsym $mod+Mod1+t      exec alacritty -t fzf-launcher -e fzf-launcher; exec killall -USR1 i3status
-bindsym $mod+o           exec alacritty -t music-player -e music-player 300x300+1600+50; exec killall -USR1 i3status
+bindsym $mod+o           exec alacritty -t music-player -e music-player; exec killall -USR1 i3status
 bindsym $mod+Mod1+o      exec alacritty -t music-player -e music -p; exec killall -USR1 i3status
 bindsym $mod+p           exec mpc -q toggle
 bindsym $mod+g           exec alacritty -e ranger; exec killall -USR1 i3status
