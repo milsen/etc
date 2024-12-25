@@ -1,0 +1,29 @@
+#!/bin/bash --
+#
+# "$HOME"/bin/birthday-check by milsen
+#
+# Remind of upcoming birthdays.
+#
+
+birthday_list="~/doc/Listen/Geburtstage.txt"
+
+days_in_advance=10
+day="$(date "+%d" | sed -e "s/^0//")"
+month="$(date "+%m" | sed -e "s/^0//")"
+
+IFS=$'\n'
+for x in $(cat "$birthday_list" | grep -v "^#" | grep "\."); do
+    b_day="$(echo "$x" | cut -d"." -f1 | sed -e "s/^0//")"
+    b_month="$(echo "$x" | cut -d"." -f2 | sed -e "s/^0//")"
+    if [[ ("$month" -eq "$b_month" &&
+           "$day"   -le "$b_day"  &&
+           "$day"   -ge "$((b_day - days_in_advance))")  ||
+          ("$month" -eq "$((b_month - 1))" &&
+           "$day"   -ge "$((b_day + 31 - days_in_advance))") ]]; then
+        birthdays="$(echo -e "$birthdays\n$x")"
+    fi
+done
+
+if [ -n "$birthdays" ]; then
+    notify-send "Geburtstage" "$birthdays"
+fi
