@@ -75,22 +75,34 @@ class fzf_select(Command):
     """
     def execute(self):
         import subprocess
-        if self.quantifier:
-            # match only directories
-            command="find -L . \( -path '*/\.*' -o -fstype 'dev' -o -fstype 'proc' \) -prune \
-            -o -type d -print 2> /dev/null | sed 1d | cut -b3- | fzf +m"
-        else:
-            # match files and directories
-            command="find -L . \( -path '*/\.*' -o -fstype 'dev' -o -fstype 'proc' \) -prune \
-            -o -print 2> /dev/null | sed 1d | cut -b3- | fzf +m"
-        fzf = self.fm.execute_command(command, stdout=subprocess.PIPE)
-        stdout, stderr = fzf.communicate()
+        import os
+        hidden = ('-false' if self.fm.settings.show_hidden else r"-path '*/\.*' -prune")
+        exclude = r"\( -name '\.git' -o -name '*.py[co]' -o -fstype 'dev' -o -fstype 'proc' \) -prune"
+        only_directories = ('-type d' if self.quantifier else '')
+        fzf_default_command = 'find -L . -mindepth 1 {} -o {} -o {} -print | cut -b3-'.format(
+            hidden, exclude, only_directories
+        )
+
+        env = os.environ.copy()
+        env['FZF_DEFAULT_COMMAND'] = fzf_default_command
+        env['FZF_DEFAULT_OPTS'] = '--height=70% --layout=reverse --ansi --preview="{}"'.format('''
+            (
+                batcat --color=always {} ||
+                bat --color=always {} ||
+                cat {} ||
+                tree -ahpCL 3 -I '.git' -I '*.py[co]' -I '__pycache__' {}
+            ) 2>/dev/null | head -n 100
+        ''')
+
+        fzf = self.fm.execute_command('fzf --no-multi', env=env,
+                                        universal_newlines=True, stdout=subprocess.PIPE)
+        stdout, _ = fzf.communicate()
         if fzf.returncode == 0:
-            fzf_file = os.path.abspath(stdout.decode('utf-8').rstrip('\n'))
-            if os.path.isdir(fzf_file):
-                self.fm.cd(fzf_file)
+            selected = os.path.abspath(stdout.strip())
+            if os.path.isdir(selected):
+                self.fm.cd(selected)
             else:
-                self.fm.select_file(fzf_file)
+                self.fm.select_file(selected)
 
 class mkcd(Command):
     """
