@@ -30,8 +30,14 @@ shift $((OPTIND - 1))
 cmd=${cmd-cvt}
 opts=${opts--r}
 display=${1-DP2}
-width=${2-1920}
-height=${3-1080}
+width_def=1920
+height_def=1080
+if [[ "$display" == "DP2" ]]; then
+  width_def=2560
+  height_def=1440
+fi
+width=${2-$width_def}
+height=${3-$height_def}
 freq=${4-60}
 
 # connected_displays="$(xrandr | grep " connected" | cut -d " " -f 1)"
