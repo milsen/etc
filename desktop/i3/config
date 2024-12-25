@@ -118,7 +118,7 @@ bindsym $mod+Mod1+space fullscreen toggle
 # change container layout (stacked, tabbed, splith, splitv)
 bindsym $mod+space layout toggle tabbed split
 bindsym $mod+s layout toggle split
-bindsym $mod+Mod1s layout stacking
+bindsym $mod+Mod1+s layout stacking
 
 # toggle tiling / floating
 bindsym $mod+f floating toggle
@@ -258,12 +258,12 @@ bindsym $mod+asciicircum      exec i3lock -c 282a2e
 bindsym $mod+Mod1+asciicircum exec systemctl suspend
 
 # Multimedia keys
-bindsym XF86AudioMute         exec amixer set Master toggle
-bindsym XF86AudioRaiseVolume  exec amixer set Master 5%+
-bindsym XF86AudioLowerVolume  exec amixer set Master 5%-
-bindsym XF86AudioMicMute      exec amixer set "Mic Boost" toggle
-bindsym XF86MonBrightnessDown exec xbacklight -dec 10
-bindsym XF86MonBrightnessUp   exec xbacklight -inc 10
+bindsym XF86AudioMute         exec amixer set Master toggle >/dev/null
+bindsym XF86AudioRaiseVolume  exec amixer set Master 5%+ >/dev/null
+bindsym XF86AudioLowerVolume  exec amixer set Master 5%- >/dev/null
+bindsym XF86AudioMicMute      exec amixer set "Mic Boost" toggle >/dev/null
+bindsym XF86MonBrightnessDown exec xbacklight -dec 10 >/dev/null
+bindsym XF86MonBrightnessUp   exec xbacklight -inc 10 >/dev/null
 
 for_window [class="^qjackctl$"] floating enable
 for_window [title="^fzf-launcher$"] floating enable
