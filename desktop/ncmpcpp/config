@@ -18,7 +18,6 @@ mpd_music_dir = "~/media/music"
 #mpd_crossfade_time = "5"
 
 # Music Visualizer (off)
-visualizer_fifo_path = ""
 visualizer_output_name = ""
 visualizer_in_stereo = "no"
 # (for spectrum/wave visualization ncmpcpp needs fftw3 support)
