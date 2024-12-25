@@ -19,7 +19,7 @@ for binding in unwanted_bindings:
 c.bindings.key_mappings[","] = ";"
 
 # Tab commands
-config.bind('t',  'open -t ;; set-cmd-text -s :open')
+config.bind('t',  'open -t ;; cmd-set-text -s :open')
 config.bind('T',  'tab-clone')
 
 config.bind('ö', 'tab-prev')
