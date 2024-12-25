@@ -34,7 +34,6 @@ function symlink_develop_files() {
   # symlink non-vim-files
   ln -sfv "$DEVELOP_DIR/coreutils/"                   "$HOME"/.config/
   ln -sfv "$DEVELOP_DIR/git/"                         "$HOME"/.config/
-  ln -sfv "$DEVELOP_DIR/.latexmkrc"                   "$HOME"
   ln -sfv "$DEVELOP_DIR/readline/"                    "$HOME"/.config/
   ln -sfv "$DEVELOP_DIR/bash/bash_aliases"            "$HOME"/.config/bash
   ln -sfv "$DEVELOP_DIR/bash/bash_functions"          "$HOME"/.config/bash
