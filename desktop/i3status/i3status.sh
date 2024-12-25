@@ -10,7 +10,7 @@ do
     if [[ -z "$id" ]] || [[ "$id" == "0x0" ]]; then
       name_length=30
     else
-      name="$(xprop -id $id | awk '/_NET_WM_NAME/{$1=$2="";print}' | cut -d'"' -f2)"
+      name="$(xprop -id $id -notype WM_NAME | cut -d'"' -f2- | head -c-2)"
       name_length="${#name}"
     fi
 
