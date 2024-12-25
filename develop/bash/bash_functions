@@ -8,14 +8,17 @@
 alert() {
   notify-send --urgency=low \
     -i "$([ $? = 0 ] && echo terminal || echo error)" \
-    "$(history|tail -n1|sed -e 's/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//')"
+    "$(history | tail -n1 | sed -e 's/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//')"
 }
 
 
 # backup data on external hard drive using rsync
 backup_rsync() {
-  directories="/media/sdb1-usb-Intenso_External"
-  directories="$directories /media/sdb-usb-JMicron_Generic_"
+  directories="/media/sdb-ata-HGST_HTS725050A7"
+  directories="$directories /media/sdb-ata-ST1000LM024_HN-M"
+  directories="$directories /media/sdb-ata-INTENSO_AA000000"
+  directories="$directories /media/sda-ata-INTENSO_AA000000"
+
   target=""
 
   for dir in $directories; do
@@ -39,6 +42,20 @@ backup_rsync() {
     / "$target"
 }
 
+bwpdf() {
+  # Turn PDF into grayscale.
+  gs \
+    -sOutputFile="$2" \
+    -sDEVICE=pdfwrite \
+    -sColorConversionStrategy=Gray \
+    -dProcessColorModel=/DeviceGray \
+    -dCompatibilityLevel=1.4 \
+    -dNOPAUSE \
+    -dAutoRotatePages=/None \
+    -dBATCH \
+    "$1"
+}
+
 
 # fuzzy directory-change
 cdf() {
@@ -53,11 +70,37 @@ mfu() {
     grep -v "./" | column -c3 -s " " -t | sort -nr | nl |  head "-n${1:-10}"
 }
 
+# restart the wlan-interface
+net_restart() {
+  interface="$(ip -brief link show | cut -d" " -f1 | grep "^wl")"
+
+  if [ -z "$interface" ]; then
+    echo "Wlan interface not found."
+    return 1
+  fi
+
+  if [  "$(LC_ALL=C rfkill --output SOFT --noheadings list wlan)" == "blocked" ]; then
+    echo "Unblock wlan interface blocked by rfkill."
+    sudo rfkill unblock wlan
+  fi
+
+  systemctl restart wpa_supplicant@wlp61s0.service
+}
+
+create_passwd() {
+  head /dev/urandom | tr -dc [:print:] | head -c "$1" ; echo ''
+}
+
+pc() {
+  result="$(python -c "from math import *; print($*)")"
+  echo -n "$result" | xsel -ib
+  echo "$result"
+}
+
 # general function for system commands
 q() {
   case "$1" in
-    k|killx)    killall xmonad ;;
-    l|lock)     slock ;;
+    l|lock)     i3lock -c 282a2e ;;
     p|poweroff) xbacklight -set 100; systemctl poweroff ;;
     r|reboot)   systemctl reboot ;;
     s|suspend)  systemctl suspend ;;
@@ -81,4 +124,22 @@ webcam_film() {
   ffmpeg -f v4l2 -video_size 1280x720 -i /dev/video0 \
     -f alsa -i default  \
     -c:v libx264 -preset ultrafast -c:a aac "${1:-webcam.mp4}"
+}
+
+unzip_album() {
+  filename="$(basename "$1")"
+  filename="${filename%.*}"
+  artist="$(echo "$filename" | cut -d"-" -f1 | head -c -2)"
+  album="$(echo "$filename" | cut -d"-" -f2- | tail -c +2)"
+  dir="$HOME/media/music/$artist/$album/"
+  echo $dir
+  mkdir -p "$dir"
+  unzip "$1" -d "$dir"
+  for f in "$dir"/*.mp3; do
+    "$HOME"/bin/tag "$f"
+  done
+}
+
+mpa() {
+  { nohup mpv --no-video --terminal=no --force-window=yes --idle=once "$*" > /dev/null 2>&1 & } && exit 0
 }
