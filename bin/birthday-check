@@ -5,7 +5,7 @@
 # Remind of upcoming birthdays.
 #
 
-birthday_list="~/doc/Listen/Geburtstage.txt"
+birthday_list="$HOME/doc/Listen/Geburtstage.txt"
 
 days_in_advance=10
 day="$(date "+%d" | sed -e "s/^0//")"
