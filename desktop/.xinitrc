@@ -27,15 +27,12 @@ setxkbmap -model thinkpad60
 setxkbmap -option terminate:ctrl_alt_bksp
 setxkbmap -option caps:none
 
-# notifications with dunst
-dunst -c dunst-notification &
-
 # adjust screen colors according to daytime
 redshift -l 50.0:7.0 -t 5200:2700 -g 0.8 -m randr &
 
 # let Java AWT menus work with light-weight window managers
 export _JAVA_AWT_WM_NONREPARENTING=1
 
-# execute xmonad as parent process for X
+# execute i3 as parent process for X
 # if it is killed, X is killed, too
 exec i3
