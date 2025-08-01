@@ -101,7 +101,7 @@ pc() {
 q() {
   case "$1" in
     l|lock)     i3lock -c 282a2e ;;
-    p|poweroff) xbacklight -set 100; systemctl poweroff ;;
+    p|poweroff) systemctl poweroff ;;
     r|reboot)   systemctl reboot ;;
     s|suspend)  systemctl suspend ;;
     *)          return ;;
