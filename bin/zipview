@@ -15,7 +15,7 @@ fi
 only_images() {
   for ext in $1; do
     case "$ext" in
-      jpg | JPG | jpeg | JPEG | png | PNG) ;;
+      jpg | JPG | jpeg | JPEG | png | PNG | webp) ;;
       *) echo 1 ;;
     esac
   done
