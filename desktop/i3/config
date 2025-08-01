@@ -43,7 +43,7 @@ hide_edge_borders smart
 # Set Super as modifier key
 set $mod Mod4
 
-# Let Super trigger Super+Escape when release in less than 300ms
+# Let Super trigger Super+Escape when release in less than 200ms
 # (this combi is later bound to the launcher)
 exec_always xcape -t 200 -e 'Super_L=Super_L|Escape'
 
@@ -236,8 +236,9 @@ bar {
 bindsym $mod+b bar mode toggle
 
 # Applications
-bindsym $mod+Escape      exec alacritty -t fzf-launcher -e fzf-launcher; exec killall -USR1 i3status
-bindsym $mod+Mod1+t      exec alacritty -t fzf-launcher -e fzf-launcher; exec killall -USR1 i3status
+bindsym $mod+Escape      exec rofi -show combi; exec killall -USR1 i3status
+bindsym $mod+c           exec rofi -show calc; exec killall -USR1 i3status
+bindsym $mod+e           exec rofi -show emoji; exec killall -USR1 i3status
 bindsym $mod+o           exec alacritty -t music-player -e music-player; exec killall -USR1 i3status
 bindsym $mod+Mod1+o      exec alacritty -t music-player -e music -p; exec killall -USR1 i3status
 bindsym $mod+p           exec mpc -q toggle

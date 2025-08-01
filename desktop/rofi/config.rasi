@@ -1,0 +1,17 @@
+configuration {
+    // mode ssh not used for now
+    modes: "combi,calc,emoji";
+    combi-modes: "window,drun,run";
+    font: "pango:Terminus (TTF) 18px";
+
+    // (d)run command in terminal (Shift(+Alt)+Enter), wait until keypress
+    run-shell-command: '{terminal} -e bash -ic "{cmd} && read -n1"';
+    // Enter to run selected
+    // Ctrl-Enter to run prompt
+    // Shift-Enter to run selected in terminal
+    // Shift-Ctrl-Enter to run prompt in terminal
+
+    // Super bound to Super+Escape in i3 config
+    kb-cancel: "Escape,Control+g,Control+bracketleft,Super+Escape";
+}
+@theme "./darkneon.rasi"

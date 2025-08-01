@@ -74,6 +74,7 @@ function symlink_desktop_files() {
   ln -sfv "$DESKTOP_DIR/qutebrowser/config.py"        "$HOME"/.config/qutebrowser/
   ln -sfv "$DESKTOP_DIR/ranger/"                      "$HOME"/.config/
   ln -sfv "$DESKTOP_DIR/rncbc.org/"                   "$HOME"/.config/
+  ln -sfv "$DESKTOP_DIR/rofi/"                        "$HOME"/.config/
   ln -sfv "$DESKTOP_DIR/xdg/user-dirs.dirs"           "$HOME"/.config/
   ln -sfv "$DESKTOP_DIR/.xinitrc"                     "$HOME"
 }
