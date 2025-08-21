@@ -27,6 +27,9 @@ setxkbmap -model thinkpad60
 setxkbmap -option terminate:ctrl_alt_bksp
 setxkbmap -option caps:none
 
+# start automounter
+udiskie --smart-tray &
+
 # adjust screen colors according to daytime
 redshift -l 50.0:7.0 -t 5200:2700 -g 0.8 -m randr &
 

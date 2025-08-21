@@ -14,10 +14,9 @@ alert() {
 
 # backup data on external hard drive using rsync
 backup_rsync() {
-  directories="/media/sdb-ata-HGST_HTS725050A7"
-  directories="$directories /media/sdb-ata-ST1000LM024_HN-M"
-  directories="$directories /media/sdb-ata-INTENSO_AA000000"
-  directories="$directories /media/sda-ata-INTENSO_AA000000"
+  directories="/run/media/$(whoami)/10fddcbf-b459-4cef-b5dd-aa20687df214"
+  directories="$directories /run/media/$(whoami)/25e2b6bc-dfa7-4b4f-bafe-8a566be7e40f"
+  directories="$directories /run/media/$(whoami)/1db7880b-83fc-4223-8dd8-d352e7be9853"
 
   target=""
 
