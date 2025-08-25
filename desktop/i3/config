@@ -255,7 +255,7 @@ bindsym $mod+Mod1+comma  exec dunstctl close-all
 bindsym $mod+period      exec dunstctl history-pop
 bindsym $mod+Mod1+period exec dunstctl context
 
-bindsym $mod+asciicircum      exec i3lock -c 282a2e
+bindsym $mod+asciicircum      exec i3lock -c 50565e
 bindsym $mod+Mod1+asciicircum exec --no-startup-id (sleep 0.5 && systemctl suspend) &
 
 # Multimedia keys

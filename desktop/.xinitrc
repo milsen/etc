@@ -36,6 +36,9 @@ redshift -l 50.0:7.0 -t 5200:2700 -g 0.8 -m randr &
 # let Java AWT menus work with light-weight window managers
 export _JAVA_AWT_WM_NONREPARENTING=1
 
+# use xss-lock to start lock
+xss-lock --transfer-sleep-lock -- i3lock --nofork -c 50565e &
+
 # execute i3 as parent process for X
 # if it is killed, X is killed, too
 exec i3
