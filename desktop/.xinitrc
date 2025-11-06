@@ -30,6 +30,9 @@ setxkbmap -option caps:none
 # start automounter
 udiskie --smart-tray &
 
+# start NetworkManager applet
+nm-applet &
+
 # adjust screen colors according to daytime
 redshift -l 50.0:7.0 -t 5200:2700 -g 0.8 -m randr &
 
