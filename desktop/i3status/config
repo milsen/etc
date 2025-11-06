@@ -37,15 +37,16 @@ ethernet _first_ {
 
 battery all {
         format = "Bat: %percentage %status"
-        status_chr = ⚡
-        status_bat = -
-        status_unk = ✓
+        status_chr = ↑
+        status_bat = ↓
+        status_unk = ↓
         status_full = ✓
-        integer_battery_capacity = true
+        status_idle = ✓
+        format_percentage = "%.00f%s"
         threshold_type = percentage
         low_threshold = 10
         path = /sys/class/power_supply/BAT%d/uevent
-        last_full_capacity = true
+        # last_full_capacity = true
 }
 
 cpu_usage {
