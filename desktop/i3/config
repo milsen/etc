@@ -237,14 +237,14 @@ bindsym $mod+b bar mode toggle
 
 # Applications
 bindsym $mod+Escape      exec rofi -show combi; exec killall -USR1 i3status
-bindsym $mod+c           exec rofi -show calc; exec killall -USR1 i3status
+bindsym $mod+c           exec rofi -show calc -no-show-match -no-sort; exec killall -USR1 i3status
 bindsym $mod+e           exec rofi -show emoji; exec killall -USR1 i3status
 bindsym $mod+o           exec alacritty -t music-player -e music-player; exec killall -USR1 i3status
 bindsym $mod+Mod1+o      exec alacritty -t music-player -e music -p; exec killall -USR1 i3status
 bindsym $mod+p           exec mpc -q toggle
 bindsym $mod+g           exec alacritty -e ranger; exec killall -USR1 i3status
 bindsym $mod+i           workspace 1; exec firefox; exec killall -USR1 i3status
-bindsym $mod+u           workspace 8; exec ferdium; exec killall -USR1 i3status
+bindsym $mod+u           workspace 8; exec signal-desktop; exec ferdium; exec killall -USR1 i3status
 bindsym $mod+Mod1+i      workspace 9; exec thunderbird; exec killall -USR1 i3status
 bindsym $mod+z           workspace 10; exec keepassxc; exec killall -USR1 i3status
 bindsym $mod+Print       exec "scrot '%Y-%m-%d_%H-%M-%S.png' -ze 'mv $f ~/media/images/shots' && notify-send 'Screenshot taken'"
