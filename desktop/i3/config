@@ -10,22 +10,22 @@
 
 # colors
 set $foreground "#c9ccca"
-set $color0     "#282a2e"
+set $color0     "#14181f"
 set $color1     "#b84747"
 set $color2     "#518234"
 set $color3     "#e0925c"
 set $color4     "#4f7798"
 set $color5     "#a582b0"
 set $color6     "#52b6a9"
-set $color7     "#686f77"
-set $color8     "#50565e"
+set $color7     "#7c838b"
+set $color8     "#32353a"
 set $color9     "#d25d5d"
 set $color10    "#bdc75e"
 set $color11    "#ebc273"
 set $color12    "#83a7c5"
 set $color13    "#c8afce"
 set $color14    "#82b8b1"
-set $color15    "#adb0ae"
+set $color15    "#c9ccca"
 
 # class                 border   backgr. text        indicator child_border
 client.focused          $color11 $color0 $foreground $color13  $color11
@@ -255,7 +255,7 @@ bindsym $mod+Mod1+comma  exec dunstctl close-all
 bindsym $mod+period      exec dunstctl history-pop
 bindsym $mod+Mod1+period exec dunstctl context
 
-bindsym $mod+asciicircum      exec i3lock -c 50565e
+bindsym $mod+asciicircum      exec i3lock -c 32353a
 bindsym $mod+Mod1+asciicircum exec --no-startup-id (sleep 0.5 && systemctl suspend) &
 
 # Multimedia keys

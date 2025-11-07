@@ -99,7 +99,7 @@ pc() {
 # general function for system commands
 q() {
   case "$1" in
-    l|lock)     i3lock -c 50565e ;;
+    l|lock)     i3lock -c 32353a ;;
     p|poweroff) systemctl poweroff ;;
     r|reboot)   systemctl reboot ;;
     s|suspend)  systemctl suspend ;;

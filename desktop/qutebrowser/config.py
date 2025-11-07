@@ -77,22 +77,22 @@ config.bind('<Ctrl-n>', 'completion-item-focus next', 'command')
 config.bind('<Ctrl-p>', 'completion-item-focus prev', 'command')
 
 # Colors
-color0  = "#282a2e"
+color0  = "#14181f"
 color1  = "#b84747"
 color2  = "#518234"
 color3  = "#e0925c"
 color4  = "#4f7798"
 color5  = "#a582b0"
 color6  = "#52b6a9"
-color7  = "#686f77"
-color8  = "#50565e"
+color7  = "#7c838b"
+color8  = "#32353a"
 color9  = "#d25d5d"
 color10 = "#bdc75e"
 color11 = "#ebc273"
 color12 = "#83a7c5"
 color13 = "#c8afce"
 color14 = "#82b8b1"
-color15 = "#adb0ae"
+color15 = "#c9ccca"
 
 # Settings
 c.colors.statusbar.normal.bg = color0

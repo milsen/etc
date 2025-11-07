@@ -1,5 +1,5 @@
 Config { font     = "xft:xos4 Terminus:style=Bold:size=16"
-       , bgColor  = "#282a2e"
+       , bgColor  = "#14181f"
        , fgColor  = "#c9ccca"
        , border   = NoBorder
        , position = Top
@@ -25,12 +25,12 @@ Config { font     = "xft:xos4 Terminus:style=Bold:size=16"
                                           , "-i"	, "On"
                                   ] 50
                     , Run DynNetwork [ "--template",
-                                       "<dev> <fc=#686f77>|</fc>"
+                                       "<dev> <fc=#7c838b>|</fc>"
                                      ] 10
                     , Run StdinReader
                     ]
        , sepChar  = "%"
        , alignSep = "}{"
-       , template = " %StdinReader% }{ %dynnetwork% %battery% <fc=#686f77>|</fc> %cpu% <fc=#686f77>|</fc> %memory%      %date% "
+       , template = " %StdinReader% }{ %dynnetwork% %battery% <fc=#7c838b>|</fc> %cpu% <fc=#7c838b>|</fc> %memory%      %date% "
        }
 

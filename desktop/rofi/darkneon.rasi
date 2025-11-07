@@ -3,14 +3,14 @@
 /* https://github.com/newmanls/rofi-themes-collection/blob/master/themes/rounded-nord-dark.rasi */
 
 * {
-    bg0:    #282a2e;
-    bg1:    #282a2e;
+    bg0:    #14181f;
+    bg1:    #14181f;
     bg2:    #4f7798;
     bg3:    #52b6a9;
     fg0:    #c9ccca;
     fg1:    #e0925c;
     fg2:    #d25d5d;
-    fg3:    #686f77;
+    fg3:    #7c838b;
 
     background-color:   transparent;
     text-color:         @fg0;
