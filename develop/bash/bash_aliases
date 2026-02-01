@@ -62,7 +62,6 @@ alias bg_black='magick -size 100x100 xc:#000000 /tmp/BG.png; feh --no-fehbg --bg
 alias powertab='~/pkg/powertabeditor/build/bin/powertabeditor'
 alias startxlog='startx > ~/.xsession-errors 2>&1'
 alias mplay='music -p'
-alias jacks='jack_start; nohup reaper > /dev/null 2>&1 &'
 alias sudodiff='SUDO_EDITOR="nvim -d " sudoedit'
 alias net_cli='sudo wpa_cli -i wlp61s0'
 alias link_home='ln -sv $(realpath .) ~'
