@@ -266,7 +266,6 @@ bindsym XF86AudioMicMute      exec amixer set "Mic Boost" toggle >/dev/null
 bindsym XF86MonBrightnessDown exec xbacklight -dec 10 >/dev/null
 bindsym XF86MonBrightnessUp   exec xbacklight -inc 10 >/dev/null
 
-for_window [title="^fzf-launcher$"] floating enable
 for_window [title="^ZynAddSubFX.*$"] floating enable
 for_window [title="^cover art$"] floating enable
 for_window [title="^music-player$"] floating enable
