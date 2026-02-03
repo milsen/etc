@@ -67,10 +67,10 @@ function symlink_desktop_files() {
   ln -sfv "$DESKTOP_DIR/dunst/"                       "$HOME"/.config/
   ln -sfv "$DESKTOP_DIR/feh/"                         "$HOME"/.config/
   ln -sfv "$DESKTOP_DIR/i3/"                          "$HOME"/.config/
-  ln -sfv "$DESKTOP_DIR/i3status/"                    "$HOME"/.config/
   ln -sfv "$DESKTOP_DIR/mpd/"                         "$HOME"/.config/
   ln -sfv "$DESKTOP_DIR/ncmpcpp/"                     "$HOME"/.config/
   ln -sfv "$DESKTOP_DIR/pipewire/"                    "$HOME"/.config/
+  ln -sfv "$DESKTOP_DIR/polybar/"                     "$HOME"/.config/
   ln -sfv "$DESKTOP_DIR/qutebrowser/config.py"        "$HOME"/.config/qutebrowser/
   ln -sfv "$DESKTOP_DIR/ranger/"                      "$HOME"/.config/
   ln -sfv "$DESKTOP_DIR/rofi/"                        "$HOME"/.config/
