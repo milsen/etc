@@ -59,7 +59,6 @@ alias rm~="find . -type f -name '*~' -not -iwholename '*Trash*' -exec rm -i {} \
 # other aliases
 alias gallery='feh -F -d -S --bg-fill black filename'
 alias bg_black='magick -size 100x100 xc:#000000 /tmp/BG.png; feh --no-fehbg --bg-fill /tmp/BG.png'
-alias powertab='~/pkg/powertabeditor/build/bin/powertabeditor'
 alias startxlog='startx > ~/.xsession-errors 2>&1'
 alias mplay='music -p'
 alias sudodiff='SUDO_EDITOR="nvim -d " sudoedit'
