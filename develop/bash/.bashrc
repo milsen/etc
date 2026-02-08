@@ -104,10 +104,13 @@ if [ -r /usr/share/git/completion/git-completion.bash ]; then
 fi
 
 # enable fuzzy bash completion using fzf
-if [ -f ~/.fzf.bash ]; then
-  . ~/.fzf.bash
+if [ -x "$(command -v "fzf")" ]; then
+  eval "$(fzf --bash)"
 
   # use * as the fzf trigger sequence instead of the default **
+  export FZF_DEFAULT_OPTS=" --reverse --height=50%"
   export FZF_COMPLETION_TRIGGER='*'
+  export FZF_CTRL_T_OPTS=" --walker=file,dir "
+  export FZF_ALT_C_OPTS=" --walker=dir,hidden "
 fi
 # }}}

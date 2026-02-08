@@ -15,7 +15,7 @@ call plug#begin('~/.vim/bundle')
 Plug 'Raimondi/delimitMate'
 Plug 'justinmk/vim-dirvish'
 Plug 'junegunn/vim-easy-align'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all --no-update-rc' }
+Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
