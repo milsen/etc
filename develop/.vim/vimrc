@@ -59,8 +59,10 @@ colorscheme terminal
 
 " Appearance {{{
 set encoding=utf-8      " show characters correctly
+set shortmess+=I        " do not show intro screen
 set title               " show filename in titlebar
 set laststatus=2        " show statusbar always
+set noshowmode          " show mode in status, but not command line
 set showcmd             " show (partial) command in status line
 set number              " show line numbers
 set ruler               " show the cursor position all the time
@@ -95,10 +97,9 @@ set ttimeoutlen=500     " wait 500ms during key codes for next key
 set nojoinspaces        " let formatting only insert one space after ./!/?
 set cpoptions+=E        " failed operator does not enter insert mode
 set nomodeline          " disable modelines for security reasons
-set magic               " use regular expressions without \
+set magic               " use . and * in regular expressions without \
 set hidden              " hide buffers when they are abandoned
 set mouse=a             " enable mouse usage (all modes)
-set backspace=2         " backspace over indents, eol and bol
 set clipboard+=unnamed  " always use system clipboard for copy-pasting
 set scroll=10           " scroll over 30 lines with Ctrl+u and Ctrl+d
 set scrolloff=4         " keep cursor 4 lines away from edge while scrolling
@@ -106,6 +107,7 @@ let g:netrw_liststyle=3 " liststyle of netrw-file-browser (:Explore)
 set keywordprg="man"    " open man with help-key
 set wildmenu            " command completion with tab
 set complete+=k         " use dictionary-auto-completion
+set completeopt+=fuzzy  " fuzzy completion
 
 set splitbelow          " hsplit windows always below
 set splitright          " vsplit windows always to the right
